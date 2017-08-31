@@ -6,7 +6,7 @@
  * Time: 16.42
  */
 
-namespace Edimotive\ImageMerge\Model\Asset;
+namespace Jackal\ImageMerge\Model\Asset;
 
 
 interface AssetInterface

@@ -6,9 +6,9 @@
  * Time: 14.08
  */
 
-namespace Edimotive\ImageMerge\Test\Model\Configuration;
+namespace Jackal\ImageMerge\Test\Model\Configuration;
 
-use Edimotive\ImageMerge\Model\Configuration\Asset\ImageAssetConfiguration;
+use Jackal\ImageMerge\Model\Configuration\Asset\ImageAssetConfiguration;
 use PHPUnit\Framework\TestCase;
 
 class ImageAssetConfigurationTest extends TestCase

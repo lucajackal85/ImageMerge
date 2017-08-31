@@ -6,15 +6,15 @@
  * Time: 13.40
  */
 
-namespace Edimotive\ImageMerge\Generator;
+namespace Jackal\ImageMerge\Generator;
 
-use Edimotive\ImageMerge\Exception\InvalidFormatException;
-use Edimotive\ImageMerge\Exception\UnsupportedConfigurationException;
-use Edimotive\ImageMerge\Model\Asset\AssetInterface;
-use Edimotive\ImageMerge\Model\Configuration\ImageConfiguration;
-use Edimotive\ImageMerge\Model\Format\ImageFormat;
-use Edimotive\ImageMerge\Model\Format\ImageReader;
-use Edimotive\ImageMerge\Model\Format\ImageWriter;
+use Jackal\ImageMerge\Exception\InvalidFormatException;
+use Jackal\ImageMerge\Exception\UnsupportedConfigurationException;
+use Jackal\ImageMerge\Model\Asset\AssetInterface;
+use Jackal\ImageMerge\Model\Configuration\ImageConfiguration;
+use Jackal\ImageMerge\Model\Format\ImageFormat;
+use Jackal\ImageMerge\Model\Format\ImageReader;
+use Jackal\ImageMerge\Model\Format\ImageWriter;
 
 class ImageGenerator
 {

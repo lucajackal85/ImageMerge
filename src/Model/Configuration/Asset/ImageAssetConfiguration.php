@@ -6,7 +6,7 @@
  * Time: 12.38
  */
 
-namespace Edimotive\ImageMerge\Model\Configuration\Asset;
+namespace Jackal\ImageMerge\Model\Configuration\Asset;
 
 class ImageAssetConfiguration
 {

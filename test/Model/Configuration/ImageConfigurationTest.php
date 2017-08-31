@@ -6,11 +6,11 @@
  * Time: 14.11
  */
 
-namespace Edimotive\ImageMerge\Test\Model\Configuration;
+namespace Jackal\ImageMerge\Test\Model\Configuration;
 
-use Edimotive\ImageMerge\Exception\InvalidFormatException;
-use Edimotive\ImageMerge\Model\Configuration\ImageConfiguration;
-use Edimotive\ImageMerge\Model\Format\ImageFormat;
+use Jackal\ImageMerge\Exception\InvalidFormatException;
+use Jackal\ImageMerge\Model\Configuration\ImageConfiguration;
+use Jackal\ImageMerge\Model\Format\ImageFormat;
 use PHPUnit\Framework\TestCase;
 
 class ImageConfigurationTest extends TestCase

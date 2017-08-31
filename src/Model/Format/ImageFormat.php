@@ -6,7 +6,7 @@
  * Time: 12.52
  */
 
-namespace Edimotive\ImageMerge\Model\Format;
+namespace Jackal\ImageMerge\Model\Format;
 
 
 class ImageFormat

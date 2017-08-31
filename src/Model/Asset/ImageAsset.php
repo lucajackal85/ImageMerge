@@ -6,10 +6,10 @@
  * Time: 12.40
  */
 
-namespace Edimotive\ImageMerge\Model\Asset;
+namespace Jackal\ImageMerge\Model\Asset;
 
-use Edimotive\ImageMerge\Model\Configuration\Asset\ImageAssetConfiguration;
-use Edimotive\ImageMerge\Model\Format\ImageReader;
+use Jackal\ImageMerge\Model\Configuration\Asset\ImageAssetConfiguration;
+use Jackal\ImageMerge\Model\Format\ImageReader;
 
 class ImageAsset implements AssetInterface
 {

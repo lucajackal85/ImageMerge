@@ -6,7 +6,7 @@
  * Time: 17.56
  */
 
-namespace Edimotive\ImageMerge\Model\Format;
+namespace Jackal\ImageMerge\Model\Format;
 
 class ImageWriter
 {

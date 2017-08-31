@@ -6,9 +6,9 @@
  * Time: 14.24
  */
 
-namespace Edimotive\ImageMerge\Test\Model;
+namespace Jackal\ImageMerge\Test\Model;
 
-use Edimotive\ImageMerge\Model\Format\ImageFormat;
+use Jackal\ImageMerge\Model\Format\ImageFormat;
 use PHPUnit\Framework\TestCase;
 
 class ImageFormatTest extends TestCase

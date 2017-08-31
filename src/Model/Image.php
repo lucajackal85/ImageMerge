@@ -1,14 +1,13 @@
 <?php
 
-namespace Edimotive\ImageMerge\Model;
+namespace Jackal\ImageMerge\Model;
 
-use Edimotive\ImageMerge\Exception\UnsupportedConfigurationException;
-use Edimotive\ImageMerge\Generator\ImageGeneratorFactory;
-use Edimotive\ImageMerge\Generator\ImageGenerator;
-use Edimotive\ImageMerge\Model\Configuration\ImageConfiguration;
-use Edimotive\ImageMerge\Model\Format\ImageFormat;
-use Edimotive\ImageMerge\Model\Format\ImageReader;
-use Edimotive\ImageMerge\Model\Format\ImageWriter;
+use Jackal\ImageMerge\Exception\UnsupportedConfigurationException;
+use Jackal\ImageMerge\Generator\ImageGenerator;
+use Jackal\ImageMerge\Model\Configuration\ImageConfiguration;
+use Jackal\ImageMerge\Model\Format\ImageFormat;
+use Jackal\ImageMerge\Model\Format\ImageReader;
+use Jackal\ImageMerge\Model\Format\ImageWriter;
 
 class Image
 {

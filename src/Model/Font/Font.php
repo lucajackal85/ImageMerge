@@ -6,9 +6,9 @@
  * Time: 14.59
  */
 
-namespace Edimotive\ImageMerge\Model\Font;
+namespace Jackal\ImageMerge\Model\Font;
 
-use Edimotive\ImageMerge\Exception\InvalidFontException;
+use Jackal\ImageMerge\Exception\InvalidFontException;
 
 class Font
 {

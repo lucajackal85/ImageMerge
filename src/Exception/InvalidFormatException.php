@@ -6,7 +6,7 @@
  * Time: 12.56
  */
 
-namespace Edimotive\ImageMerge\Exception;
+namespace Jackal\ImageMerge\Exception;
 
 
 class InvalidFormatException extends \Exception

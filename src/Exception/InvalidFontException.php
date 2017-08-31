@@ -6,7 +6,7 @@
  * Time: 15.04
  */
 
-namespace Edimotive\ImageMerge\Exception;
+namespace Jackal\ImageMerge\Exception;
 
 
 use Throwable;

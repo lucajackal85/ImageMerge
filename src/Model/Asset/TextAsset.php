@@ -6,9 +6,9 @@
  * Time: 16.43
  */
 
-namespace Edimotive\ImageMerge\Model\Asset;
+namespace Jackal\ImageMerge\Model\Asset;
 
-use Edimotive\ImageMerge\Model\Configuration\Asset\TextAssetConfiguration;
+use Jackal\ImageMerge\Model\Configuration\Asset\TextAssetConfiguration;
 
 class TextAsset implements AssetInterface
 {

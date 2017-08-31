@@ -6,7 +6,7 @@
  * Time: 13.07
  */
 
-namespace Edimotive\ImageMerge\Exception;
+namespace Jackal\ImageMerge\Exception;
 
 
 class UnsupportedConfigurationException extends \Exception
