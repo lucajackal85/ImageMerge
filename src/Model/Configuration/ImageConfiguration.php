@@ -39,6 +39,9 @@ class ImageConfiguration
      */
     protected $assets = [];
 
+    /**
+     * @var \SplFileObject|null
+     */
     protected $imagePathname;
 
     /**
@@ -65,15 +68,15 @@ class ImageConfiguration
     }
 
     /**
-     * @param string $pathname
+     * @param \SplFileObject $pathname
      * @return ImageConfiguration
      * @throws InvalidFormatException
      */
-    public static function fromFile($pathname)
+    public static function fromFile(\SplFileObject $pathname)
     {
         $resource = ImageReader::fromPathname($pathname);
 
-        $imageConfiguration = new self(imagesx(imagecreatefromjpeg($pathname)), imagesy(imagecreatefromjpeg($pathname)), $resource->getFormat());
+        $imageConfiguration = new self(imagesx(imagecreatefromjpeg($pathname->getPathname())), imagesy(imagecreatefromjpeg($pathname->getPathname())), $resource->getFormat());
         $imageConfiguration->imagePathname = $pathname;
 
         if (!in_array($imageConfiguration->format, ImageFormat::getFormats())) {

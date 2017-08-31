@@ -14,27 +14,32 @@ class ImageReader
 
     private $format;
 
-    public static function fromPathname($filename)
+    /**
+     * @param \SplFileObject $filename
+     * @return ImageReader
+     * @throws \Exception
+     */
+    public static function fromPathname(\SplFileObject $filename)
     {
         $ir = new self();
-        switch (exif_imagetype($filename)) {
+        switch (exif_imagetype($filename->getPathname())) {
             case IMAGETYPE_PNG:{
-                $ir->resource = imagecreatefrompng($filename);
+                $ir->resource = imagecreatefrompng($filename->getPathname());
                 $ir->format =  ImageFormat::PNG;
                 break;
             }
             case IMAGETYPE_JPEG:{
-                $ir->resource = imagecreatefromjpeg($filename);
+                $ir->resource = imagecreatefromjpeg($filename->getPathname());
                 $ir->format = ImageFormat::JPG;
                 break;
             }
             case IMAGETYPE_GIF:{
-                $ir->resource = imagecreatefromgif($filename);
+                $ir->resource = imagecreatefromgif($filename->getPathname());
                 $ir->format = ImageFormat::GIF;
                 break;
             }
             default: {
-                throw new \Exception(exif_imagetype($filename));
+                throw new \Exception(exif_imagetype($filename->getPathname()));
             }
         }
         return $ir;
@@ -45,7 +50,7 @@ class ImageReader
         $path = sys_get_temp_dir().'/'.microtime();
         $h = fopen($path,'w');
         fputs($h,$string);
-        return self::fromPathname($path);
+        return self::fromPathname(new \SplFileObject($path));
     }
 
     /**

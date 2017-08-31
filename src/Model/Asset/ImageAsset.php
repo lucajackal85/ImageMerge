@@ -8,36 +8,42 @@
 
 namespace Jackal\ImageMerge\Model\Asset;
 
-use Jackal\ImageMerge\Model\Configuration\Asset\ImageAssetConfiguration;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 
+/**
+ * Class ImageAsset
+ * @package Jackal\ImageMerge\Model\Asset
+ */
 class ImageAsset implements AssetInterface
 {
     /**
-     * @var ImageAssetConfiguration
+     * @var \SplFileObject
      */
-    protected $assetConfiguration;
+    protected $fileObject;
 
     protected $x;
 
     protected $y;
 
     /**
-     * ImageAsset constructor.
-     * @param ImageAssetConfiguration $assetConfiguration
-     * @param int $x
-     * @param int $y
+     * @param \SplFileObject $fileObject
+     * @param null $x
+     * @param null $y
+     * @return ImageAsset
      */
-    public function __construct(ImageAssetConfiguration $assetConfiguration,$x = null,$y = null)
+    public static function fromFile(\SplFileObject $fileObject,$x = null,$y = null)
     {
-        $this->assetConfiguration = $assetConfiguration;
-        $this->x = (int)$x;
-        $this->y = (int)$y;
+        $ia = new self();
+        $ia->fileObject = $fileObject;
+        $ia->x = (int)$x;
+        $ia->y = (int)$y;
+
+        return $ia;
     }
 
     protected function getResource()
     {
-        $res = ImageReader::fromPathname($this->assetConfiguration->getPathname());
+        $res = ImageReader::fromPathname($this->fileObject);
         return $res->getResource();
     }
 
