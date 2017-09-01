@@ -30,6 +30,16 @@ class ImageConfiguration
     protected $outputHeight;
 
     /**
+     * @var integer
+     */
+    protected $blur;
+
+    /**
+     * @var integer
+     */
+    protected $degree;
+
+    /**
      * @var string
      */
     protected $format;
@@ -105,12 +115,24 @@ class ImageConfiguration
         $this->outputHeight = $newHeigth;
     }
 
+    public function addBlur($level){
+        $this->blur = $level;
+    }
+
+    public function addDegree($degree){
+        $this->degree = $degree;
+    }
+
     /**
      * @return int
      */
     public function getWidth()
     {
         return $this->width;
+    }
+
+    public function getDegree(){
+        return $this->degree;
     }
 
     /**
@@ -159,5 +181,13 @@ class ImageConfiguration
     public function getOutputHeight()
     {
         return $this->outputHeight;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBlur()
+    {
+        return $this->blur;
     }
 }

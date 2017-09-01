@@ -33,9 +33,25 @@ class Image
         return $generator->getOutput();
     }
 
+    public function toFile($filePathname){
+        file_put_contents($filePathname,$this->dump());
+    }
+
     public function resize($width, $height)
     {
         $this->imageConfiguration->changeOutputDimension($width, $height);
+        return $this;
+    }
+
+    public function blur($level = 10)
+    {
+        $this->imageConfiguration->addBlur($level);
+        return $this;
+    }
+
+    public function rotate($degree = 90)
+    {
+        $this->imageConfiguration->addDegree($degree);
         return $this;
     }
 

@@ -14,9 +14,9 @@ class Font
 {
     const FONT_ARIAL = 'arial';
 
-    private $fontName;
+    private $fontPathname;
 
-    private function getFonts()
+    private static function getFonts()
     {
         $directory = dirname(__FILE__).'/../../Resources/Fonts/';
         return [
@@ -24,22 +24,34 @@ class Font
         ];
     }
 
-    public function __construct($fontName)
+    private function __construct($fontPathname)
     {
-        $this->fontName = $fontName;
-        $fonts = $this->getFonts();
+        $this->fontPathname =  $fontPathname;
+    }
 
-        if (!isset($fonts[$this->fontName])) {
-            throw new InvalidFontException($this->fontName);
+    private static function fromSavedFont($fontName)
+    {
+        $fonts = Font::getFonts();
+
+        if (!isset($fonts[$fontName])) {
+            throw new InvalidFontException($fontName);
         }
 
-        if(!is_file($fonts[$this->fontName])){
-            throw new InvalidFontException($fonts[$this->fontName]);
+        if (!is_file($fonts[$fontName])) {
+            throw new InvalidFontException($fonts[$fontName]);
         }
+
+        return new Font($fonts[$fontName]);
+    }
+
+    public static function arial()
+    {
+        $fonts = Font::getFonts();
+        return new Font($fonts[Font::FONT_ARIAL]);
     }
 
     public function __toString()
     {
-        return $this->getFonts()[$this->fontName];
+        return $this->fontPathname;
     }
 }
