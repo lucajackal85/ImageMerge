@@ -42,6 +42,7 @@ class ImageReader
                 throw new \Exception(exif_imagetype($filename->getPathname()));
             }
         }
+        imageantialias($ir->resource,true);
         return $ir;
     }
 

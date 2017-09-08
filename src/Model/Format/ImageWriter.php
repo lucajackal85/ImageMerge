@@ -13,7 +13,7 @@ class ImageWriter
     public static function toPNG($resource)
     {
         ob_start();
-        imagepng($resource);
+        imagepng($resource,null,9);
         return ob_get_clean();
     }
 
@@ -21,7 +21,7 @@ class ImageWriter
     {
         ob_start();
 
-        imagejpeg($resource);
+        imagejpeg($resource,null,100);
         return ob_get_clean();
     }
 

@@ -6,6 +6,7 @@ use Jackal\ImageMerge\Exception\InvalidFormatException;
 use Jackal\ImageMerge\Model\Asset\AssetInterface;
 use Jackal\ImageMerge\Model\Format\ImageFormat;
 use Jackal\ImageMerge\Model\Format\ImageReader;
+use Jackal\ImageMerge\Utils\ImageUtils;
 
 class ImageConfiguration
 {
@@ -86,7 +87,11 @@ class ImageConfiguration
     {
         $resource = ImageReader::fromPathname($pathname);
 
-        $imageConfiguration = new self(imagesx(imagecreatefromjpeg($pathname->getPathname())), imagesy(imagecreatefromjpeg($pathname->getPathname())), $resource->getFormat());
+        $imageConfiguration = new self(
+            ImageUtils::getImageWidth($pathname->getPathname()),
+            ImageUtils::getImageHeight($pathname->getPathname()),
+            $resource->getFormat()
+        );
         $imageConfiguration->imagePathname = $pathname;
 
         if (!in_array($imageConfiguration->format, ImageFormat::getFormats())) {
@@ -115,11 +120,13 @@ class ImageConfiguration
         $this->outputHeight = $newHeigth;
     }
 
-    public function addBlur($level){
+    public function addBlur($level)
+    {
         $this->blur = $level;
     }
 
-    public function addDegree($degree){
+    public function addDegree($degree)
+    {
         $this->degree = $degree;
     }
 
@@ -131,7 +138,8 @@ class ImageConfiguration
         return $this->width;
     }
 
-    public function getDegree(){
+    public function getDegree()
+    {
         return $this->degree;
     }
 

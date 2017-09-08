@@ -58,7 +58,7 @@ class ImageGenerator
             $asset->applyToResource($baseResource);
         }
 
-        $this->applyBlur($baseResource,$this->imageConfiguration->getBlur());
+        $this->applyBlur($baseResource, $this->imageConfiguration->getBlur());
 
         if ($this->imageConfiguration->getOutputWidth() != $this->imageConfiguration->getWidth() or $this->imageConfiguration->getOutputHeight() != $this->imageConfiguration->getHeight()) {
             $resourceResized = imagecreatetruecolor($this->imageConfiguration->getOutputWidth(), $this->imageConfiguration->getOutputHeight());
@@ -67,21 +67,26 @@ class ImageGenerator
             $baseResource = $resourceResized;
         }
 
-        $baseResource = $this->applyRotate($baseResource,$this->imageConfiguration->getDegree());
+        $baseResource = $this->applyRotate($baseResource, $this->imageConfiguration->getDegree());
 
         return $baseResource;
     }
 
-    private function applyBlur($resource,$blur){
-        if($blur) {
+    private function applyBlur($resource, $blur)
+    {
+        if ($blur) {
             for ($i = 0; $i < $this->imageConfiguration->getBlur(); $i++) {
                 imagefilter($resource, IMG_FILTER_GAUSSIAN_BLUR);
             }
         }
     }
 
-    private function applyRotate($resource,$degree){
-        return imagerotate($resource,$degree,0);
+    private function applyRotate($resource, $degree)
+    {
+        if ($degree and ($degree % 360)) {
+            return imagerotate($resource, $degree, 0);
+        }
+        return $resource;
     }
 
     public function getOutput()
