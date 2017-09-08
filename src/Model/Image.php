@@ -2,6 +2,7 @@
 
 namespace Jackal\ImageMerge\Model;
 
+use Jackal\ImageMerge\Effect\EffectInterface;
 use Jackal\ImageMerge\Exception\UnsupportedConfigurationException;
 use Jackal\ImageMerge\Generator\ImageGenerator;
 use Jackal\ImageMerge\Model\Configuration\ImageConfiguration;
@@ -33,8 +34,9 @@ class Image
         return $generator->getOutput();
     }
 
-    public function toFile($filePathname){
-        file_put_contents($filePathname,$this->dump());
+    public function toFile($filePathname)
+    {
+        file_put_contents($filePathname, $this->dump());
     }
 
     public function resize($width, $height)

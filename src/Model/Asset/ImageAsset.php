@@ -26,19 +26,22 @@ class ImageAsset implements AssetInterface
     protected $y;
 
     /**
-     * @param \SplFileObject $fileObject
+     * ImageAsset constructor.
+     * @param \SplFileObject|string $fileObject
      * @param null $x
      * @param null $y
-     * @return ImageAsset
      */
-    public static function fromFile(\SplFileObject $fileObject,$x = null,$y = null)
+    public function __construct($fileObject, $x = null, $y = null)
     {
-        $ia = new self();
-        $ia->fileObject = $fileObject;
-        $ia->x = (int)$x;
-        $ia->y = (int)$y;
+        if (!$fileObject instanceof \SplFileObject) {
+            $fileObject = new \SplFileObject($fileObject);
+        }
 
-        return $ia;
+        $this->fileObject = $fileObject;
+        $this->x = (int)$x;
+        $this->y = (int)$y;
+
+        return $this;
     }
 
     protected function getResource()
@@ -59,9 +62,8 @@ class ImageAsset implements AssetInterface
 
     public function applyToResource($resource)
     {
-        //imagecopymerge($resource, $this->getResource(), $this->x, $this->y, 0, 0, $this->getWidth(), $this->getHeight(), 100);
         imagecolortransparent($resource);
-        imagecopyresampled($resource,$this->getResource(),$this->x, $this->y, 0, 0, $this->getWidth(), $this->getHeight(),$this->getWidth(), $this->getHeight());
+        imagecopyresampled($resource, $this->getResource(), $this->x, $this->y, 0, 0, $this->getWidth(), $this->getHeight(), $this->getWidth(), $this->getHeight());
         return $resource;
     }
 }
