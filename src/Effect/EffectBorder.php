@@ -25,46 +25,46 @@ class EffectBorder implements EffectInterface
     }
 
 
-    public function execute(Image $image, ImageConfiguration $imageConfiguration)
+    public function execute(Image $image)
     {
         for ($i=0;$i<$this->borderWidth;$i++) {
             //top
-            $imageConfiguration->addAsset(
+            $image->addAsset(
                 new LineAsset(
                     0,
                     $i,
-                    $imageConfiguration->getOutputWidth(),
+                    $image->getWidth(),
                     $i,
                     $this->colorHex
                 )
             );
             //bottom
-            $imageConfiguration->addAsset(
+            $image->addAsset(
                 new LineAsset(
                     0,
-                    $imageConfiguration->getOutputHeight() - $i,
-                    $imageConfiguration->getOutputWidth(),
-                    $imageConfiguration->getOutputHeight() - $i,
+                    $image->getHeight() - $i - 1,
+                    $image->getWidth(),
+                    $image->getHeight() - $i - 1,
                     $this->colorHex
                 )
             );
             //right
-            $imageConfiguration->addAsset(
+            $image->addAsset(
                 new LineAsset(
-                    $imageConfiguration->getOutputWidth() - $i,
+                    $image->getWidth() - $i -1,
                     0,
-                    $imageConfiguration->getOutputWidth() - $i,
-                    $imageConfiguration->getOutputHeight(),
+                    $image->getWidth() - $i -1,
+                    $image->getHeight(),
                     $this->colorHex
                 )
             );
             //left
-            $imageConfiguration->addAsset(
+            $image->addAsset(
                  new LineAsset(
                     $i,
                     0,
                     $i,
-                    $imageConfiguration->getOutputHeight(),
+                    $image->getHeight(),
                      $this->colorHex
                  )
             );

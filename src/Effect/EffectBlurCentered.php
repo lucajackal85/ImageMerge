@@ -9,7 +9,7 @@
 namespace Jackal\ImageMerge\Effect;
 
 use Jackal\ImageMerge\Model\Asset\ImageAsset;
-use Jackal\ImageMerge\Model\Configuration\ImageConfiguration;
+use Jackal\ImageMerge\Model\Asset\SquareAsset;
 use Jackal\ImageMerge\Model\Image;
 
 class EffectBlurCentered implements EffectInterface
@@ -27,18 +27,22 @@ class EffectBlurCentered implements EffectInterface
      * @param Image $image
      * @return Image
      */
-    public function execute(Image $image, ImageConfiguration $imageConfiguration)
+    public function execute(Image $image)
     {
+        $originalWidth = $image->getWidth();
+        $originalHeight = $image->getHeight();
         $originalImg = $this->saveImage($image);
 
         $image->resize($this->outputWidth, $this->outputHeight);
-        $image->blur(30);
+        $image->blur(40);
 
-        $x = ($this->outputWidth - $imageConfiguration->getWidth()) / 2;
-        $y = ($this->outputHeight - $imageConfiguration->getHeight()) / 2;
+        $x = round(($this->outputWidth - $originalWidth) / 2);
+        $y = round(($this->outputHeight - $originalHeight) / 2);
 
-        $imageConfiguration->addAsset(new ImageAsset($originalImg, $x, $y));
+        $stroke = 2;
 
+        $image->addAsset(new SquareAsset($stroke, $x - $stroke - 1 , $y - $stroke - 1, $x + $originalWidth + $stroke, $y + $originalHeight + $stroke,'CCCCCC'));
+        $image->addAsset(new ImageAsset($originalImg, $x, $y));
 
         return $image;
     }
@@ -46,7 +50,7 @@ class EffectBlurCentered implements EffectInterface
     private function saveImage(Image $image)
     {
         $originalImgPath = '/var/www/data/y.jpg';
-        $image->toFile($originalImgPath);
+        $image->toPNG($originalImgPath);
         return new \SplFileObject($originalImgPath);
     }
 }

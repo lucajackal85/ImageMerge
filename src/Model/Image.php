@@ -2,9 +2,15 @@
 
 namespace Jackal\ImageMerge\Model;
 
+use Jackal\ImageMerge\Command\AssetCommand;
+use Jackal\ImageMerge\Command\BlurCommand;
+use Jackal\ImageMerge\Command\ResizeCommand;
+use Jackal\ImageMerge\Command\RotateCommand;
 use Jackal\ImageMerge\Effect\EffectInterface;
 use Jackal\ImageMerge\Exception\UnsupportedConfigurationException;
 use Jackal\ImageMerge\Generator\ImageGenerator;
+use Jackal\ImageMerge\Model\Asset\AssetInterface;
+use Jackal\ImageMerge\Model\Asset\ImageAsset;
 use Jackal\ImageMerge\Model\Configuration\ImageConfiguration;
 use Jackal\ImageMerge\Model\Format\ImageFormat;
 use Jackal\ImageMerge\Model\Format\ImageReader;
@@ -12,79 +18,125 @@ use Jackal\ImageMerge\Model\Format\ImageWriter;
 
 class Image
 {
-    /**
-     * @var ImageConfiguration
-     */
-    protected $imageConfiguration;
+    private $width;
 
-    protected $assets = [];
-    /**
-     * Image constructor.
-     * @param ImageConfiguration $imageConfiguration
-     */
-    public function __construct(ImageConfiguration $imageConfiguration)
+    private $height;
+
+    private $resource;
+
+    public function __construct($width, $height)
     {
-        $this->imageConfiguration = $imageConfiguration;
+        $this->width = $width;
+        $this->height = $height;
+
+        $resource = imagecreatetruecolor($this->width, $this->height);
+        imagecolortransparent($resource);
+
+        $this->resource= $resource;
     }
 
-    public function dump()
+    public static function fromFile(\SplFileObject $filePathName)
     {
-        $generator = new ImageGenerator($this->imageConfiguration);
-        return $generator->getOutput();
+        $resource = ImageReader::fromPathname($filePathName);
+        $imageResource = $resource->getResource();
+
+        $image = new self(imagesx($imageResource), imagesy($imageResource));
+        $image->addAsset(new ImageAsset($filePathName, 0, 0));
+        return $image;
     }
 
-    public function toFile($filePathname)
+    public function blur($level)
     {
-        file_put_contents($filePathname, $this->dump());
+        $cmd = new BlurCommand($this, $level);
+        return $cmd->execute();
     }
 
     public function resize($width, $height)
     {
-        $this->imageConfiguration->changeOutputDimension($width, $height);
+        $cmd = new ResizeCommand($this, $width, $height);
+        return $cmd->execute();
+    }
+
+    public function assignResource($resource)
+    {
+        $this->resource = $resource;
         return $this;
     }
 
-    public function blur($level = 10)
+    public function addAsset(AssetInterface $asset)
     {
-        $this->imageConfiguration->addBlur($level);
-        return $this;
+        $cmd = new AssetCommand($this, $asset);
+        return $cmd->execute();
     }
 
-    public function rotate($degree = 90)
+    public function rotate($degree)
     {
-        $this->imageConfiguration->addDegree($degree);
-        return $this;
+        $cmd = new RotateCommand($this, $degree);
+        return $cmd->execute();
     }
 
-    /**
-     * @return $this
-     */
-    public function toPNG()
+    public function getResource()
     {
-        $this->imageConfiguration->changeFormat(ImageFormat::PNG);
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function toJPG()
-    {
-        $this->imageConfiguration->changeFormat(ImageFormat::JPG);
-        return $this;
+        return $this->resource;
     }
 
     /**
-     * @return $this
+     * @param null $filePathName
+     * @return bool|int|string
      */
-    public function toGIF()
+    public function toPNG($filePathName= null)
     {
-        $this->imageConfiguration->changeFormat(ImageFormat::GIF);
-        return $this;
+        $output = ImageWriter::toPNG($this->getResource());
+        if ($filePathName) {
+            return file_put_contents($filePathName, $output);
+        }
+        return $output;
+    }
+
+    /**
+     * @param null $filePathName
+     * @return bool|int|string
+     */
+    public function toJPG($filePathName= null)
+    {
+        $output = ImageWriter::toJPG($this->getResource());
+        if ($filePathName) {
+            return file_put_contents($filePathName, $output);
+        }
+        return $output;
+    }
+
+    /**
+     * @param null $filePathName
+     * @return string
+     */
+    public function toGIF($filePathName= null)
+    {
+        $output = ImageWriter::toGIF($this->getResource());
+        if ($filePathName) {
+            file_put_contents($filePathName, $output);
+        }
+        return $output;
     }
 
     public function addEffect(EffectInterface $effect)
     {
-        return $effect->execute($this,$this->imageConfiguration);
+        return $effect->execute($this);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWidth()
+    {
+        return imagesx($this->getResource());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHeight()
+    {
+        return imagesy($this->getResource());
     }
 }
