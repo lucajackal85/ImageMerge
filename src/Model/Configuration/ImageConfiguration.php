@@ -10,6 +10,11 @@ use Jackal\ImageMerge\Utils\ImageUtils;
 
 class ImageConfiguration
 {
+    const OP_ASSETS = 'assets';
+    const OP_BLUR = 'blur';
+    const OP_RESIZE = 'resize';
+    const OP_ROTATE = 'rotate';
+
     /**
      * @var integer
      */
@@ -55,6 +60,8 @@ class ImageConfiguration
      */
     protected $imagePathname;
 
+    protected $operationOrder;
+
     /**
      * ImageConfiguration constructor.
      * @param $width
@@ -76,6 +83,8 @@ class ImageConfiguration
         if (!in_array($format, ImageFormat::getFormats())) {
             throw new InvalidFormatException($format);
         }
+
+        $this->operationOrder = [];
     }
 
     /**
@@ -118,16 +127,19 @@ class ImageConfiguration
     {
         $this->outputWidth = $newWidth;
         $this->outputHeight = $newHeigth;
+        $this->operationOrder[] = self::OP_RESIZE;
     }
 
     public function addBlur($level)
     {
         $this->blur = $level;
+        $this->operationOrder[] = self::OP_BLUR;
     }
 
     public function addDegree($degree)
     {
         $this->degree = $degree;
+        $this->operationOrder[] = self::OP_ROTATE;
     }
 
     /**
@@ -156,6 +168,7 @@ class ImageConfiguration
      */
     public function addAsset(AssetInterface $asset)
     {
+        $this->operationOrder[] = 'assets';
         $this->assets[] = $asset;
     }
 
@@ -197,5 +210,13 @@ class ImageConfiguration
     public function getBlur()
     {
         return $this->blur;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOperationOrder()
+    {
+        return $this->operationOrder;
     }
 }

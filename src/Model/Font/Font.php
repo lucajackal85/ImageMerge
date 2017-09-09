@@ -29,21 +29,6 @@ class Font
         $this->fontPathname =  $fontPathname;
     }
 
-    private static function fromSavedFont($fontName)
-    {
-        $fonts = Font::getFonts();
-
-        if (!isset($fonts[$fontName])) {
-            throw new InvalidFontException($fontName);
-        }
-
-        if (!is_file($fonts[$fontName])) {
-            throw new InvalidFontException($fonts[$fontName]);
-        }
-
-        return new Font($fonts[$fontName]);
-    }
-
     public static function arial()
     {
         $fonts = Font::getFonts();

@@ -27,51 +27,26 @@ class EffectBlurCentered implements EffectInterface
      * @param Image $image
      * @return Image
      */
-    public function execute(Image $image)
+    public function execute(Image $image, ImageConfiguration $imageConfiguration)
     {
         $originalImg = $this->saveImage($image);
 
         $image->resize($this->outputWidth, $this->outputHeight);
-        $image->blur(50);
-        $image = $this->saveImage($image);
+        $image->blur(30);
 
-        $x = $this->getXCenter($originalImg, $image);
-        $y = $this->getYCenter($originalImg, $image);
+        $x = ($this->outputWidth - $imageConfiguration->getWidth()) / 2;
+        $y = ($this->outputHeight - $imageConfiguration->getHeight()) / 2;
 
-        $newImageConfiguration = ImageConfiguration::fromFile($image);
-        $newImageConfiguration->addAsset(new ImageAsset($originalImg, $x, $y));
-        $newImg = new Image($newImageConfiguration);
+        $imageConfiguration->addAsset(new ImageAsset($originalImg, $x, $y));
 
-        return $newImg;
-    }
 
-    private function getXCenter(\SplFileObject $fileForeground, \SplFileObject $fileBackground)
-    {
-        return $this->getXYCenter($fileForeground, $fileBackground)[0];
-    }
-
-    private function getYCenter(\SplFileObject $fileForeground, \SplFileObject $fileBackground)
-    {
-        return $this->getXYCenter($fileForeground, $fileBackground)[1];
-    }
-
-    private function getXYCenter(\SplFileObject $fileForeground, \SplFileObject $fileBackground)
-    {
-        $fileBackgroundSize = getimagesize($fileBackground->getPathname());
-        $fileForegroundSize = getimagesize($fileForeground->getPathname());
-
-        return [
-            round(($fileBackgroundSize[0] - $fileForegroundSize[0]) /2),
-            round(($fileBackgroundSize[1] - $fileForegroundSize[1]) /2),
-        ];
+        return $image;
     }
 
     private function saveImage(Image $image)
     {
-        $originalImgPath = tempnam(sys_get_temp_dir(), 'tmp_');
-        if (!file_put_contents($originalImgPath, $image->dump())) {
-            throw new \Exception('Errore creating file');
-        }
+        $originalImgPath = '/var/www/data/y.jpg';
+        $image->toFile($originalImgPath);
         return new \SplFileObject($originalImgPath);
     }
 }

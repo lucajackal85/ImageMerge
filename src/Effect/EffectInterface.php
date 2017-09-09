@@ -14,5 +14,5 @@ use Jackal\ImageMerge\Model\Image;
 
 interface EffectInterface
 {
-    public function execute(Image $image);
+    public function execute(Image $image, ImageConfiguration $imageConfiguration);
 }

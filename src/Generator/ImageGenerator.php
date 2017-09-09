@@ -26,12 +26,12 @@ class ImageGenerator
 
     /**
      * ImageGenerator constructor.
-     * @param $format
      * @param ImageConfiguration $imageConfiguration
      * @throws InvalidFormatException
      */
-    public function __construct($format, ImageConfiguration $imageConfiguration)
+    public function __construct(ImageConfiguration $imageConfiguration)
     {
+        $format = $imageConfiguration->getFormat();
         if (!in_array($format, ImageFormat::getFormats())) {
             throw new InvalidFormatException($format);
         }
@@ -53,23 +53,48 @@ class ImageGenerator
             $baseResource = $resource->getResource();
         }
 
-        /** @var AssetInterface $asset */
-        foreach ($this->imageConfiguration->getAssets() as $asset) {
-            $asset->applyToResource($baseResource);
+        foreach ($this->imageConfiguration->getOperationOrder() as $order) {
+            switch ($order) {
+                case ImageConfiguration::OP_RESIZE:{
+                    $baseResource = $this->applyResize($baseResource);
+                    break;
+                }
+                case ImageConfiguration::OP_ROTATE:{
+                    $baseResource = $this->applyRotate($baseResource, $this->imageConfiguration->getDegree());
+                    break;
+                }
+                case ImageConfiguration::OP_BLUR:{
+                    $this->applyBlur($baseResource, $this->imageConfiguration->getBlur());
+                    break;
+                }
+                case ImageConfiguration::OP_ASSETS:{
+                    /** @var AssetInterface $asset */
+                    foreach ($this->imageConfiguration->getAssets() as $asset) {
+                        $asset->applyToResource($baseResource);
+                    }
+                    break;
+                }
+                default: throw new \Exception('Operation "'.$order.'" not managed');
+            }
         }
 
-        $this->applyBlur($baseResource, $this->imageConfiguration->getBlur());
 
+
+
+
+
+        return $baseResource;
+    }
+    
+    private function applyResize($resource)
+    {
         if ($this->imageConfiguration->getOutputWidth() != $this->imageConfiguration->getWidth() or $this->imageConfiguration->getOutputHeight() != $this->imageConfiguration->getHeight()) {
             $resourceResized = imagecreatetruecolor($this->imageConfiguration->getOutputWidth(), $this->imageConfiguration->getOutputHeight());
             imagecolortransparent($resourceResized);
-            imagecopyresampled($resourceResized, $baseResource, 0, 0, 0, 0, $this->imageConfiguration->getOutputWidth(), $this->imageConfiguration->getOutputHeight(), $this->imageConfiguration->getWidth(), $this->imageConfiguration->getHeight());
-            $baseResource = $resourceResized;
+            imagecopyresampled($resourceResized, $resource, 0, 0, 0, 0, $this->imageConfiguration->getOutputWidth(), $this->imageConfiguration->getOutputHeight(), $this->imageConfiguration->getWidth(), $this->imageConfiguration->getHeight());
+            return $resourceResized;
         }
-
-        $baseResource = $this->applyRotate($baseResource, $this->imageConfiguration->getDegree());
-
-        return $baseResource;
+        return $resource;
     }
 
     private function applyBlur($resource, $blur)

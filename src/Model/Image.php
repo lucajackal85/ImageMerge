@@ -18,7 +18,6 @@ class Image
     protected $imageConfiguration;
 
     protected $assets = [];
-
     /**
      * Image constructor.
      * @param ImageConfiguration $imageConfiguration
@@ -30,7 +29,7 @@ class Image
 
     public function dump()
     {
-        $generator = new ImageGenerator($this->imageConfiguration->getFormat(), $this->imageConfiguration);
+        $generator = new ImageGenerator($this->imageConfiguration);
         return $generator->getOutput();
     }
 
@@ -82,5 +81,10 @@ class Image
     {
         $this->imageConfiguration->changeFormat(ImageFormat::GIF);
         return $this;
+    }
+
+    public function addEffect(EffectInterface $effect)
+    {
+        return $effect->execute($this,$this->imageConfiguration);
     }
 }
