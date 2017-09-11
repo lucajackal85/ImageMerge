@@ -8,8 +8,16 @@
 
 namespace Jackal\ImageMerge\Command;
 
+use Jackal\ImageMerge\Command\Options\LevelCommandOption;
+use Jackal\ImageMerge\Model\Image;
+
 class BlurCommand extends AbstractCommand
 {
+    public function __construct(Image $image, LevelCommandOption $options)
+    {
+        parent::__construct($image, $options);
+    }
+
     public function execute()
     {
         if ($this->options->get('level')) {

@@ -13,6 +13,11 @@ use Jackal\ImageMerge\Model\Image;
 
 class PixelCommand extends AbstractCommand
 {
+    public function __construct(Image $image, LevelCommandOption $options)
+    {
+        parent::__construct($image, $options);
+    }
+
     public function execute()
     {
         $level = $this->options->getLevel();

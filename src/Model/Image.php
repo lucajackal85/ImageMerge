@@ -2,19 +2,24 @@
 
 namespace Jackal\ImageMerge\Model;
 
-use Jackal\ImageMerge\Command\AssetCommand;
 use Jackal\ImageMerge\Command\BlurCommand;
-use Jackal\ImageMerge\Command\Options\AssetCommandOption;
+use Jackal\ImageMerge\Command\BorderCommand;
+use Jackal\ImageMerge\Command\CommandInterface;
+use Jackal\ImageMerge\Command\CropCenterCommand;
+use Jackal\ImageMerge\Command\CropCommand;
+use Jackal\ImageMerge\Command\GrayScaleCommand;
+use Jackal\ImageMerge\Command\Options\BorderCommandOption;
+use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
+use Jackal\ImageMerge\Command\Options\CropCommandOption;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
 use Jackal\ImageMerge\Command\Options\LevelCommandOption;
+use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\PixelCommand;
 use Jackal\ImageMerge\Command\ResizeCommand;
 use Jackal\ImageMerge\Command\RotateCommand;
-use Jackal\ImageMerge\Effect\EffectInterface;
-use Jackal\ImageMerge\Exception\UnsupportedConfigurationException;
-use Jackal\ImageMerge\Model\Asset\AssetInterface;
-use Jackal\ImageMerge\Model\Asset\ImageAsset;
-use Jackal\ImageMerge\Model\Format\ImageFormat;
+use Jackal\ImageMerge\Command\Asset\ImageAsset;
+use Jackal\ImageMerge\Command\ThumbnailCommand;
+use Jackal\ImageMerge\Factory\CommandFactory;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
 
@@ -37,46 +42,125 @@ class Image
         $this->resource= $resource;
     }
 
+    /**
+     * @param $className
+     * @param CommandOptionInterface $options
+     * @return Image
+     */
+    protected function addCommand($className, CommandOptionInterface $options = null)
+    {
+        $command = CommandFactory::getInstance($className, $this, $options);
+        return $this->add($command);
+    }
+
+    /**
+     * @param \SplFileObject $filePathName
+     * @return Image
+     */
     public static function fromFile(\SplFileObject $filePathName)
     {
         $resource = ImageReader::fromPathname($filePathName);
         $imageResource = $resource->getResource();
 
         $image = new self(imagesx($imageResource), imagesy($imageResource));
-        $image->addAsset(new ImageAsset($filePathName, 0, 0));
+        $image->add(new ImageAsset($image, new SingleCoordinateFileObjectCommandOption($filePathName, 0, 0)));
         return $image;
     }
 
-    public function blur($level)
-    {
-        $cmd = new BlurCommand($this, new LevelCommandOption($level));
-        return $cmd->execute();
-    }
-
-    public function resize($width, $height)
-    {
-        $cmd = new ResizeCommand($this, new DimensionCommandOption($width, $height));
-        return $cmd->execute();
-    }
-
+    /**
+     * @param $resource
+     * @return Image
+     */
     public function assignResource($resource)
     {
         $this->resource = $resource;
         return $this;
     }
 
-    public function addAsset(AssetInterface $asset)
+    /**
+     * @param CommandInterface $command
+     * @return Image
+     */
+    public function add(CommandInterface $command)
     {
-        $cmd = new AssetCommand($this, new AssetCommandOption($asset));
-        return $cmd->execute();
+        return $command->execute();
     }
 
+    /**
+     * @param $level
+     * @return Image
+     */
+    public function blur($level)
+    {
+        return $this->addCommand(BlurCommand::class, new LevelCommandOption($level));
+    }
+
+    /**
+     * @param $width
+     * @param $height
+     * @return Image
+     */
+    public function resize($width, $height)
+    {
+        return $this->addCommand(ResizeCommand::class, new DimensionCommandOption($width, $height));
+    }
+
+    /**
+     * @param $degree
+     * @return Image
+     */
     public function rotate($degree)
     {
-        $cmd = new RotateCommand($this, new LevelCommandOption($degree));
-        return $cmd->execute();
+        return $this->addCommand(RotateCommand::class, new LevelCommandOption($degree));
     }
 
+    /**
+     * @param $level
+     * @return Image
+     */
+    public function pixelate($level)
+    {
+        return $this->addCommand(PixelCommand::class, new LevelCommandOption($level));
+    }
+
+    /**
+     * @param $stroke
+     * @param string $colorHex
+     * @return Image
+     */
+    public function border($stroke, $colorHex = 'FFFFFF')
+    {
+        return $this->addCommand(BorderCommand::class, new BorderCommandOption($stroke, $colorHex));
+    }
+
+    /**
+     * @param $width
+     * @param $height
+     * @return Image
+     */
+    public function cropCenter($width, $height)
+    {
+        return $this->addCommand(CropCenterCommand::class, new DimensionCommandOption($width, $height));
+    }
+
+    public function crop($x, $y, $width, $height)
+    {
+        return $this->addCommand(CropCommand::class, new CropCommandOption($x, $y, $width, $height));
+    }
+
+    public function thumbnail($width = null, $height = null)
+    {
+        return $this->addCommand(ThumbnailCommand::class, new DimensionCommandOption($width, $height));
+    }
+
+    public function grayScale()
+    {
+        return $this->addCommand(GrayScaleCommand::class, null);
+    }
+
+    /**
+     * @return resource
+     */
     public function getResource()
     {
         return $this->resource;
@@ -84,46 +168,29 @@ class Image
 
     /**
      * @param null $filePathName
-     * @return bool|int|string
+     * @return bool|string
      */
-    public function toPNG($filePathName= null)
+    public function toPNG($filePathName = null)
     {
-        $output = ImageWriter::toPNG($this->getResource());
-        if ($filePathName) {
-            return file_put_contents($filePathName, $output);
-        }
-        return $output;
+        return ImageWriter::toPNG($this->getResource(), $filePathName);
     }
 
     /**
      * @param null $filePathName
-     * @return bool|int|string
+     * @return bool|string
      */
-    public function toJPG($filePathName= null)
+    public function toJPG($filePathName = null)
     {
-        $output = ImageWriter::toJPG($this->getResource());
-        if ($filePathName) {
-            return file_put_contents($filePathName, $output);
-        }
-        return $output;
+        return ImageWriter::toJPG($this->getResource(), $filePathName);
     }
 
     /**
      * @param null $filePathName
-     * @return string
+     * @return bool|string
      */
-    public function toGIF($filePathName= null)
+    public function toGIF($filePathName = null)
     {
-        $output = ImageWriter::toGIF($this->getResource());
-        if ($filePathName) {
-            file_put_contents($filePathName, $output);
-        }
-        return $output;
-    }
-
-    public function addEffect(EffectInterface $effect)
-    {
-        return $effect->execute($this);
+        return ImageWriter::toGIF($this->getResource(), $filePathName);
     }
 
     /**
@@ -142,9 +209,8 @@ class Image
         return imagesy($this->getResource());
     }
 
-    public function pixelate($level)
+    public function getAspectRatio()
     {
-        $cmd = new PixelCommand($this, new LevelCommandOption($level));
-        return $cmd->execute();
+        return $this->getWidth() / $this->getHeight();
     }
 }

@@ -8,12 +8,12 @@
 
 namespace Jackal\ImageMerge\Command;
 
-use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
 use Jackal\ImageMerge\Model\Image;
 
 interface CommandInterface
 {
-    public function __construct(Image $image,CommandOptionInterface $options);
-
+    /**
+     * @return Image
+     */
     public function execute();
 }

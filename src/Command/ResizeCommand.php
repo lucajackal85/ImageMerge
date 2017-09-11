@@ -8,10 +8,16 @@
 
 namespace Jackal\ImageMerge\Command;
 
+use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
 use Jackal\ImageMerge\Model\Image;
 
 class ResizeCommand extends AbstractCommand
 {
+    public function __construct(Image $image, DimensionCommandOption $options)
+    {
+        parent::__construct($image, $options);
+    }
+
     public function execute()
     {
         $width = $this->options->getWidth();
