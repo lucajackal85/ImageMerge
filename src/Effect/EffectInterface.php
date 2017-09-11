@@ -8,8 +8,6 @@
 
 namespace Jackal\ImageMerge\Effect;
 
-
-use Jackal\ImageMerge\Model\Configuration\ImageConfiguration;
 use Jackal\ImageMerge\Model\Image;
 
 interface EffectInterface

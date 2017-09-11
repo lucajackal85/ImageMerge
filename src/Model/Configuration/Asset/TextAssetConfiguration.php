@@ -8,6 +8,8 @@
 
 namespace Jackal\ImageMerge\Model\Configuration\Asset;
 
+use Jackal\ImageMerge\Utils\ColorUtils;
+
 class TextAssetConfiguration
 {
     protected $x;
@@ -38,16 +40,16 @@ class TextAssetConfiguration
 
     public function getFontColorRed()
     {
-        return hexdec(substr($this->fontColorRGB, 0, 2));
+        return ColorUtils::parseHex($this->fontColorRGB)[0];
     }
 
     public function getFontColorGreen()
     {
-        return hexdec(substr($this->fontColorRGB, 2, 2));
+        return ColorUtils::parseHex($this->fontColorRGB)[1];
     }
 
     public function getFontColorBlue()
     {
-        return hexdec(substr($this->fontColorRGB, 4, 2));
+        return ColorUtils::parseHex($this->fontColorRGB)[2];
     }
 }

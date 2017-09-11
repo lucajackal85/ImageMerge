@@ -4,14 +4,16 @@ namespace Jackal\ImageMerge\Model;
 
 use Jackal\ImageMerge\Command\AssetCommand;
 use Jackal\ImageMerge\Command\BlurCommand;
+use Jackal\ImageMerge\Command\Options\AssetCommandOption;
+use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
+use Jackal\ImageMerge\Command\Options\LevelCommandOption;
+use Jackal\ImageMerge\Command\PixelCommand;
 use Jackal\ImageMerge\Command\ResizeCommand;
 use Jackal\ImageMerge\Command\RotateCommand;
 use Jackal\ImageMerge\Effect\EffectInterface;
 use Jackal\ImageMerge\Exception\UnsupportedConfigurationException;
-use Jackal\ImageMerge\Generator\ImageGenerator;
 use Jackal\ImageMerge\Model\Asset\AssetInterface;
 use Jackal\ImageMerge\Model\Asset\ImageAsset;
-use Jackal\ImageMerge\Model\Configuration\ImageConfiguration;
 use Jackal\ImageMerge\Model\Format\ImageFormat;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
@@ -47,13 +49,13 @@ class Image
 
     public function blur($level)
     {
-        $cmd = new BlurCommand($this, $level);
+        $cmd = new BlurCommand($this, new LevelCommandOption($level));
         return $cmd->execute();
     }
 
     public function resize($width, $height)
     {
-        $cmd = new ResizeCommand($this, $width, $height);
+        $cmd = new ResizeCommand($this, new DimensionCommandOption($width, $height));
         return $cmd->execute();
     }
 
@@ -65,13 +67,13 @@ class Image
 
     public function addAsset(AssetInterface $asset)
     {
-        $cmd = new AssetCommand($this, $asset);
+        $cmd = new AssetCommand($this, new AssetCommandOption($asset));
         return $cmd->execute();
     }
 
     public function rotate($degree)
     {
-        $cmd = new RotateCommand($this, $degree);
+        $cmd = new RotateCommand($this, new LevelCommandOption($degree));
         return $cmd->execute();
     }
 
@@ -138,5 +140,11 @@ class Image
     public function getHeight()
     {
         return imagesy($this->getResource());
+    }
+
+    public function pixelate($level)
+    {
+        $cmd = new PixelCommand($this, new LevelCommandOption($level));
+        return $cmd->execute();
     }
 }

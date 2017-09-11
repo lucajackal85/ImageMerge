@@ -8,35 +8,12 @@
 
 namespace Jackal\ImageMerge\Command;
 
-use Jackal\ImageMerge\Model\Image;
-
-class BlurCommand implements CommandInterface
+class BlurCommand extends AbstractCommand
 {
-    /**
-     * @var
-     */
-    private $level;
-
-    /**
-     * @var Image
-     */
-    private $image;
-
-    /**
-     * BlurCommand constructor.
-     * @param Image $image
-     * @param $level
-     */
-    public function __construct(Image $image, $level)
-    {
-        $this->image = $image;
-        $this->level = $level;
-    }
-
     public function execute()
     {
-        if ($this->level) {
-            for ($i = 0; $i < $this->level; $i++) {
+        if ($this->options->get('level')) {
+            for ($i = 0; $i < $this->options->get('level'); $i++) {
                 imagefilter($this->image->getResource(), IMG_FILTER_GAUSSIAN_BLUR);
             }
         }

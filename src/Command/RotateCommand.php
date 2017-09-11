@@ -8,25 +8,14 @@
 
 namespace Jackal\ImageMerge\Command;
 
-use Jackal\ImageMerge\Model\Image;
-
-class RotateCommand implements CommandInterface
+class RotateCommand extends AbstractCommand
 {
-    private $image;
-    private $degree;
-    
-    public function __construct(Image $image, $degree)
-    {
-        $this->degree =  $degree;
-        $this->image = $image;
-    }
-
-
     public function execute()
     {
+        $degree = $this->options->getLevel();
         $resource = $this->image->getResource();
-        if ($this->degree and ($this->degree % 360)) {
-            $resource = imagerotate($resource, $this->degree, 0);
+        if ($degree and ($degree % 360)) {
+            $resource = imagerotate($resource, $degree, 0);
         }
         return $this->image->assignResource($resource);
     }

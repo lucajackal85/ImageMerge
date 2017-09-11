@@ -8,6 +8,8 @@
 
 namespace Jackal\ImageMerge\Model\Asset;
 
+use Jackal\ImageMerge\Utils\ColorUtils;
+
 class LineAsset implements AssetInterface
 {
     private $x1;
@@ -16,7 +18,7 @@ class LineAsset implements AssetInterface
     private $y2;
     private $colorHex;
 
-    public function __construct($x1, $y1, $x2, $y2,$colorHex = '000000')
+    public function __construct($x1, $y1, $x2, $y2, $colorHex = '000000')
     {
         $this->x1 = $x1;
         $this->y1 = $y1;
@@ -28,7 +30,7 @@ class LineAsset implements AssetInterface
 
     public function applyToResource($resource)
     {
-        $black = imagecolorallocate($resource, hexdec(substr($this->colorHex,0,2)), hexdec(substr($this->colorHex,2,2)), hexdec(substr($this->colorHex,4,2)));
+        $black = imagecolorallocate($resource, ColorUtils::parseHex($this->colorHex)[0], ColorUtils::parseHex($this->colorHex)[1], ColorUtils::parseHex($this->colorHex)[2]);
         imageline($resource, $this->x1, $this->y1, $this->x2, $this->y2, $black);
     }
 }

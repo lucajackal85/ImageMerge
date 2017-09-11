@@ -8,6 +8,8 @@
 
 namespace Jackal\ImageMerge\Model\Asset;
 
+use Jackal\ImageMerge\Utils\ColorUtils;
+
 class SquareAsset implements AssetInterface
 {
     private $width;
@@ -29,7 +31,7 @@ class SquareAsset implements AssetInterface
 
     public function applyToResource($resource)
     {
-        $color = imagecolorallocate($resource, hexdec(substr($this->colorHex, 0, 2)), hexdec(substr($this->colorHex, 2, 2)), hexdec(substr($this->colorHex, 4, 2)));
+        $color = imagecolorallocate($resource, ColorUtils::parseHex($this->colorHex)[0], ColorUtils::parseHex($this->colorHex)[1], ColorUtils::parseHex($this->colorHex)[2]);
         imagefilledrectangle($resource, $this->x1, $this->y1, $this->x2, $this->y2, $color);
     }
 }

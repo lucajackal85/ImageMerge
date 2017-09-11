@@ -10,25 +10,17 @@ namespace Jackal\ImageMerge\Command;
 
 use Jackal\ImageMerge\Model\Image;
 
-class ResizeCommand implements CommandInterface
+class ResizeCommand extends AbstractCommand
 {
-    private $image;
-    private $width;
-    private $height;
-
-    public function __construct(Image $image, $width, $height)
-    {
-        $this->width = $width;
-        $this->height = $height;
-        $this->image = $image;
-    }
-
     public function execute()
     {
-        if ($this->image->getWidth() != $this->width or $this->image->getHeight() != $this->height) {
-            $resourceResized = imagecreatetruecolor($this->width, $this->height);
+        $width = $this->options->getWidth();
+        $height = $this->options->getHeight();
+
+        if ($this->image->getWidth() != $width or $this->image->getHeight() != $height) {
+            $resourceResized = imagecreatetruecolor($width, $height);
             imagecolortransparent($resourceResized);
-            imagecopyresampled($resourceResized, $this->image->getResource(), 0, 0, 0, 0, $this->width, $this->height, $this->image->getWidth(), $this->image->getHeight());
+            imagecopyresampled($resourceResized, $this->image->getResource(), 0, 0, 0, 0, $width, $height, $this->image->getWidth(), $this->image->getHeight());
 
             return $this->image->assignResource($resourceResized);
         }
