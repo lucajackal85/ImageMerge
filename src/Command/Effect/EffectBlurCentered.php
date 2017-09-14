@@ -35,17 +35,31 @@ class EffectBlurCentered extends AbstractCommand
 
         $originalWidth = $this->image->getWidth();
         $originalHeight = $this->image->getHeight();
+
+        if ($originalHeight > $options->getHeight()) {
+            $this->image->thumbnail(null, $options->getHeight() - 4);
+            $originalWidth = $this->image->getWidth();
+            $originalHeight = $this->image->getHeight();
+        }
+
+        if ($originalWidth > $options->getWidth()) {
+            $this->image->thumbnail($options->getWidth() - 4, null);
+            $originalWidth = $this->image->getWidth();
+            $originalHeight = $this->image->getHeight();
+        }
+
         $originalImg = $this->saveImage($this->image);
 
         $this->image->resize($options->getWidth(), $options->getHeight());
-        $this->image->blur(40);
+        $this->image->blur(80);
+        $this->image->brightness(-70);
 
         $x = round(($options->getWidth() - $originalWidth) / 2);
         $y = round(($options->getHeight() - $originalHeight) / 2);
 
-        $stroke = 2;
+        $borderColor = $this->image->isDark() ? 'FFFFFF' : '000000';
 
-        $this->image->add(new SquareAsset($this->image, new DoubleCoordinateColorStrokeCommandOption($x - $stroke - 1, $y - $stroke - 1, $x + $originalWidth + $stroke, $y + $originalHeight + $stroke, $stroke, 'CCCCCC')));
+        $this->image->add(new SquareAsset($this->image, new DoubleCoordinateColorStrokeCommandOption($x - 1, $y - 1, $x + $originalWidth, $y + $originalHeight, 0, $borderColor)));
         $this->image->add(new ImageAsset($this->image, new SingleCoordinateFileObjectCommandOption($originalImg, $x, $y)));
 
         unlink($originalImg->getPathname());

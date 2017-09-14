@@ -4,6 +4,7 @@ namespace Jackal\ImageMerge\Model;
 
 use Jackal\ImageMerge\Command\BlurCommand;
 use Jackal\ImageMerge\Command\BorderCommand;
+use Jackal\ImageMerge\Command\BrightnessCommand;
 use Jackal\ImageMerge\Command\CommandInterface;
 use Jackal\ImageMerge\Command\CropCenterCommand;
 use Jackal\ImageMerge\Command\CropCommand;
@@ -144,6 +145,11 @@ class Image
     public function cropCenter($width, $height)
     {
         return $this->addCommand(CropCenterCommand::class, new DimensionCommandOption($width, $height));
+    }
+
+    public function brightness($level)
+    {
+        return $this->addCommand(BrightnessCommand::class, new LevelCommandOption($level));
     }
 
     /**
@@ -298,7 +304,7 @@ class Image
      */
     public function getAspectRatio()
     {
-        return round($this->getWidth() / $this->getHeight(), 2);
+        return $this->getWidth() / $this->getHeight();
     }
 
     /**

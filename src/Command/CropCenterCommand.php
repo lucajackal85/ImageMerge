@@ -28,7 +28,7 @@ class CropCenterCommand extends AbstractCommand
         $newWidth = $this->options->getWidth();
         $newHeight = $this->options->getHeight();
 
-        if ($newWidth > $width || $newHeight>$height) {
+        if ($newWidth > $width || $newHeight > $height) {
             throw new \Exception(sprintf('Crop area exceed, max dimensions are: %s X %s', $width, $height));
         }
 
