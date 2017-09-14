@@ -1,0 +1,27 @@
+{
+    "name": "edimotive/image-merge",
+    "description": "Image Merge",
+    "authors": [
+        {
+            "name": "Luca Giacalone",
+            "email": "luca.giacalone@edimotive.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0|^7.0",
+        "ext-gd": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jackal\\ImageMerge\\": "src/",
+            "Jackal\\ImageMerge\\Test\\": "test/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.7.x-dev"
+    }
+}

@@ -9,8 +9,11 @@
 namespace Jackal\ImageMerge\Command\Asset;
 
 use Jackal\ImageMerge\Command\AbstractCommand;
+use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
+use Jackal\ImageMerge\Command\Options\SingleCoordinateCommandOption;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Model\Format\ImageReader;
+use Jackal\ImageMerge\Model\Image;
 
 /**
  * Class ImageAsset
@@ -18,6 +21,12 @@ use Jackal\ImageMerge\Model\Format\ImageReader;
  */
 class ImageAsset extends AbstractCommand
 {
+    public function __construct(Image $image, SingleCoordinateFileObjectCommandOption $options)
+    {
+        parent::__construct($image, $options);
+    }
+
+
     protected function getResourceToApply()
     {
         $res = ImageReader::fromPathname($this->options->getFileObject());

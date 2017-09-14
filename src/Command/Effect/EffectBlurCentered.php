@@ -48,12 +48,14 @@ class EffectBlurCentered extends AbstractCommand
         $this->image->add(new SquareAsset($this->image, new DoubleCoordinateColorStrokeCommandOption($x - $stroke - 1, $y - $stroke - 1, $x + $originalWidth + $stroke, $y + $originalHeight + $stroke, $stroke, 'CCCCCC')));
         $this->image->add(new ImageAsset($this->image, new SingleCoordinateFileObjectCommandOption($originalImg, $x, $y)));
 
+        unlink($originalImg->getPathname());
+
         return $this->image;
     }
 
     private function saveImage(Image $image)
     {
-        $originalImgPath = '/var/www/data/y.jpg';
+        $originalImgPath = sys_get_temp_dir().'/'.uniqid('tmp_');
         $image->toPNG($originalImgPath);
         return new \SplFileObject($originalImgPath);
     }

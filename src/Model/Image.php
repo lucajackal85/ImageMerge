@@ -7,12 +7,15 @@ use Jackal\ImageMerge\Command\BorderCommand;
 use Jackal\ImageMerge\Command\CommandInterface;
 use Jackal\ImageMerge\Command\CropCenterCommand;
 use Jackal\ImageMerge\Command\CropCommand;
+use Jackal\ImageMerge\Command\CropPolygonCommand;
 use Jackal\ImageMerge\Command\GrayScaleCommand;
+use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
 use Jackal\ImageMerge\Command\Options\BorderCommandOption;
 use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
 use Jackal\ImageMerge\Command\Options\CropCommandOption;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
 use Jackal\ImageMerge\Command\Options\LevelCommandOption;
+use Jackal\ImageMerge\Command\Options\SingleCoordinateCommandOption;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\PixelCommand;
 use Jackal\ImageMerge\Command\ResizeCommand;
@@ -143,19 +146,100 @@ class Image
         return $this->addCommand(CropCenterCommand::class, new DimensionCommandOption($width, $height));
     }
 
+    /**
+     * @param $x
+     * @param $y
+     * @param $width
+     * @param $height
+     * @return Image
+     */
     public function crop($x, $y, $width, $height)
     {
         return $this->addCommand(CropCommand::class, new CropCommandOption($x, $y, $width, $height));
     }
 
+    /**
+     * @param $x1
+     * @param $y1
+     * @param $x2
+     * @param $y2
+     * @param $x3
+     * @param $y3
+     * @param array ...$points
+     * @return Image
+     */
+    public function cropPolygon($x1, $y1, $x2, $y2, $x3, $y3, ...$points)
+    {
+        $points = func_get_args();
+        $coords = [];
+
+        foreach ($points as $k => $point) {
+            if ($k == 0 or ($k %2) == 0) {
+                if (isset($points[$k + 1])) {
+                    $x = $point;
+                    $y = $points[$k + 1];
+                    $coords[] = new SingleCoordinateCommandOption($x, $y);
+                }
+            }
+        }
+
+        return $this->addCommand(CropPolygonCommand::class, new MultiCoordinateCommandOption($coords));
+    }
+
+    /**
+     * @param null $width
+     * @param null $height
+     * @return Image
+     */
     public function thumbnail($width = null, $height = null)
     {
         return $this->addCommand(ThumbnailCommand::class, new DimensionCommandOption($width, $height));
     }
 
+    /**
+     * @return Image
+     */
     public function grayScale()
     {
         return $this->addCommand(GrayScaleCommand::class, null);
+    }
+
+    /**
+     * @param int|null $fromX
+     * @param int|null $fromY
+     * @param int|null $width
+     * @param int|null $height
+     * @return bool
+     */
+    public function isDark($fromX = null, $fromY = null, $width =null, $height = null)
+    {
+        $samples = 10;
+        $threshold = 60;
+
+        if (!is_null($fromY) and !is_null($fromY) and !is_null($width) and !is_null($height)) {
+            $portion = clone $this;
+            $portion->crop($fromX, $fromY, $width, $height);
+        } else {
+            $portion = $this;
+        }
+
+        $luminance = 0;
+        for ($x=1;$x<=$samples;$x++) {
+            for ($y=1;$y<=$samples;$y++) {
+                $coordX = round($portion->getWidth() / $samples * $x);
+                $cooordY = round($portion->getHeight() / $samples * $y);
+                $rgb = imagecolorat($portion->getResource(), $coordX, $cooordY);
+
+                $r = ($rgb >> 16) & 0xFF;
+                $g = ($rgb >> 8) & 0xFF;
+                $b = $rgb & 0xFF;
+
+                // choose a simple luminance formula from here
+                // http://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
+                $luminance += ($r+$r+$b+$g+$g+$g)/6;
+            }
+        }
+        return $luminance / ($samples * $samples) <= $threshold;
     }
 
     /**
@@ -209,8 +293,35 @@ class Image
         return imagesy($this->getResource());
     }
 
+    /**
+     * @return float
+     */
     public function getAspectRatio()
     {
-        return $this->getWidth() / $this->getHeight();
+        return round($this->getWidth() / $this->getHeight(), 2);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVertical()
+    {
+        return $this->getAspectRatio() < 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHorizontal()
+    {
+        return $this->getAspectRatio() > 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSquare()
+    {
+        return $this->getAspectRatio() == 0;
     }
 }
