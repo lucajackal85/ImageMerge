@@ -42,15 +42,19 @@ class ImageReader
                 throw new \Exception(exif_imagetype($filename->getPathname()));
             }
         }
-        imageantialias($ir->resource,true);
+
+        if (function_exists('imageantialias')) {
+            imageantialias($ir->resource, true);
+        }
+
         return $ir;
     }
 
     public static function fromString($string)
     {
         $path = sys_get_temp_dir().'/'.microtime();
-        $h = fopen($path,'w');
-        fputs($h,$string);
+        $h = fopen($path, 'w');
+        fputs($h, $string);
         return self::fromPathname(new \SplFileObject($path));
     }
 

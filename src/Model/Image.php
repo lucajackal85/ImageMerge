@@ -232,10 +232,9 @@ class Image
         $luminance = 0;
         for ($x=1;$x<=$samples;$x++) {
             for ($y=1;$y<=$samples;$y++) {
-                $coordX = round($portion->getWidth() / $samples * $x);
-                $cooordY = round($portion->getHeight() / $samples * $y);
+                $coordX = round($portion->getWidth() / $samples * $x) - ($portion->getWidth() / $samples / 2);
+                $cooordY = round($portion->getHeight() / $samples * $y) - ($portion->getHeight() / $samples / 2);
                 $rgb = imagecolorat($portion->getResource(), $coordX, $cooordY);
-
                 $r = ($rgb >> 16) & 0xFF;
                 $g = ($rgb >> 8) & 0xFF;
                 $b = $rgb & 0xFF;

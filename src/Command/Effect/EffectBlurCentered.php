@@ -51,13 +51,13 @@ class EffectBlurCentered extends AbstractCommand
         $originalImg = $this->saveImage($this->image);
 
         $this->image->resize($options->getWidth(), $options->getHeight());
-        $this->image->blur(80);
+        $this->image->blur(40);
         $this->image->brightness(-70);
 
         $x = round(($options->getWidth() - $originalWidth) / 2);
         $y = round(($options->getHeight() - $originalHeight) / 2);
 
-        $borderColor = $this->image->isDark() ? 'FFFFFF' : '000000';
+        $borderColor = 'FFFFFF';
 
         $this->image->add(new SquareAsset($this->image, new DoubleCoordinateColorStrokeCommandOption($x - 1, $y - 1, $x + $originalWidth, $y + $originalHeight, 0, $borderColor)));
         $this->image->add(new ImageAsset($this->image, new SingleCoordinateFileObjectCommandOption($originalImg, $x, $y)));
