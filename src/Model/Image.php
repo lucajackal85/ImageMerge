@@ -311,7 +311,7 @@ class Image
      */
     public function isVertical()
     {
-        return $this->getAspectRatio() < 0;
+        return $this->getAspectRatio() < 1;
     }
 
     /**
@@ -319,7 +319,7 @@ class Image
      */
     public function isHorizontal()
     {
-        return $this->getAspectRatio() > 0;
+        return $this->getAspectRatio() > 1;
     }
 
     /**
@@ -327,6 +327,6 @@ class Image
      */
     public function isSquare()
     {
-        return $this->getAspectRatio() == 0;
+        return $this->getAspectRatio() == 1;
     }
 }
