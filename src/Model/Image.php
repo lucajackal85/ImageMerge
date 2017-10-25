@@ -171,10 +171,9 @@ class Image
      * @param $y2
      * @param $x3
      * @param $y3
-     * @param array ...$points
      * @return Image
      */
-    public function cropPolygon($x1, $y1, $x2, $y2, $x3, $y3, ...$points)
+    public function cropPolygon($x1, $y1, $x2, $y2, $x3, $y3)
     {
         $points = func_get_args();
         $coords = [];
