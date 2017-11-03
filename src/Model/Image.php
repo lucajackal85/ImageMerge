@@ -75,6 +75,22 @@ class Image
         return $image;
     }
 
+    public static function fromString($contentString)
+    {
+        $file = sys_get_temp_dir().'/'.uniqid('tmp_');
+        $o = new \SplFileObject($file, 'wb+');
+        $o->fwrite($contentString);
+
+        $resource = ImageReader::fromPathname($o);
+
+        $image = new self(imagesx($resource->getResource()), imagesy($resource->getResource()));
+        $image->add(new ImageAsset($image, new SingleCoordinateFileObjectCommandOption($o, 0, 0)));
+
+        unlink($file);
+        return $image;
+
+    }
+
     /**
      * @param $resource
      * @return Image
@@ -127,13 +143,14 @@ class Image
         return $this->addCommand(TextCommand::class, new TextCommandOption($text, $font, $fontsize, $x, $y, $color));
     }
 
-    public function merge(Image $image,$x = 0,$y = 0){
-
+    public function merge(Image $image, $x = 0, $y = 0)
+    {
         $originalImgPath = sys_get_temp_dir().'/'.uniqid('tmp_');
         $image->toPNG($originalImgPath);
         $fileObject = new \SplFileObject($originalImgPath);
 
         $this->add(new ImageAsset($this, new SingleCoordinateFileObjectCommandOption($fileObject, $x, $y)));
+        unlink($originalImgPath);
     }
 
     /**
