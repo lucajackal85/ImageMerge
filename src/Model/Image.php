@@ -2,6 +2,7 @@
 
 namespace Jackal\ImageMerge\Model;
 
+use Jackal\ImageMerge\Command\AssetCommand;
 use Jackal\ImageMerge\Command\BlurCommand;
 use Jackal\ImageMerge\Command\BorderCommand;
 use Jackal\ImageMerge\Command\BrightnessCommand;
@@ -10,6 +11,7 @@ use Jackal\ImageMerge\Command\CropCenterCommand;
 use Jackal\ImageMerge\Command\CropCommand;
 use Jackal\ImageMerge\Command\CropPolygonCommand;
 use Jackal\ImageMerge\Command\GrayScaleCommand;
+use Jackal\ImageMerge\Command\Options\AssetCommandOption;
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
 use Jackal\ImageMerge\Command\Options\BorderCommandOption;
 use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
@@ -123,6 +125,15 @@ class Image
     public function addText($text, $font, $fontsize, $x, $y, $color = '000000')
     {
         return $this->addCommand(TextCommand::class, new TextCommandOption($text, $font, $fontsize, $x, $y, $color));
+    }
+
+    public function merge(Image $image,$x = 0,$y = 0){
+
+        $originalImgPath = sys_get_temp_dir().'/'.uniqid('tmp_');
+        $image->toPNG($originalImgPath);
+        $fileObject = new \SplFileObject($originalImgPath);
+
+        $this->add(new ImageAsset($this, new SingleCoordinateFileObjectCommandOption($fileObject, $x, $y)));
     }
 
     /**
