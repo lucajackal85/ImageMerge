@@ -18,10 +18,12 @@ use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
 use Jackal\ImageMerge\Command\Options\LevelCommandOption;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateCommandOption;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
+use Jackal\ImageMerge\Command\Options\TextCommandOption;
 use Jackal\ImageMerge\Command\PixelCommand;
 use Jackal\ImageMerge\Command\ResizeCommand;
 use Jackal\ImageMerge\Command\RotateCommand;
 use Jackal\ImageMerge\Command\Asset\ImageAsset;
+use Jackal\ImageMerge\Command\Text\TextCommand;
 use Jackal\ImageMerge\Command\ThumbnailCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
 use Jackal\ImageMerge\Model\Format\ImageReader;
@@ -116,6 +118,11 @@ class Image
     public function rotate($degree)
     {
         return $this->addCommand(RotateCommand::class, new LevelCommandOption($degree));
+    }
+
+    public function addText($text, $font, $fontsize, $x, $y, $color = '000000')
+    {
+        return $this->addCommand(TextCommand::class, new TextCommandOption($text, $font, $fontsize, $x, $y, $color));
     }
 
     /**
