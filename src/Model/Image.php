@@ -39,13 +39,19 @@ class Image
 
     private $resource;
 
-    public function __construct($width, $height)
+    public function __construct($width, $height,$transparent = true)
     {
         $this->width = $width;
         $this->height = $height;
 
         $resource = imagecreatetruecolor($this->width, $this->height);
         imagecolortransparent($resource);
+
+        if ($transparent) {
+            imagesavealpha($resource, true);
+            $color = imagecolorallocatealpha($resource, 0, 0, 0, 127);
+            imagefill($resource, 0, 0, $color);
+        }
 
         $this->resource= $resource;
     }
