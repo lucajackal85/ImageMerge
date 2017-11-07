@@ -133,9 +133,9 @@ class Image
         return $this->addCommand(RotateCommand::class, new LevelCommandOption($degree));
     }
 
-    public function addText(Text $text, $x, $y, $color = '000000')
+    public function addText(Text $text, $x, $y)
     {
-        return $this->addCommand(TextAssetCommand::class, new TextCommandOption($text, $x, $y, $color));
+        return $this->addCommand(TextAssetCommand::class, new TextCommandOption($text, $x, $y));
     }
 
     public function merge(Image $image, $x = 0, $y = 0)

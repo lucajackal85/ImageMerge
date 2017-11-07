@@ -20,8 +20,8 @@ class ImageTest extends TestCase
     public function testMergeFromString(){
 
         $image = Image::fromString(file_get_contents(__DIR__.'/Resources/image1.jpg'));
-        $text = new Text('questo è un testo',Font::arial(),16);
-        $image->addText($text,20,20,'000000');
+        $text = new Text('questo è un testo',Font::arial(),16,'000000');
+        $image->addText($text,20,20);
         $image->merge(Image::fromFile(new \SplFileObject(__DIR__.'/Resources/image2.jpg')),30,40);
 
         $this->compareImages($image,__DIR__.'/Resources/final_image.png');
@@ -31,8 +31,8 @@ class ImageTest extends TestCase
     public function testMergeFromFile(){
 
         $image = Image::fromFile(new\SplFileObject(__DIR__.'/Resources/image1.jpg'));
-        $text = new Text('questo è un testo',Font::arial(),16);
-        $image->addText($text,20,20,'000000');
+        $text = new Text('questo è un testo',Font::arial(),16,'000000');
+        $image->addText($text,20,20);
         $image->merge(Image::fromFile(new \SplFileObject(__DIR__.'/Resources/image2.jpg')),30,40);
 
         $this->compareImages($image,__DIR__.'/Resources/final_image.png');

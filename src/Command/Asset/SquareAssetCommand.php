@@ -9,14 +9,13 @@
 namespace Jackal\ImageMerge\Command\Asset;
 
 use Jackal\ImageMerge\Command\AbstractCommand;
-use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorStrokeCommandOption;
-use Jackal\ImageMerge\Utils\ColorUtils;
+use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorCommandOption;
 
 class SquareAssetCommand extends AbstractCommand
 {
     public function execute()
     {
-        /** @var DoubleCoordinateColorStrokeCommandOption $options */
+        /** @var DoubleCoordinateColorCommandOption $options */
         $options = $this->options;
 
         $color = imagecolorallocate($this->image->getResource(), $options->getColorRed(), $options->getColorGreen(), $options->getColorBlue());

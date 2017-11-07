@@ -13,9 +13,9 @@ use Jackal\ImageMerge\Model\Text\Text;
 
 class TextCommandOption extends SingleCoordinateColorCommandOption
 {
-    public function __construct(Text $text, $x1, $y1, $colorHex ='000000')
+    public function __construct(Text $text, $x1, $y1)
     {
-        parent::__construct($x1, $y1,$colorHex);
+        parent::__construct($x1, $y1,$text->getColor());
         $this->add('text', $text);
     }
 

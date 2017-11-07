@@ -9,10 +9,8 @@
 namespace Jackal\ImageMerge\Command\Effect;
 
 use Jackal\ImageMerge\Command\AbstractCommand;
-use Jackal\ImageMerge\Command\CommandInterface;
-use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
-use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorStrokeCommandOption;
+use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorCommandOption;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
 use Jackal\ImageMerge\Command\Asset\SquareAssetCommand;
@@ -64,7 +62,7 @@ class EffectBlurCentered extends AbstractCommand
 
         $borderColor = 'FFFFFF';
 
-        $this->image->addCommand(SquareAssetCommand::class, new DoubleCoordinateColorStrokeCommandOption($x - 1, $y - 1, $x + $originalWidth, $y + $originalHeight, 0, $borderColor));
+        $this->image->addCommand(SquareAssetCommand::class, new DoubleCoordinateColorCommandOption($x - 1, $y - 1, $x + $originalWidth, $y + $originalHeight, 0, $borderColor));
         $this->image->addCommand(ImageAssetCommand::class, new SingleCoordinateFileObjectCommandOption($originalImg, $x, $y));
 
         unlink($originalImg->getPathname());
