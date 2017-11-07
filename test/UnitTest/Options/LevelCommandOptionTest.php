@@ -28,4 +28,11 @@ class LevelCommandOptionTest extends TestCase
 
         $object->get('INVALID-KEY');
     }
+
+    public function testNotRaiseExceptionOnNullGetter(){
+
+        $object = new LevelCommandOption(null);
+
+        $this->assertNull($object->get('level'));
+    }
 }

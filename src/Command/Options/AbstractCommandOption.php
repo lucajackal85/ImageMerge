@@ -12,14 +12,14 @@ abstract class AbstractCommandOption implements CommandOptionInterface
 {
     protected $options = [];
 
-    protected function add($key, $value)
+    public function add($key, $value)
     {
         $this->options[$key] = $value;
     }
 
     public function get($key)
     {
-        if (!isset($this->options[$key])) {
+        if (!array_key_exists($key,$this->options)) {
             throw new \InvalidArgumentException(
                 sprintf('Key %s is not valid, available options are: %s',
                     $key,
