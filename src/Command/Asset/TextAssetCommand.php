@@ -11,7 +11,7 @@ namespace Jackal\ImageMerge\Command\Asset;
 use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\TextCommandOption;
 
-class TextAsset extends AbstractCommand
+class TextAssetCommand extends AbstractCommand
 {
     public function execute()
     {
@@ -24,7 +24,7 @@ class TextAsset extends AbstractCommand
             $options->getColorBlue()
         );
 
-        imagettftext($this->image->getResource(), $options->getFontSize(), 0, $options->getX1(), $options->getY1(), $color, $options->getFont(), $options->getText());
+        imagettftext($this->image->getResource(), $options->getText()->getFontSize() * 0.75, 0, $options->getX1(), $options->getY1(), $color, $options->getText()->getFont(), $options->getText()->getText());
         return $this->image->getResource();
     }
 }

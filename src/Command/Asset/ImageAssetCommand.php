@@ -19,13 +19,12 @@ use Jackal\ImageMerge\Model\Image;
  * Class ImageAsset
  * @package Jackal\ImageMerge\Model\Asset
  */
-class ImageAsset extends AbstractCommand
+class ImageAssetCommand extends AbstractCommand
 {
     public function __construct(Image $image, SingleCoordinateFileObjectCommandOption $options)
     {
         parent::__construct($image, $options);
     }
-
 
     protected function getResourceToApply()
     {

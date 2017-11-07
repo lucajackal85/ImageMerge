@@ -24,8 +24,11 @@ class Font
         ];
     }
 
-    private function __construct($fontPathname)
+    public function __construct($fontPathname)
     {
+        if(!is_file($fontPathname)){
+            throw new \Exception('Font file not found at path '.$fontPathname);
+        }
         $this->fontPathname =  $fontPathname;
     }
 

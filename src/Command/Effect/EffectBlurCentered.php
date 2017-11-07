@@ -14,19 +14,24 @@ use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
 use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorStrokeCommandOption;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
-use Jackal\ImageMerge\Command\Asset\ImageAsset;
-use Jackal\ImageMerge\Command\Asset\SquareAsset;
+use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
+use Jackal\ImageMerge\Command\Asset\SquareAssetCommand;
 use Jackal\ImageMerge\Model\Image;
 
 class EffectBlurCentered extends AbstractCommand
 {
+    /**
+     * EffectBlurCentered constructor.
+     * @param Image $image
+     * @param DimensionCommandOption $options
+     */
     public function __construct(Image $image, DimensionCommandOption $options)
     {
         parent::__construct($image, $options);
     }
 
     /**
-     * @return mixed
+     * @return Image
      */
     public function execute()
     {
@@ -59,14 +64,18 @@ class EffectBlurCentered extends AbstractCommand
 
         $borderColor = 'FFFFFF';
 
-        $this->image->add(new SquareAsset($this->image, new DoubleCoordinateColorStrokeCommandOption($x - 1, $y - 1, $x + $originalWidth, $y + $originalHeight, 0, $borderColor)));
-        $this->image->add(new ImageAsset($this->image, new SingleCoordinateFileObjectCommandOption($originalImg, $x, $y)));
+        $this->image->addCommand(SquareAssetCommand::class, new DoubleCoordinateColorStrokeCommandOption($x - 1, $y - 1, $x + $originalWidth, $y + $originalHeight, 0, $borderColor));
+        $this->image->addCommand(ImageAssetCommand::class, new SingleCoordinateFileObjectCommandOption($originalImg, $x, $y));
 
         unlink($originalImg->getPathname());
 
         return $this->image;
     }
 
+    /**
+     * @param Image $image
+     * @return \SplFileObject
+     */
     private function saveImage(Image $image)
     {
         $originalImgPath = sys_get_temp_dir().'/'.uniqid('tmp_');

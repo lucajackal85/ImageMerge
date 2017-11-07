@@ -12,7 +12,7 @@ use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorCommandOption;
 use Jackal\ImageMerge\Utils\ColorUtils;
 
-class LineAsset extends AbstractCommand
+class LineAssetCommand extends AbstractCommand
 {
     public function execute()
     {

@@ -2,16 +2,14 @@
 
 namespace Jackal\ImageMerge\Model;
 
-use Jackal\ImageMerge\Command\AssetCommand;
+use Jackal\ImageMerge\Command\Asset\TextAssetCommand;
 use Jackal\ImageMerge\Command\BlurCommand;
 use Jackal\ImageMerge\Command\BorderCommand;
 use Jackal\ImageMerge\Command\BrightnessCommand;
-use Jackal\ImageMerge\Command\CommandInterface;
 use Jackal\ImageMerge\Command\CropCenterCommand;
 use Jackal\ImageMerge\Command\CropCommand;
 use Jackal\ImageMerge\Command\CropPolygonCommand;
 use Jackal\ImageMerge\Command\GrayScaleCommand;
-use Jackal\ImageMerge\Command\Options\AssetCommandOption;
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
 use Jackal\ImageMerge\Command\Options\BorderCommandOption;
 use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
@@ -24,12 +22,12 @@ use Jackal\ImageMerge\Command\Options\TextCommandOption;
 use Jackal\ImageMerge\Command\PixelCommand;
 use Jackal\ImageMerge\Command\ResizeCommand;
 use Jackal\ImageMerge\Command\RotateCommand;
-use Jackal\ImageMerge\Command\Asset\ImageAsset;
-use Jackal\ImageMerge\Command\Text\TextCommand;
+use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
 use Jackal\ImageMerge\Command\ThumbnailCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
+use Jackal\ImageMerge\Model\Text\Text;
 
 class Image
 {
@@ -61,10 +59,10 @@ class Image
      * @param CommandOptionInterface $options
      * @return Image
      */
-    protected function addCommand($className, CommandOptionInterface $options = null)
+    public function addCommand($className, CommandOptionInterface $options = null)
     {
         $command = CommandFactory::getInstance($className, $this, $options);
-        return $this->add($command);
+        return $command->execute();
     }
 
     /**
@@ -77,7 +75,7 @@ class Image
         $imageResource = $resource->getResource();
 
         $image = new self(imagesx($imageResource), imagesy($imageResource));
-        $image->add(new ImageAsset($image, new SingleCoordinateFileObjectCommandOption($filePathName, 0, 0)));
+        $image->addCommand(ImageAssetCommand::class,new SingleCoordinateFileObjectCommandOption($filePathName, 0, 0));
         return $image;
     }
 
@@ -90,7 +88,7 @@ class Image
         $resource = ImageReader::fromPathname($o);
 
         $image = new self(imagesx($resource->getResource()), imagesy($resource->getResource()));
-        $image->add(new ImageAsset($image, new SingleCoordinateFileObjectCommandOption($o, 0, 0)));
+        $image->addCommand(ImageAssetCommand::class,new SingleCoordinateFileObjectCommandOption($o, 0, 0));
 
         unlink($file);
         return $image;
@@ -105,15 +103,6 @@ class Image
     {
         $this->resource = $resource;
         return $this;
-    }
-
-    /**
-     * @param CommandInterface $command
-     * @return Image
-     */
-    public function add(CommandInterface $command)
-    {
-        return $command->execute();
     }
 
     /**
@@ -144,9 +133,9 @@ class Image
         return $this->addCommand(RotateCommand::class, new LevelCommandOption($degree));
     }
 
-    public function addText($text, $font, $fontsize, $x, $y, $color = '000000')
+    public function addText(Text $text, $x, $y, $color = '000000')
     {
-        return $this->addCommand(TextCommand::class, new TextCommandOption($text, $font, $fontsize, $x, $y, $color));
+        return $this->addCommand(TextAssetCommand::class, new TextCommandOption($text, $x, $y, $color));
     }
 
     public function merge(Image $image, $x = 0, $y = 0)
@@ -155,8 +144,9 @@ class Image
         $image->toPNG($originalImgPath);
         $fileObject = new \SplFileObject($originalImgPath);
 
-        $this->add(new ImageAsset($this, new SingleCoordinateFileObjectCommandOption($fileObject, $x, $y)));
-        unlink($originalImgPath);
+        $this->addCommand(ImageAssetCommand::class, new SingleCoordinateFileObjectCommandOption($fileObject, $x, $y));
+
+         unlink($originalImgPath);
     }
 
     /**

@@ -35,6 +35,6 @@ class CropCenterCommand extends AbstractCommand
         $x = ($width- $newWidth) / 2;
         $y = ($height - $newHeight) / 2;
 
-        $this->image->add(new CropCommand($this->image, new CropCommandOption($x, $y, $newWidth, $newHeight)));
+        $this->image->addCommand(CropCommand::class, new CropCommandOption($x, $y, $newWidth, $newHeight));
     }
 }

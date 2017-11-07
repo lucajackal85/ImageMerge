@@ -9,32 +9,18 @@
 namespace Jackal\ImageMerge\Command\Options;
 
 use Jackal\ImageMerge\Model\Font\Font;
+use Jackal\ImageMerge\Model\Text\Text;
 
 class TextCommandOption extends SingleCoordinateColorCommandOption
 {
-    public function __construct($text, Font $font, $fontSize, $x1, $y1, $colorHex ='000000')
+    public function __construct(Text $text, $x1, $y1, $colorHex ='000000')
     {
         parent::__construct($x1, $y1,$colorHex);
-        $this->add('font', $font);
         $this->add('text', $text);
-        $this->add('font_size', $fontSize);
     }
 
     public function getText()
     {
         return $this->get('text');
-    }
-
-    /**
-     * @return Font
-     */
-    public function getFont()
-    {
-        return $this->get('font');
-    }
-
-    public function getFontSize()
-    {
-        return $this->get('font_size');
     }
 }
