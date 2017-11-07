@@ -25,6 +25,8 @@ use Jackal\ImageMerge\Command\RotateCommand;
 use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
 use Jackal\ImageMerge\Command\ThumbnailCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
+use Jackal\ImageMerge\Model\File\File;
+use Jackal\ImageMerge\Model\File\FileInterface;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
 use Jackal\ImageMerge\Model\Text\Text;
@@ -66,10 +68,10 @@ class Image
     }
 
     /**
-     * @param \SplFileObject $filePathName
+     * @param FileInterface $filePathName
      * @return Image
      */
-    public static function fromFile(\SplFileObject $filePathName)
+    public static function fromFile(FileInterface $filePathName)
     {
         $resource = ImageReader::fromPathname($filePathName);
         $imageResource = $resource->getResource();
@@ -82,7 +84,7 @@ class Image
     public static function fromString($contentString)
     {
         $file = sys_get_temp_dir().'/'.uniqid('tmp_');
-        $o = new \SplFileObject($file, 'wb+');
+        $o = new File($file, 'wb+');
         $o->fwrite($contentString);
 
         $resource = ImageReader::fromPathname($o);
@@ -142,7 +144,7 @@ class Image
     {
         $originalImgPath = sys_get_temp_dir().'/'.uniqid('tmp_');
         $image->toPNG($originalImgPath);
-        $fileObject = new \SplFileObject($originalImgPath);
+        $fileObject = new File($originalImgPath);
 
         $this->addCommand(ImageAssetCommand::class, new SingleCoordinateFileObjectCommandOption($fileObject, $x, $y));
 

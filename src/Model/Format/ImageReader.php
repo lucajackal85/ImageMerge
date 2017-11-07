@@ -8,6 +8,9 @@
 
 namespace Jackal\ImageMerge\Model\Format;
 
+use Jackal\ImageMerge\Model\File\File;
+use Jackal\ImageMerge\Model\File\FileInterface;
+
 class ImageReader
 {
     private $resource;
@@ -15,11 +18,11 @@ class ImageReader
     private $format;
 
     /**
-     * @param \SplFileObject $filename
+     * @param FileInterface $filename
      * @return ImageReader
      * @throws \Exception
      */
-    public static function fromPathname(\SplFileObject $filename)
+    public static function fromPathname(FileInterface $filename)
     {
         $ir = new self();
         switch (exif_imagetype($filename->getPathname())) {
@@ -39,7 +42,7 @@ class ImageReader
                 break;
             }
             default: {
-                throw new \Exception(exif_imagetype($filename->getPathname()));
+                throw new \Exception(sprintf('File is not a valid image type [%s]',exif_imagetype($filename->getPathname())));
             }
         }
 
@@ -55,7 +58,7 @@ class ImageReader
         $path = sys_get_temp_dir().'/'.microtime();
         $h = fopen($path, 'w');
         fputs($h, $string);
-        return self::fromPathname(new \SplFileObject($path));
+        return self::fromPathname(new File($path));
     }
 
     /**

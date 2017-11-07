@@ -16,10 +16,7 @@ class SingleCoordinateFileObjectCommandOptionTest extends TestCase
 {
     public function testSingleCoordinateFileObjectCommandOptionObject(){
 
-        $mock = $this->getMockBuilder('SplFileObject')->setConstructorArgs(['php://memory'])->getMock();
-        $mock->expects($this->any())
-            ->method('eof')
-            ->will($this->onConsecutiveCalls(false, false, true));
+        $mock = $this->getMockBuilder('\Jackal\ImageMerge\Model\File\FileInterface')->disableOriginalConstructor()->getMock();
 
         $object = new SingleCoordinateFileObjectCommandOption($mock,10,20);
 
