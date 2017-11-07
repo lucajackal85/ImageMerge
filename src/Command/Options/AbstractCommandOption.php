@@ -12,7 +12,7 @@ abstract class AbstractCommandOption implements CommandOptionInterface
 {
     protected $options = [];
 
-    public function add($key, $value)
+    protected function add($key, $value)
     {
         $this->options[$key] = $value;
     }

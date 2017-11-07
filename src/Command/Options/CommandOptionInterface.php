@@ -10,8 +10,6 @@ namespace Jackal\ImageMerge\Command\Options;
 
 interface CommandOptionInterface
 {
-    public function add($key, $value);
-
     public function get($key);
 
     public function all();
