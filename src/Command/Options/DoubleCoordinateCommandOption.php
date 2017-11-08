@@ -8,32 +8,25 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
+use Jackal\ImageMerge\Model\Coordinate;
+
 class DoubleCoordinateCommandOption extends SingleCoordinateCommandOption
 {
     protected $x2;
 
     protected $y2;
 
-    public function __construct($x1, $y1, $x2, $y2)
+    public function __construct(Coordinate $coord1, Coordinate $coord2)
     {
-        parent::__construct($x1, $y1);
-        $this->add('x2', $x2);
-        $this->add('y2', $y2);
+        parent::__construct($coord1);
+        $this->add('coord2', $coord2);
     }
 
     /**
      * @return mixed
      */
-    public function getX2()
+    public function getCoordinate2()
     {
-        return $this->get('x2');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getY2()
-    {
-        return $this->get('y2');
+        return $this->get('coord2');
     }
 }

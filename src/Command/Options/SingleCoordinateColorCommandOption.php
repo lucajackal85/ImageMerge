@@ -9,13 +9,14 @@
 namespace Jackal\ImageMerge\Command\Options;
 
 use Jackal\ImageMerge\Model\Color;
+use Jackal\ImageMerge\Model\Coordinate;
 use Jackal\ImageMerge\Utils\ColorUtils;
 
 class SingleCoordinateColorCommandOption extends SingleCoordinateCommandOption
 {
-    public function __construct($x1, $y1, $colorHex)
+    public function __construct(Coordinate $coordinate, $colorHex)
     {
-        parent::__construct($x1, $y1);
+        parent::__construct($coordinate);
         $this->add('color', new Color($colorHex));
     }
 

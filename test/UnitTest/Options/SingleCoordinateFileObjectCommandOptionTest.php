@@ -10,6 +10,7 @@ namespace Jackal\ImageMerge\Test\Options;
 
 
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
+use Jackal\ImageMerge\Model\Coordinate;
 use PHPUnit\Framework\TestCase;
 
 class SingleCoordinateFileObjectCommandOptionTest extends TestCase
@@ -18,10 +19,10 @@ class SingleCoordinateFileObjectCommandOptionTest extends TestCase
 
         $mock = $this->getMockBuilder('\Jackal\ImageMerge\Model\File\FileInterface')->disableOriginalConstructor()->getMock();
 
-        $object = new SingleCoordinateFileObjectCommandOption($mock,10,20);
+        $object = new SingleCoordinateFileObjectCommandOption($mock,new Coordinate(10,20));
 
-        $this->assertEquals(10,$object->getX1());
-        $this->assertEquals(20,$object->getY1());
+        $this->assertEquals(10,$object->getCoordinate1()->getX());
+        $this->assertEquals(20,$object->getCoordinate1()->getY());
         $this->assertEquals($mock,$object->getFile());
 
     }

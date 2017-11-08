@@ -8,27 +8,20 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
+use Jackal\ImageMerge\Model\Coordinate;
+
 class SingleCoordinateCommandOption extends AbstractCommandOption
 {
-    public function __construct($x1, $y1)
+    public function __construct(Coordinate $coordinate)
     {
-        $this->add('x1', $x1);
-        $this->add('y1', $y1);
+        $this->add('coord1', $coordinate);
     }
 
     /**
-     * @return int
+     * @return Coordinate
      */
-    public function getX1()
+    public function getCoordinate1()
     {
-        return $this->get('x1');
-    }
-
-    /**
-     * @return int
-     */
-    public function getY1()
-    {
-        return $this->get('y1');
+        return $this->get('coord1');
     }
 }

@@ -11,6 +11,7 @@ namespace Jackal\ImageMerge\Test\Options;
 
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateCommandOption;
+use Jackal\ImageMerge\Model\Coordinate;
 use PHPUnit\Framework\TestCase;
 
 class MultiCoordinateCommandOptionTest extends TestCase
@@ -18,10 +19,10 @@ class MultiCoordinateCommandOptionTest extends TestCase
     public function testMultiCoordinateCommandOptionObject(){
 
         $object = new MultiCoordinateCommandOption([
-            new SingleCoordinateCommandOption(10,20),
-            new SingleCoordinateCommandOption(100,20),
-            new SingleCoordinateCommandOption(10,100),
-            new SingleCoordinateCommandOption(100,100)
+            new SingleCoordinateCommandOption(new Coordinate(10,20)),
+            new SingleCoordinateCommandOption(new Coordinate(100,20)),
+            new SingleCoordinateCommandOption(new Coordinate(10,100)),
+            new SingleCoordinateCommandOption(new Coordinate(100,100))
         ]);
 
         $this->assertEquals(10,$object->getCoordinates()[0]);

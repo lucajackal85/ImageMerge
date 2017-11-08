@@ -8,14 +8,15 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
+use Jackal\ImageMerge\Model\Coordinate;
 use Jackal\ImageMerge\Model\Font\Font;
 use Jackal\ImageMerge\Model\Text\Text;
 
 class TextCommandOption extends SingleCoordinateColorCommandOption
 {
-    public function __construct(Text $text, $x1, $y1)
+    public function __construct(Text $text, Coordinate $coordinate)
     {
-        parent::__construct($x1, $y1,$text->getColor());
+        parent::__construct($coordinate,$text->getColor());
         $this->add('text', $text);
     }
 
