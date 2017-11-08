@@ -11,6 +11,7 @@ namespace Jackal\ImageMerge\Command;
 use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
 use Jackal\ImageMerge\Command\Options\CropCommandOption;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
+use Jackal\ImageMerge\Model\Coordinate;
 use Jackal\ImageMerge\Model\Image;
 
 class CropCenterCommand extends AbstractCommand
@@ -35,6 +36,6 @@ class CropCenterCommand extends AbstractCommand
         $x = ($width- $newWidth) / 2;
         $y = ($height - $newHeight) / 2;
 
-        $this->image->addCommand(CropCommand::class, new CropCommandOption($x, $y, $newWidth, $newHeight));
+        $this->image->addCommand(CropCommand::class, new CropCommandOption(new Coordinate($x, $y), $newWidth, $newHeight));
     }
 }

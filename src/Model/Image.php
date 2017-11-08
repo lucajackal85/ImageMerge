@@ -136,10 +136,10 @@ class Image
         );
     }
 
-    public function addText(Text $text, $x, $y)
+    public function addText(Text $text, Coordinate $coordinate)
     {
         return $this->addCommand(TextAssetCommand::class,
-            new TextCommandOption($text, new Coordinate($x, $y))
+            new TextCommandOption($text, $coordinate)
         );
     }
 

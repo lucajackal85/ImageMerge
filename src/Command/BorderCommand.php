@@ -11,6 +11,7 @@ namespace Jackal\ImageMerge\Command;
 use Jackal\ImageMerge\Command\Options\BorderCommandOption;
 use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorCommandOption;
 use Jackal\ImageMerge\Command\Asset\LineAssetCommand;
+use Jackal\ImageMerge\Model\Coordinate;
 use Jackal\ImageMerge\Model\Image;
 
 class BorderCommand extends AbstractCommand
@@ -29,10 +30,9 @@ class BorderCommand extends AbstractCommand
             //top
             $this->image->addCommand(
                 LineAssetCommand::class,
-                    new DoubleCoordinateColorCommandOption(0,
-                        $i,
-                        $this->image->getWidth(),
-                        $i,
+                    new DoubleCoordinateColorCommandOption(
+                        new Coordinate(0, $i),
+                        new Coordinate($this->image->getWidth(), $i),
                         $options->getColors()
                     )
             );
@@ -40,10 +40,8 @@ class BorderCommand extends AbstractCommand
             $this->image->addCommand(
                 LineAssetCommand::class,
                     new DoubleCoordinateColorCommandOption(
-                        0,
-                        $this->image->getHeight() - $i - 1,
-                        $this->image->getWidth(),
-                        $this->image->getHeight() - $i - 1,
+                        new Coordinate(0, $this->image->getHeight() - $i - 1),
+                        new Coordinate($this->image->getWidth(), $this->image->getHeight() - $i - 1),
                         $options->getColors()
                 )
             );
@@ -51,10 +49,8 @@ class BorderCommand extends AbstractCommand
             $this->image->addCommand(
                 LineAssetCommand::class,
                     new DoubleCoordinateColorCommandOption(
-                        $this->image->getWidth() - $i -1,
-                        0,
-                        $this->image->getWidth() - $i -1,
-                        $this->image->getHeight(),
+                        new Coordinate($this->image->getWidth() - $i -1, 0),
+                        new Coordinate($this->image->getWidth() - $i -1, $this->image->getHeight()),
                         $options->getColors()
                 )
             );
@@ -62,10 +58,8 @@ class BorderCommand extends AbstractCommand
             $this->image->addCommand(
                 LineAssetCommand::class,
                     new DoubleCoordinateColorCommandOption(
-                        $i,
-                        0,
-                        $i,
-                        $this->image->getHeight(),
+                        new Coordinate($i, 0),
+                        new Coordinate($i, $this->image->getHeight()),
                         $options->getColors()
                     )
             );
