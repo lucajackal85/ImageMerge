@@ -54,8 +54,8 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
         $points = [];
         /** @var SingleCoordinateCommandOption $arg */
         foreach ($this->args as $arg) {
-            $points[] = $arg->getX1();
-            $points[] = $arg->getY1();
+            $points[] = $arg->getCoordinate1()->getX();
+            $points[] = $arg->getCoordinate1()->getY();
         }
 
         return $points;

@@ -79,7 +79,7 @@ class Image
         $imageResource = $resource->getResource();
 
         $image = new self(imagesx($imageResource), imagesy($imageResource));
-        $image->addCommand(ImageAssetCommand::class,new SingleCoordinateFileObjectCommandOption($filePathName, 0, 0));
+        $image->addCommand(ImageAssetCommand::class,new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
         return $image;
     }
 
@@ -90,7 +90,7 @@ class Image
         $resource = ImageReader::fromPathname($file);
 
         $image = new self(imagesx($resource->getResource()), imagesy($resource->getResource()));
-        $image->addCommand(ImageAssetCommand::class,new SingleCoordinateFileObjectCommandOption($file, 0, 0));
+        $image->addCommand(ImageAssetCommand::class,new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
 
         return $image;
 
@@ -131,19 +131,25 @@ class Image
      */
     public function rotate($degree)
     {
-        return $this->addCommand(RotateCommand::class, new LevelCommandOption($degree));
+        return $this->addCommand(RotateCommand::class,
+            new LevelCommandOption($degree)
+        );
     }
 
     public function addText(Text $text, $x, $y)
     {
-        return $this->addCommand(TextAssetCommand::class, new TextCommandOption($text, $x, $y));
+        return $this->addCommand(TextAssetCommand::class,
+            new TextCommandOption($text, new Coordinate($x, $y))
+        );
     }
 
     public function merge(Image $image, $x = 0, $y = 0)
     {
         $fileObject = FileTemp::fromString($image->toPNG());
 
-        $this->addCommand(ImageAssetCommand::class, new SingleCoordinateFileObjectCommandOption($fileObject, $x, $y));
+        $this->addCommand(ImageAssetCommand::class,
+            new SingleCoordinateFileObjectCommandOption($fileObject, new Coordinate($x, $y))
+        );
     }
 
     /**
@@ -152,7 +158,9 @@ class Image
      */
     public function pixelate($level)
     {
-        return $this->addCommand(PixelCommand::class, new LevelCommandOption($level));
+        return $this->addCommand(PixelCommand::class,
+            new LevelCommandOption($level)
+        );
     }
 
     /**
@@ -162,7 +170,9 @@ class Image
      */
     public function border($stroke, $colorHex = 'FFFFFF')
     {
-        return $this->addCommand(BorderCommand::class, new BorderCommandOption($stroke, $colorHex));
+        return $this->addCommand(BorderCommand::class,
+            new BorderCommandOption($stroke, $colorHex)
+        );
     }
 
     /**
@@ -172,12 +182,16 @@ class Image
      */
     public function cropCenter($width, $height)
     {
-        return $this->addCommand(CropCenterCommand::class, new DimensionCommandOption($width, $height));
+        return $this->addCommand(CropCenterCommand::class,
+            new DimensionCommandOption($width, $height)
+        );
     }
 
     public function brightness($level)
     {
-        return $this->addCommand(BrightnessCommand::class, new LevelCommandOption($level));
+        return $this->addCommand(BrightnessCommand::class,
+            new LevelCommandOption($level)
+        );
     }
 
     /**
@@ -189,7 +203,9 @@ class Image
      */
     public function crop($x, $y, $width, $height)
     {
-        return $this->addCommand(CropCommand::class, new CropCommandOption($x, $y, $width, $height));
+        return $this->addCommand(CropCommand::class,
+            new CropCommandOption(new Coordinate($x, $y), $width, $height)
+        );
     }
 
     /**
@@ -211,12 +227,14 @@ class Image
                 if (isset($points[$k + 1])) {
                     $x = $point;
                     $y = $points[$k + 1];
-                    $coords[] = new SingleCoordinateCommandOption($x, $y);
+                    $coords[] = new SingleCoordinateCommandOption(new Coordinate($x, $y));
                 }
             }
         }
 
-        return $this->addCommand(CropPolygonCommand::class, new MultiCoordinateCommandOption($coords));
+        return $this->addCommand(CropPolygonCommand::class,
+            new MultiCoordinateCommandOption($coords)
+        );
     }
 
     /**
@@ -226,7 +244,9 @@ class Image
      */
     public function thumbnail($width = null, $height = null)
     {
-        return $this->addCommand(ThumbnailCommand::class, new DimensionCommandOption($width, $height));
+        return $this->addCommand(ThumbnailCommand::class,
+            new DimensionCommandOption($width, $height)
+        );
     }
 
     /**

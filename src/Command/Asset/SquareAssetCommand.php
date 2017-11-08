@@ -20,6 +20,11 @@ class SquareAssetCommand extends AbstractCommand
         $options = $this->options;
 
         $color = ColorUtils::colorIdentifier($this->image->getResource(), $options->getColor());
-        imagefilledrectangle($this->image->getResource(), $options->getX1(), $options->getY1(), $options->getX2(), $options->getY2(), $color);
+        imagefilledrectangle($this->image->getResource(),
+            $options->getCoordinate1()->getX(),
+            $options->getCoordinate1()->getY(),
+            $options->getCoordinate2()->getX(),
+            $options->getCoordinate2()->getY(), $color
+        );
     }
 }

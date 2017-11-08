@@ -26,8 +26,8 @@ class CropCommand extends AbstractCommand
         /** @var CropCommandOption $options */
         $options = $this->options;
         $newImage = imagecrop($this->image->getResource(), [
-            'x' => $options->getX1(),
-            'y' => $options->getY1(),
+            'x' => $options->getCoordinate1()->getX(),
+            'y' => $options->getCoordinate1()->getY(),
             'width' => $options->getWidth(),
             'height' => $options->getHeight()
         ]);

@@ -47,7 +47,7 @@ class ImageAssetCommand extends AbstractCommand
         /** @var SingleCoordinateFileObjectCommandOption $options */
         $options = $this->options;
         imagecolortransparent($this->image->getResource());
-        imagecopyresampled($this->image->getResource(), $this->getResourceToApply(), $options->getX1(), $options->getY1(), 0, 0, $this->getWidth(), $this->getHeight(), $this->getWidth(), $this->getHeight());
+        imagecopyresampled($this->image->getResource(), $this->getResourceToApply(), $options->getCoordinate1()->getX(), $options->getCoordinate1()->getY(), 0, 0, $this->getWidth(), $this->getHeight(), $this->getWidth(), $this->getHeight());
         return $this->image->getResource();
     }
 }

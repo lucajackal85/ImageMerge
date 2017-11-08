@@ -23,7 +23,10 @@ class TextAssetCommand extends AbstractCommand
             $options->getColor()
         );
 
-        imagettftext($this->image->getResource(), $options->getText()->getFontSize() * 0.75, 0, $options->getX1(), $options->getY1(), $color, $options->getText()->getFont(), $options->getText()->getText());
+        imagettftext($this->image->getResource(), $options->getText()->getFontSize() * 0.75, 0,
+            $options->getCoordinate1()->getX(),
+            $options->getCoordinate1()->getY(),
+            $color, $options->getText()->getFont(), $options->getText()->getText());
         return $this->image->getResource();
     }
 }
