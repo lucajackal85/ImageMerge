@@ -28,7 +28,7 @@ class ImageAssetCommand extends AbstractCommand
 
     protected function getResourceToApply()
     {
-        $res = ImageReader::fromPathname($this->options->getFileObject());
+        $res = ImageReader::fromPathname($this->options->getFile());
         return $res->getResource();
     }
 

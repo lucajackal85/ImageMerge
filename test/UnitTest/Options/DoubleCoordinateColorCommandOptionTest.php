@@ -24,8 +24,8 @@ class DoubleCoordinateColorCommandOptionTest extends TestCase
         $this->assertEquals(100,$object->getX2());
         $this->assertEquals(100,$object->getY2());
 
-        $this->assertEquals(239,$object->getColorBlue());
-        $this->assertEquals(205,$object->getColorGreen());
-        $this->assertEquals(171,$object->getColorRed());
+        $this->assertEquals(239,$object->getColor()->blue());
+        $this->assertEquals(205,$object->getColor()->Green());
+        $this->assertEquals(171,$object->getColor()->red());
     }
 }

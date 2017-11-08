@@ -19,7 +19,7 @@ class SingleCoordinateFileObjectCommandOption extends SingleCoordinateCommandOpt
         $this->add('file_object', $imageObject);
     }
 
-    public function getFileObject()
+    public function getFile()
     {
         return $this->get('file_object');
     }

@@ -22,7 +22,7 @@ class SingleCoordinateFileObjectCommandOptionTest extends TestCase
 
         $this->assertEquals(10,$object->getX1());
         $this->assertEquals(20,$object->getY1());
-        $this->assertEquals($mock,$object->getFileObject());
+        $this->assertEquals($mock,$object->getFile());
 
     }
 }

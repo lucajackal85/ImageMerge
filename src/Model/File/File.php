@@ -11,4 +11,9 @@ namespace Jackal\ImageMerge\Model\File;
 class File extends \SplFileObject implements FileInterface
 {
 
+    public function getContents()
+    {
+        $this->seek(0);
+        return $this->fread($this->getSize());
+    }
 }

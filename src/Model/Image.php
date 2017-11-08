@@ -27,9 +27,11 @@ use Jackal\ImageMerge\Command\ThumbnailCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
 use Jackal\ImageMerge\Model\File\File;
 use Jackal\ImageMerge\Model\File\FileInterface;
+use Jackal\ImageMerge\Model\File\FileTemp;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
 use Jackal\ImageMerge\Model\Text\Text;
+use Jackal\ImageMerge\Utils\ColorUtils;
 
 class Image
 {
@@ -49,7 +51,7 @@ class Image
 
         if ($transparent) {
             imagesavealpha($resource, true);
-            $color = imagecolorallocatealpha($resource, 0, 0, 0, 127);
+            $color = ColorUtils::colorIdentifier($resource, new Color('000000'), true);
             imagefill($resource, 0, 0, $color);
         }
 
@@ -83,16 +85,13 @@ class Image
 
     public static function fromString($contentString)
     {
-        $file = sys_get_temp_dir().'/'.uniqid('tmp_');
-        $o = new File($file, 'wb+');
-        $o->fwrite($contentString);
+        $file = FileTemp::fromString($contentString);
 
-        $resource = ImageReader::fromPathname($o);
+        $resource = ImageReader::fromPathname($file);
 
         $image = new self(imagesx($resource->getResource()), imagesy($resource->getResource()));
-        $image->addCommand(ImageAssetCommand::class,new SingleCoordinateFileObjectCommandOption($o, 0, 0));
+        $image->addCommand(ImageAssetCommand::class,new SingleCoordinateFileObjectCommandOption($file, 0, 0));
 
-        unlink($file);
         return $image;
 
     }
@@ -142,13 +141,9 @@ class Image
 
     public function merge(Image $image, $x = 0, $y = 0)
     {
-        $originalImgPath = sys_get_temp_dir().'/'.uniqid('tmp_');
-        $image->toPNG($originalImgPath);
-        $fileObject = new File($originalImgPath);
+        $fileObject = FileTemp::fromString($image->toPNG());
 
         $this->addCommand(ImageAssetCommand::class, new SingleCoordinateFileObjectCommandOption($fileObject, $x, $y));
-
-         unlink($originalImgPath);
     }
 
     /**

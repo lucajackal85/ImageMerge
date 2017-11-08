@@ -15,6 +15,7 @@ use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
 use Jackal\ImageMerge\Command\Asset\SquareAssetCommand;
 use Jackal\ImageMerge\Model\File\File;
+use Jackal\ImageMerge\Model\File\FileTemp;
 use Jackal\ImageMerge\Model\Image;
 
 class EffectBlurCentered extends AbstractCommand
@@ -66,8 +67,6 @@ class EffectBlurCentered extends AbstractCommand
         $this->image->addCommand(SquareAssetCommand::class, new DoubleCoordinateColorCommandOption($x - 1, $y - 1, $x + $originalWidth, $y + $originalHeight, 0, $borderColor));
         $this->image->addCommand(ImageAssetCommand::class, new SingleCoordinateFileObjectCommandOption($originalImg, $x, $y));
 
-        unlink($originalImg->getPathname());
-
         return $this->image;
     }
 
@@ -77,8 +76,6 @@ class EffectBlurCentered extends AbstractCommand
      */
     private function saveImage(Image $image)
     {
-        $originalImgPath = sys_get_temp_dir().'/'.uniqid('tmp_');
-        $image->toPNG($originalImgPath);
-        return new File($originalImgPath);
+        return FileTemp::fromString($image->toPNG());
     }
 }

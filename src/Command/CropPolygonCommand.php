@@ -9,7 +9,9 @@
 namespace Jackal\ImageMerge\Command;
 
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
+use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\Image;
+use Jackal\ImageMerge\Utils\ColorUtils;
 
 class CropPolygonCommand extends AbstractCommand
 {
@@ -32,11 +34,11 @@ class CropPolygonCommand extends AbstractCommand
         imagecopyresampled($mergeImage, $this->image->getResource(), 0, 0, 0, 0, $this->image->getWidth(), $this->image->getHeight(), imagesx($this->image->getResource()), imagesy($this->image->getResource()));
 
         $maskPolygon = imagecreatetruecolor($this->image->getWidth(), $this->image->getHeight());
-        $borderColor = imagecolorallocate($maskPolygon, 1, 254, 255);
+        $borderColor = ColorUtils::colorIdentifier($maskPolygon, new Color('01feff'));
         imagefill($maskPolygon, 0, 0, $borderColor);
 
         // Add the transparent polygon mask
-        $transparency = imagecolortransparent($maskPolygon, imagecolorallocate($maskPolygon, 255, 1, 254));
+        $transparency = imagecolortransparent($maskPolygon, ColorUtils::colorIdentifier($maskPolygon, new Color('ff01fe')));
         imagesavealpha($maskPolygon, true);
         imagefilledpolygon($maskPolygon, $options->getCoordinates(), $options->countPoints(), $transparency);
 
@@ -54,9 +56,8 @@ class CropPolygonCommand extends AbstractCommand
             $this->image->getWidth(), $this->image->getHeight());
 
         // Make the the border transparent (we're assuming there's a 2px buffer on all sides)
-        $borderRGB = imagecolorallocate($destImage, 255, 1, 254);
-        $borderTransparency = imagecolorallocatealpha($destImage, 255,
-            1, $borderRGB['blue'], 127);
+
+        $borderTransparency = ColorUtils::colorIdentifier($destImage, new Color('ff01fe'), true);
         imagesavealpha($destImage, true);
         imagealphablending($destImage, true);
         imagefill($destImage, 0, 0, $borderTransparency);

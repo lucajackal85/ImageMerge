@@ -18,7 +18,7 @@ class LineAssetCommand extends AbstractCommand
     {
         /** @var DoubleCoordinateColorCommandOption $options */
         $options = $this->options;
-        $color = imagecolorallocate($this->image->getResource(), $options->getColorRed(), $options->getColorGreen(), $options->getColorBlue());
+        $color = ColorUtils::colorIdentifier($this->image->getResource(), $options->getColor());
         imageline($this->image->getResource(), $options->getX1(), $options->getY1(), $options->getX2(), $options->getY2(), $color);
     }
 }

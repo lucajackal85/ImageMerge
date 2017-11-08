@@ -25,9 +25,9 @@ class TextCommandOptionsTest extends TestCase
         $this->assertEquals(10,$object->getX1());
         $this->assertEquals(20,$object->getY1());
 
-        $this->assertEquals(239,$object->getColorBlue());
-        $this->assertEquals(205,$object->getColorGreen());
-        $this->assertEquals(171,$object->getColorRed());
+        $this->assertEquals(239,$object->getColor()->blue());
+        $this->assertEquals(205,$object->getColor()->Green());
+        $this->assertEquals(171,$object->getColor()->red());
 
     }
 }

@@ -25,19 +25,18 @@ class ImageReader
     public static function fromPathname(FileInterface $filename)
     {
         $ir = new self();
+        $ir->resource = imagecreatefromstring($filename->getContents());
+
         switch (exif_imagetype($filename->getPathname())) {
             case IMAGETYPE_PNG:{
-                $ir->resource = imagecreatefrompng($filename->getPathname());
                 $ir->format =  ImageFormat::PNG;
                 break;
             }
             case IMAGETYPE_JPEG:{
-                $ir->resource = imagecreatefromjpeg($filename->getPathname());
                 $ir->format = ImageFormat::JPG;
                 break;
             }
             case IMAGETYPE_GIF:{
-                $ir->resource = imagecreatefromgif($filename->getPathname());
                 $ir->format = ImageFormat::GIF;
                 break;
             }
@@ -55,10 +54,7 @@ class ImageReader
 
     public static function fromString($string)
     {
-        $path = sys_get_temp_dir().'/'.microtime();
-        $h = fopen($path, 'w');
-        fputs($h, $string);
-        return self::fromPathname(new File($path));
+        return self::fromPathname(File::fromString($string));
     }
 
     /**

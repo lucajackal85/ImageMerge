@@ -8,19 +8,22 @@
 
 namespace Jackal\ImageMerge\Utils;
 
+use Jackal\ImageMerge\Model\Color;
+use Jackal\ImageMerge\Model\Image;
+
 class ColorUtils
 {
     /**
-     * @param $colorHex
-     * @param null $part
-     * @return array
+     * @param $resource
+     * @param Color $color
+     * @param bool $alpha
+     * @return int
      */
-    public static function parseHex($colorHex)
-    {
-        return [
-            hexdec(substr($colorHex, 0, 2)),
-            hexdec(substr($colorHex, 2, 2)),
-            hexdec(substr($colorHex, 4, 2)),
-        ];
+    public static function colorIdentifier($resource,Color $color,$alpha = false){
+        if(!$alpha) {
+            return imagecolorallocate($resource, $color->red(), $color->green(), $color->blue());
+        }else{
+            return imagecolorallocatealpha($resource, $color->red(), $color->green(), $color->blue(), 127);
+        }
     }
 }

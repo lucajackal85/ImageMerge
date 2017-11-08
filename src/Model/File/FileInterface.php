@@ -11,4 +11,6 @@ namespace Jackal\ImageMerge\Model\File;
 interface FileInterface
 {
     public function getPathname();
+
+    public function getContents();
 }
