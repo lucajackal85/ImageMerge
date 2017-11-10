@@ -48,6 +48,8 @@ class ImageAssetCommand extends AbstractCommand
         $options = $this->options;
         imagecolortransparent($this->image->getResource());
         imagecopyresampled($this->image->getResource(), $this->getResourceToApply(), $options->getCoordinate1()->getX(), $options->getCoordinate1()->getY(), 0, 0, $this->getWidth(), $this->getHeight(), $this->getWidth(), $this->getHeight());
-        return $this->image->getResource();
+        $this->image->assignResource($this->image->getResource());
+
+        return $this->image;
     }
 }

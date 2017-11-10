@@ -27,5 +27,7 @@ class BrightnessCommand extends AbstractCommand
     public function execute()
     {
         imagefilter($this->image->getResource(), IMG_FILTER_BRIGHTNESS, $this->options->getLevel());
+
+        return $this->image;
     }
 }

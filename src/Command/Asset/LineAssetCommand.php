@@ -14,6 +14,9 @@ use Jackal\ImageMerge\Utils\ColorUtils;
 
 class LineAssetCommand extends AbstractCommand
 {
+    /**
+     * @return \Jackal\ImageMerge\Model\Image
+     */
     public function execute()
     {
         /** @var DoubleCoordinateColorCommandOption $options */
@@ -25,5 +28,7 @@ class LineAssetCommand extends AbstractCommand
             $options->getCoordinate2()->getX(),
             $options->getCoordinate2()->getY(), $color
         );
+
+        return $this->image;
     }
 }

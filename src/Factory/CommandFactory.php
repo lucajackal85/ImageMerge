@@ -21,7 +21,7 @@ class CommandFactory
      * @return CommandInterface
      * @throws \Exception
      */
-    public static function getInstance($className, Image $image, CommandOptionInterface $options)
+    public static function getInstance($className, Image $image, CommandOptionInterface $options = null)
     {
         if (!class_exists($className)) {
             throw new \Exception(sprintf('Class %s not found', $className));

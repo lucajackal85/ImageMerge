@@ -8,6 +8,7 @@
 
 namespace Jackal\ImageMerge\Command;
 
+use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\Options\BorderCommandOption;
 use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorCommandOption;
 use Jackal\ImageMerge\Command\Asset\LineAssetCommand;
@@ -27,8 +28,10 @@ class BorderCommand extends AbstractCommand
         $options = $this->options;
 
         for ($i=0;$i<$options->getStroke();$i++) {
-            //top
-            $this->image->addCommand(
+
+            $builder = ImageBuilder::fromImage($this->image);
+
+            $builder->addCommand(
                 LineAssetCommand::class,
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate(0, $i),
@@ -37,7 +40,7 @@ class BorderCommand extends AbstractCommand
                     )
             );
             //bottom
-            $this->image->addCommand(
+            $builder->addCommand(
                 LineAssetCommand::class,
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate(0, $this->image->getHeight() - $i - 1),
@@ -46,7 +49,7 @@ class BorderCommand extends AbstractCommand
                 )
             );
             //right
-            $this->image->addCommand(
+            $builder->addCommand(
                 LineAssetCommand::class,
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate($this->image->getWidth() - $i -1, 0),
@@ -55,7 +58,7 @@ class BorderCommand extends AbstractCommand
                 )
             );
             //left
-            $this->image->addCommand(
+            $builder->addCommand(
                 LineAssetCommand::class,
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate($i, 0),

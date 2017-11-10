@@ -2,35 +2,16 @@
 
 namespace Jackal\ImageMerge\Model;
 
-use Jackal\ImageMerge\Command\Asset\TextAssetCommand;
-use Jackal\ImageMerge\Command\BlurCommand;
-use Jackal\ImageMerge\Command\BorderCommand;
-use Jackal\ImageMerge\Command\BrightnessCommand;
-use Jackal\ImageMerge\Command\CropCenterCommand;
-use Jackal\ImageMerge\Command\CropCommand;
-use Jackal\ImageMerge\Command\CropPolygonCommand;
-use Jackal\ImageMerge\Command\GrayScaleCommand;
-use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
-use Jackal\ImageMerge\Command\Options\BorderCommandOption;
-use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
-use Jackal\ImageMerge\Command\Options\CropCommandOption;
-use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
-use Jackal\ImageMerge\Command\Options\LevelCommandOption;
-use Jackal\ImageMerge\Command\Options\SingleCoordinateCommandOption;
+use Jackal\ImageMerge\Builder\ImageBuilder;
+
+
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
-use Jackal\ImageMerge\Command\Options\TextCommandOption;
-use Jackal\ImageMerge\Command\PixelCommand;
-use Jackal\ImageMerge\Command\ResizeCommand;
-use Jackal\ImageMerge\Command\RotateCommand;
 use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
-use Jackal\ImageMerge\Command\ThumbnailCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
-use Jackal\ImageMerge\Model\File\File;
 use Jackal\ImageMerge\Model\File\FileInterface;
 use Jackal\ImageMerge\Model\File\FileTemp;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
-use Jackal\ImageMerge\Model\Text\Text;
 use Jackal\ImageMerge\Utils\ColorUtils;
 
 class Image
@@ -59,17 +40,6 @@ class Image
     }
 
     /**
-     * @param $className
-     * @param CommandOptionInterface $options
-     * @return Image
-     */
-    public function addCommand($className, CommandOptionInterface $options = null)
-    {
-        $command = CommandFactory::getInstance($className, $this, $options);
-        return $command->execute();
-    }
-
-    /**
      * @param FileInterface $filePathName
      * @return Image
      */
@@ -79,18 +49,23 @@ class Image
         $imageResource = $resource->getResource();
 
         $image = new self(imagesx($imageResource), imagesy($imageResource));
-        $image->addCommand(ImageAssetCommand::class,new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
+        $command = CommandFactory::getInstance(ImageAssetCommand::class,$image,new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
+        $command->execute();
         return $image;
     }
 
+    /**
+     * @param $contentString
+     * @return Image
+     */
     public static function fromString($contentString)
     {
         $file = FileTemp::fromString($contentString);
-
         $resource = ImageReader::fromPathname($file);
 
         $image = new self(imagesx($resource->getResource()), imagesy($resource->getResource()));
-        $image->addCommand(ImageAssetCommand::class,new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
+        $command = CommandFactory::getInstance(ImageAssetCommand::class,$image,new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
+        $command->execute();
 
         return $image;
 
@@ -107,157 +82,6 @@ class Image
     }
 
     /**
-     * @param $level
-     * @return Image
-     */
-    public function blur($level)
-    {
-        return $this->addCommand(BlurCommand::class, new LevelCommandOption($level));
-    }
-
-    /**
-     * @param $width
-     * @param $height
-     * @return Image
-     */
-    public function resize($width, $height)
-    {
-        return $this->addCommand(ResizeCommand::class, new DimensionCommandOption($width, $height));
-    }
-
-    /**
-     * @param $degree
-     * @return Image
-     */
-    public function rotate($degree)
-    {
-        return $this->addCommand(RotateCommand::class,
-            new LevelCommandOption($degree)
-        );
-    }
-
-    public function addText(Text $text, Coordinate $coordinate)
-    {
-        return $this->addCommand(TextAssetCommand::class,
-            new TextCommandOption($text, $coordinate)
-        );
-    }
-
-    public function merge(Image $image, $x = 0, $y = 0)
-    {
-        $fileObject = FileTemp::fromString($image->toPNG());
-
-        $this->addCommand(ImageAssetCommand::class,
-            new SingleCoordinateFileObjectCommandOption($fileObject, new Coordinate($x, $y))
-        );
-    }
-
-    /**
-     * @param $level
-     * @return Image
-     */
-    public function pixelate($level)
-    {
-        return $this->addCommand(PixelCommand::class,
-            new LevelCommandOption($level)
-        );
-    }
-
-    /**
-     * @param $stroke
-     * @param string $colorHex
-     * @return Image
-     */
-    public function border($stroke, $colorHex = 'FFFFFF')
-    {
-        return $this->addCommand(BorderCommand::class,
-            new BorderCommandOption($stroke, $colorHex)
-        );
-    }
-
-    /**
-     * @param $width
-     * @param $height
-     * @return Image
-     */
-    public function cropCenter($width, $height)
-    {
-        return $this->addCommand(CropCenterCommand::class,
-            new DimensionCommandOption($width, $height)
-        );
-    }
-
-    public function brightness($level)
-    {
-        return $this->addCommand(BrightnessCommand::class,
-            new LevelCommandOption($level)
-        );
-    }
-
-    /**
-     * @param $x
-     * @param $y
-     * @param $width
-     * @param $height
-     * @return Image
-     */
-    public function crop($x, $y, $width, $height)
-    {
-        return $this->addCommand(CropCommand::class,
-            new CropCommandOption(new Coordinate($x, $y), $width, $height)
-        );
-    }
-
-    /**
-     * @param $x1
-     * @param $y1
-     * @param $x2
-     * @param $y2
-     * @param $x3
-     * @param $y3
-     * @return Image
-     */
-    public function cropPolygon($x1, $y1, $x2, $y2, $x3, $y3)
-    {
-        $points = func_get_args();
-        $coords = [];
-
-        foreach ($points as $k => $point) {
-            if ($k == 0 or ($k %2) == 0) {
-                if (isset($points[$k + 1])) {
-                    $x = $point;
-                    $y = $points[$k + 1];
-                    $coords[] = new SingleCoordinateCommandOption(new Coordinate($x, $y));
-                }
-            }
-        }
-
-        return $this->addCommand(CropPolygonCommand::class,
-            new MultiCoordinateCommandOption($coords)
-        );
-    }
-
-    /**
-     * @param null $width
-     * @param null $height
-     * @return Image
-     */
-    public function thumbnail($width = null, $height = null)
-    {
-        return $this->addCommand(ThumbnailCommand::class,
-            new DimensionCommandOption($width, $height)
-        );
-    }
-
-    /**
-     * @return Image
-     */
-    public function grayScale()
-    {
-        return $this->addCommand(GrayScaleCommand::class, null);
-    }
-
-    /**
      * @param int|null $fromX
      * @param int|null $fromY
      * @param int|null $width
@@ -270,8 +94,9 @@ class Image
         $threshold = 60;
 
         if (!is_null($fromY) and !is_null($fromY) and !is_null($width) and !is_null($height)) {
-            $portion = clone $this;
-            $portion->crop($fromX, $fromY, $width, $height);
+            $builder = new ImageBuilder(clone $this);
+            $builder->crop($fromX, $fromY, $width, $height);
+            $portion = $builder->getImage();
         } else {
             $portion = $this;
         }

@@ -27,6 +27,6 @@ class TextAssetCommand extends AbstractCommand
             $options->getCoordinate1()->getX(),
             $options->getCoordinate1()->getY(),
             $color, $options->getText()->getFont(), $options->getText()->getText());
-        return $this->image->getResource();
+        return $this->image;
     }
 }
