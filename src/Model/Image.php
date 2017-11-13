@@ -94,7 +94,7 @@ class Image
         $threshold = 60;
 
         if (!is_null($fromY) and !is_null($fromY) and !is_null($width) and !is_null($height)) {
-            $builder = new ImageBuilder(clone $this);
+            $builder = ImageBuilder::fromImage(clone $this);
             $builder->crop($fromX, $fromY, $width, $height);
             $portion = $builder->getImage();
         } else {
