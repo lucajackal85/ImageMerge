@@ -3,14 +3,12 @@ ImageMerge
 ### Sample Usage
 
 ````
-$configuration = ImageConfiguration::fromFile(new SplFileObject('/var/www/image1.jpg'));
 
-$textConfiguration = TextAssetConfiguration::create(new Font(Font::FONT_ARIAL), 50, 'FFFFFF');
+$filePath = '/var/www/image.png';
 
-$configuration->addAsset(ImageAsset::fromFile(new SplFileObject('/var/www/asset1.png'), 100, 50));
-$configuration->addAsset(new TextAsset('Questa è una prova', $textConfiguration));
+$builder = ImageBuilder::fromFile(new File($filePath));
+$builder->crop(0,0,500,500);
+$builder->grayScale();
 
-$image = new Image($configuration);
-
-echo $image->dump();
+echo $builder->getImage()->toPNG()
 ````
