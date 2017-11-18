@@ -63,7 +63,7 @@ class ImageTest extends TestCase
 
         $builder->addCommand(EffectBlurCentered::class,new DimensionCommandOption(200,200));
 
-        $builder->getImage()->toPNG(__DIR__.'/test.png');
+        $this->compareImages($builder->getImage(),__DIR__.'/Resources/test.png');
 
     }
 

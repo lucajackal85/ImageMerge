@@ -25,4 +25,17 @@ class ExifTest extends TestCase
         $this->assertEquals(250,$image->getImage()->getMetadata()->getCameraISO());
         //$this->assertEquals(false,$image->getImage()->getMetadata()->getCameraFlash());
     }
+
+    public function testXMPData(){
+        $image = ImageBuilder::fromFile(new File(__DIR__.'/Resources/0.jpg'));
+        $this->assertEquals(
+            ['LAT Images&#xA;email: sales@latimages.com'],
+            $image->getImage()->getMetadata()->getXMP()['rights']
+        );
+
+        $this->assertEquals(
+            ['f1', 'formula 1', 'formula one', 'gp', 'Portrait', 'Helmets', 'Finish'],
+            $image->getImage()->getMetadata()->getXMP()['keywords']
+        );
+    }
 }
