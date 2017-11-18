@@ -31,6 +31,7 @@ use Jackal\ImageMerge\Command\PixelCommand;
 use Jackal\ImageMerge\Command\ResizeCommand;
 use Jackal\ImageMerge\Command\RotateCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
+use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\Coordinate;
 use Jackal\ImageMerge\Model\File\File;
 use Jackal\ImageMerge\Model\File\FileTemp;
@@ -68,6 +69,7 @@ class ImageBuilder
 
         $b = new self();
         $b->image = Image::fromFile($file);
+        $b->image->addMetadata(new Metadata($file));
 
         return $b;
     }

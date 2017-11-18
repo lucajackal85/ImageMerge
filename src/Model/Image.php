@@ -8,6 +8,7 @@ use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
+use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\File\FileInterface;
 use Jackal\ImageMerge\Model\File\FileTemp;
 use Jackal\ImageMerge\Model\Format\ImageReader;
@@ -21,6 +22,11 @@ class Image
     private $height;
 
     private $resource;
+
+    /**
+     * @var Metadata
+     */
+    private $metadata;
 
     public function __construct($width, $height,$transparent = true)
     {
@@ -200,5 +206,18 @@ class Image
     public function isSquare()
     {
         return $this->getAspectRatio() == 1;
+    }
+
+    public function addMetadata(Metadata $metadata){
+
+        $this->metadata = $metadata;
+    }
+
+    /**
+     * @return Metadata
+     */
+    public function getMetadata(){
+
+        return $this->metadata;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Jackal\ImageMerge;
 
+use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
 use Jackal\ImageMerge\Command\Asset\SquareAssetCommand;
 use Jackal\ImageMerge\Command\Asset\TextAssetCommand;
@@ -14,6 +15,7 @@ use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorStrokeCommandOption;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateCommandOption;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Factory\CommandFactory;
+use Jackal\ImageMerge\Model\Coordinate;
 use Jackal\ImageMerge\Model\File\File;
 use Jackal\ImageMerge\Model\Font\Font;
 use Jackal\ImageMerge\Model\Image;
@@ -25,21 +27,22 @@ if (!$_GET['raw']) {
     header('content-type: image/png');
 }
 
-$image = Image::fromFile(new File(__DIR__.'/image1.jpg'));
-//$image = new Image(500,500);
 
-$text = new Text('po',Font::arial(),30,'FFFFFF');
+
+//$image = new Image(500,500);
+$builder = ImageBuilder::fromFile(new File(__DIR__.'/test/FunctionalTest/Resources/0.jpg'));
+
+//$text = new Text('po',Font::arial(),30,'FFFFFF');
 //$text->fitToBox(100,100);
 
-$image->addCommand(SquareAssetCommand::class,new DoubleCoordinateColorCommandOption(0,0,$text->getWidth(),$text->getHeight(),1,'FFFFFF'));
+    //->crop(0,0,500,500)
+    //->addText($text,0,$text->getHeight())
+    //->thumbnail(200)
+    //->pixelate(20)
+    //->blur(10)
+    //->resize(100,100)
+    //->grayScale()
 
+//$builder->addCommand(EffectBlurCentered::class,new DimensionCommandOption(1920,1080));
 
-$image->addText($text,0,$text->getHeight());
-
-$image->thumbnail(200);
-$image->pixelate(20);
-$image->blur(10);
-
-$image->addCommand(EffectBlurCentered::class,new DimensionCommandOption(500,500));
-
-echo $image->toPNG();
+var_dump($builder->getImage()->getMetadata()->all());
