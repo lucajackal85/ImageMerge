@@ -29,16 +29,24 @@ class Text
     }
 
     /**
-     * @param $boxWidth
-     * @param $boxHeight
-     * @return $this
+     * @param null $boxWidth
+     * @param null $boxHeight
+     * @return Text
+     * @throws \Exception
      */
-    public function fitToBox($boxWidth, $boxHeight)
+    public function fitToBox($boxWidth = null, $boxHeight = null)
     {
+        if(is_null($boxWidth) and is_null($boxHeight)){
+            throw new \Exception('At least one dimension must be defined');
+        }
+
         $finalSize = 1;
-        for ($i=1;$i<=100;$i++) {
-            $textbox = imageftbbox($i * 0.75, 0, (string)$this->getFont(), $this->getText());
-            if($textbox[1] < $boxHeight and $textbox[2] < $boxWidth){
+        for ($i=1;$i<=1000;$i=$i+0.5) {
+            $textbox = imageftbbox(round($this->fontToPixel($i)), 0, (string)$this->getFont(), $this->getText());
+
+            $height = $textbox[1] + abs($textbox[7]);
+            $width = abs($textbox[2]) + $textbox[0];
+            if($height < $boxHeight or is_null($boxHeight) and ($width < $boxWidth or is_null($boxWidth))){
                 continue;
             }
             $finalSize = $i;
@@ -60,11 +68,15 @@ class Text
      * @return array
      */
     private function getBoundBox(){
-        $textbox = imageftbbox($this->size * 0.75, 0, (string)$this->getFont(), $this->getText());
+        $textbox = imageftbbox($this->fontToPixel($this->size), 0, (string)$this->getFont(), $this->getText());
         return [
-            'width' => abs($textbox[2]),
-            'height' => abs($textbox[7])
+            'width' => abs($textbox[2]) + $textbox[0],
+            'height' => $textbox[1] + abs($textbox[7])
         ];
+    }
+
+    private function fontToPixel($size){
+        return round($size * 0.75);
     }
 
     /**

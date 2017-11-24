@@ -154,7 +154,7 @@ class ImageBuilder
             new DoubleCoordinateColorCommandOption(
                 new Coordinate($x1,$y1),
                 new Coordinate($x2,$y2),
-                1,$color)
+                $color)
         );
 
     }
