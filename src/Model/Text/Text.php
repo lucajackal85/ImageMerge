@@ -46,7 +46,7 @@ class Text
 
             $height = $textbox[1] + abs($textbox[7]);
             $width = abs($textbox[2]) + $textbox[0];
-            if($height < $boxHeight or is_null($boxHeight) and ($width < $boxWidth or is_null($boxWidth))){
+            if((($height < $boxHeight) or is_null($boxHeight)) and (($width < $boxWidth) or is_null($boxWidth))){
                 continue;
             }
             $finalSize = $i;
