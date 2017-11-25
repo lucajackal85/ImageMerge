@@ -6,22 +6,21 @@
  * Time: 15:05
  */
 
-namespace Jackal\ImageMerge\Utils;
+namespace Jackal\ImageMerge\Metadata\Parser;
 
 
 use Jackal\ImageMerge\Model\File\File;
 
-class XMPParser
+class XMPParser extends AbstractParser
 {
-    public static function parse(File $file){
-
-        $xmpParser = new self();
+    public function __construct(File $file){
 
         $content = $file->getContents();
 
         $xmp_data_start = strpos($content, '<x:xmpmeta');
         $xmp_data_end = strpos($content, '</x:xmpmeta>');
 
+        $xmp_data = '';
         if($xmp_data_start !== false) {
             $xmp_length = $xmp_data_end - $xmp_data_start;
             $xmp_data = substr($content, $xmp_data_start, $xmp_length + 12);
@@ -36,6 +35,13 @@ class XMPParser
                      'label'         => '<rdf:Description[^>]+?xmp:Label="([^"]*)"',
                      'credit'        => '<rdf:Description[^>]+?photoshop:Credit="([^"]*)"',
                      'source'        => '<rdf:Description[^>]+?photoshop:Source="([^"]*)"',
+                     'caption_writer'=> '<rdf:Description[^>]+?photoshop:CaptionWriter="([^"]*)"',
+
+                     'photomechanic_prefs'=> '<rdf:Description[^>]+?photomechanic:Prefs="([^"]*)"',
+                     'photomechanic_pm_version'=> '<rdf:Description[^>]+?photomechanic:PMVersion="([^"]*)"',
+                     'photomechanic_tagged'=> '<rdf:Description[^>]+?photomechanic:Tagged="([^"]*)"',
+                     'photomechanic_color_class'=> '<rdf:Description[^>]+?photomechanic:ColorClass="([^"]*)"',
+
                      'headline'      => '<rdf:Description[^>]+?photoshop:Headline="([^"]*)"',
                      'city'          => '<rdf:Description[^>]+?photoshop:City="([^"]*)"',
                      'state'         => '<rdf:Description[^>]+?photoshop:State="([^"]*)"',
@@ -55,30 +61,44 @@ class XMPParser
             // if string contains a list, then re-assign the variable as an array with the list elements
             $xmp_arr[$key] = preg_match_all( "/<rdf:li[^>]*>([^>]*)<\/rdf:li>/is", $xmp_arr[$key], $match ) ? $match[1] : $xmp_arr[$key];
 
-            $xmp_arr[$key] = $xmpParser->sanitizeChars($xmp_arr[$key]);
-
-            if($xmpParser->isDateTimeFormat($xmp_arr[$key])){
-                $xmp_arr[$key] = new \DateTime($xmp_arr[$key]);
-            }
-
-            $xmp_arr[$key] = $xmpParser->removeEmptyData($xmp_arr[$key]);
+            $this->data[$key] = $this->sanitizeChars($xmp_arr[$key]);
 
         }
 
-        return $xmp_arr;
-
     }
 
-    private function isDateTimeFormat($format){
-        if(is_string($format)){
-            preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\+[0-9]{2}:[0-9]{2}/',$format,$matches);
-
-            return count($matches) > 0;
-        }
-
-        return false;
+    public function getPhotoMechanic(){
+        return [
+            'prefs' => $this->getSingleValue('photomechanic_prefs'),
+            'pm_version' => $this->getSingleValue('photomechanic_pm_version'),
+            'tagged' => $this->getBooleanValue('photomechanic_tagged'),
+            'color_class' => $this->getSingleValue('photomechanic_color_class')
+        ];
     }
 
+    public function getCaptionWriter(){
+        return $this->getSingleValue('caption_writer');
+    }
+
+    public function getCreator(){
+        return $this->getSingleValue('creator');
+    }
+
+    public function getDescription(){
+        return $this->getSingleValue('description');
+    }
+
+    public function getCreationDateTime(){
+        return new \DateTime($this->getSingleValue('created_at'));
+    }
+
+    public function getKeywords(){
+        return $this->getValue('keywords');
+    }
+
+    public function getCopyrights(){
+        return $this->data['rights'];
+    }
 
     private function sanitizeChars($valueArr){
         if(is_array($valueArr)) {
@@ -90,10 +110,4 @@ class XMPParser
         return $valueArr;
     }
 
-    private function removeEmptyData($data){
-        if(is_string($data) and $data == ''){
-            return null;
-        }
-        return $data;
-    }
 }

@@ -82,6 +82,7 @@ class ImageBuilder
 
         $b = new self();
         $b->image = Image::fromString($contentString);
+        $b->image->addMetadata(new Metadata(FileTemp::fromString($contentString)));
 
         return $b;
     }

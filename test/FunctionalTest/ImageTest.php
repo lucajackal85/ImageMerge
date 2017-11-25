@@ -22,29 +22,6 @@ use PHPUnit\Framework\TestCase;
 class ImageTest extends TestCase
 {
 
-    public function testMergeFromString(){
-
-        $builder = ImageBuilder::fromString(file_get_contents(__DIR__.'/Resources/image1.jpg'));
-
-        $text = new Text('questo è un testo',Font::arial(),16,'000000');
-        $builder->addText($text,20,20);
-        $builder->merge(Image::fromFile(new File(__DIR__.'/Resources/image2.jpg')),30,40);
-
-        $this->compareImages($builder->getImage(),__DIR__.'/Resources/final_image.png');
-
-    }
-
-    public function testMergeFromFile(){
-
-        $builder = ImageBuilder::fromFile(new File(__DIR__.'/Resources/image1.jpg'));
-
-        $text = new Text('questo è un testo',Font::arial(),16,'000000');
-        $builder->addText($text,20,20);
-        $builder->merge(Image::fromFile(new File(__DIR__.'/Resources/image2.jpg')),30,40);
-
-        $this->compareImages($builder->getImage(),__DIR__.'/Resources/final_image.png');
-    }
-
     public function testAddEffects(){
         $builder = ImageBuilder::fromFile(new File(__DIR__.'/Resources/image1.jpg'));
         $builder
@@ -65,6 +42,15 @@ class ImageTest extends TestCase
 
         $this->compareImages($builder->getImage(),__DIR__.'/Resources/test.png');
 
+    }
+
+    public function testTrasparencyImage(){
+
+        $builder = ImageBuilder::fromFile(new File(__DIR__.'/Resources/image2.jpg'));
+        $builder->merge(Image::fromFile(new File(__DIR__.'/Resources/trasparent.png')));
+        $builder->crop(0,0,200,200);
+
+        $this->compareImages($builder->getImage(),__DIR__.'/Resources/test_trasparency.png');
     }
 
     private function compareImages(Image $image,$imagePathnameToCompare){
