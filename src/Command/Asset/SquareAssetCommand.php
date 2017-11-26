@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 09/09/17
- * Time: 11.59
- */
 
 namespace Jackal\ImageMerge\Command\Asset;
 
@@ -12,8 +6,15 @@ use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorCommandOption;
 use Jackal\ImageMerge\Utils\ColorUtils;
 
+/**
+ * Class SquareAssetCommand
+ * @package Jackal\ImageMerge\Command\Asset
+ */
 class SquareAssetCommand extends AbstractCommand
 {
+    /**
+     * @return \Jackal\ImageMerge\Model\Image
+     */
     public function execute()
     {
         /** @var DoubleCoordinateColorCommandOption $options */

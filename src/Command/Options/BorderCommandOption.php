@@ -1,28 +1,35 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 11/09/17
- * Time: 12.17
- */
 
 namespace Jackal\ImageMerge\Command\Options;
 
-use Jackal\ImageMerge\Utils\ColorUtils;
-
+/**
+ * Class BorderCommandOption
+ * @package Jackal\ImageMerge\Command\Options
+ */
 class BorderCommandOption extends AbstractCommandOption
 {
+    /**
+     * BorderCommandOption constructor.
+     * @param $stroke
+     * @param $color
+     */
     public function __construct($stroke, $color)
     {
         $this->add('stroke', $stroke);
         $this->add('color', $color);
     }
 
+    /**
+     * @return mixed
+     */
     public function getColors()
     {
         return $this->get('color');
     }
 
+    /**
+     * @return mixed
+     */
     public function getStroke()
     {
         return $this->get('stroke');

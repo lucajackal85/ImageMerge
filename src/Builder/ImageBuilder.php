@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 08/11/17
- * Time: 15.30
- */
 
 namespace Jackal\ImageMerge\Builder;
 
@@ -33,7 +27,7 @@ use Jackal\ImageMerge\Command\RotateCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
 use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\Coordinate;
-use Jackal\ImageMerge\Model\File\File;
+use Jackal\ImageMerge\Model\File\FileInterface;
 use Jackal\ImageMerge\Model\File\FileTemp;
 use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Model\Text\Text;
@@ -62,10 +56,10 @@ class ImageBuilder
     }
 
     /**
-     * @param File $file
+     * @param FileInterface $file
      * @return ImageBuilder
      */
-    public static function fromFile(File $file){
+    public static function fromFile(FileInterface $file){
 
         $b = new self();
         $b->image = Image::fromFile($file);

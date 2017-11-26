@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 30/08/17
- * Time: 16.43
- */
 
 namespace Jackal\ImageMerge\Command\Asset;
 
@@ -12,8 +6,15 @@ use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\TextCommandOption;
 use Jackal\ImageMerge\Utils\ColorUtils;
 
+/**
+ * Class TextAssetCommand
+ * @package Jackal\ImageMerge\Command\Asset
+ */
 class TextAssetCommand extends AbstractCommand
 {
+    /**
+     * @return \Jackal\ImageMerge\Model\Image
+     */
     public function execute()
     {
         /** @var TextCommandOption $options */

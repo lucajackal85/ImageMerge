@@ -1,18 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 11/09/17
- * Time: 17.15
- */
 
 namespace Jackal\ImageMerge\Command;
 
 use Jackal\ImageMerge\Command\Options\CropCommandOption;
 use Jackal\ImageMerge\Model\Image;
 
+/**
+ * Class CropCommand
+ * @package Jackal\ImageMerge\Command
+ */
 class CropCommand extends AbstractCommand
 {
+    /**
+     * CropCommand constructor.
+     * @param Image $image
+     * @param CropCommandOption $options
+     */
     public function __construct(Image $image, CropCommandOption $options)
     {
         parent::__construct($image, $options);

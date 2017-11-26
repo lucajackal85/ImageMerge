@@ -1,25 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 11/09/17
- * Time: 11.33
- */
 
 namespace Jackal\ImageMerge\Command\Options;
 
 use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\Coordinate;
-use Jackal\ImageMerge\Utils\ColorUtils;
 
+/**
+ * Class SingleCoordinateColorCommandOption
+ * @package Jackal\ImageMerge\Command\Options
+ */
 class SingleCoordinateColorCommandOption extends SingleCoordinateCommandOption
 {
+    /**
+     * SingleCoordinateColorCommandOption constructor.
+     * @param Coordinate $coordinate
+     * @param $colorHex
+     */
     public function __construct(Coordinate $coordinate, $colorHex)
     {
         parent::__construct($coordinate);
         $this->add('color', new Color($colorHex));
     }
 
+    /**
+     * @return mixed
+     */
     public function getColor(){
         return $this->get('color');
     }

@@ -1,18 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 31/08/17
- * Time: 15.04
- */
 
 namespace Jackal\ImageMerge\Exception;
 
-
-use Throwable;
-
+/**
+ * Class InvalidFontException
+ * @package Jackal\ImageMerge\Exception
+ */
 class InvalidFontException extends \Exception
 {
+    /**
+     * InvalidFontException constructor.
+     * @param string $fontPath
+     */
     public function __construct($fontPath)
     {
         parent::__construct($fontPath.' is not a valid font pathname');

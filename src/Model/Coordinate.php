@@ -1,18 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 07/11/17
- * Time: 22.18
- */
 
 namespace Jackal\ImageMerge\Model;
 
+/**
+ * Class Coordinate
+ * @package Jackal\ImageMerge\Model
+ */
 class Coordinate
 {
+    /**
+     * @var int
+     */
     private $x;
+
+    /**
+     * @var int
+     */
     private $y;
 
+    /**
+     * Coordinate constructor.
+     * @param $x
+     * @param $y
+     */
     public function __construct($x,$y)
     {
         $this->x = $x;

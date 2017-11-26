@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 09/09/17
- * Time: 10.05
- */
 
 namespace Jackal\ImageMerge\Command;
 
@@ -13,11 +7,19 @@ use Jackal\ImageMerge\Model\Image;
 
 class ResizeCommand extends AbstractCommand
 {
+    /**
+     * ResizeCommand constructor.
+     * @param Image $image
+     * @param DimensionCommandOption $options
+     */
     public function __construct(Image $image, DimensionCommandOption $options)
     {
         parent::__construct($image, $options);
     }
 
+    /**
+     * @return Image
+     */
     public function execute()
     {
         $width = $this->options->getWidth();

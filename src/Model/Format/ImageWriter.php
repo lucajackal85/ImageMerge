@@ -1,15 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 30/08/17
- * Time: 17.56
- */
 
 namespace Jackal\ImageMerge\Model\Format;
 
+/**
+ * Class ImageWriter
+ * @package Jackal\ImageMerge\Model\Format
+ */
 class ImageWriter
 {
+    /**
+     * @param $filePathName
+     * @throws \Exception
+     */
     private static function checkPermissions($filePathName)
     {
         $directory = dirname($filePathName);
@@ -22,7 +24,12 @@ class ImageWriter
             throw new \Exception(sprintf('Cannot write into directory: %s', $directory));
         }
     }
-    
+
+    /**
+     * @param $resource
+     * @param null $filePathName
+     * @return bool|string
+     */
     public static function toPNG($resource, $filePathName = null)
     {
         ob_start();
@@ -36,6 +43,11 @@ class ImageWriter
         return $content;
     }
 
+    /**
+     * @param $resource
+     * @param null $filePathName
+     * @return bool|string
+     */
     public static function toJPG($resource, $filePathName=null)
     {
         ob_start();
@@ -50,6 +62,11 @@ class ImageWriter
         return $content;
     }
 
+    /**
+     * @param $resource
+     * @param null $filePathName
+     * @return bool|string
+     */
     public static function toGIF($resource, $filePathName=null)
     {
         ob_start();

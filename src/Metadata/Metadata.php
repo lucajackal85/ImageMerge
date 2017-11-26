@@ -1,31 +1,47 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 10/11/17
- * Time: 9.15
- */
 
 namespace Jackal\ImageMerge\Metadata;
 
 use Jackal\ImageMerge\Metadata\Parser\ExifParser;
 use Jackal\ImageMerge\Metadata\Parser\IPTCParser;
 use Jackal\ImageMerge\Metadata\Parser\XMPParser;
-use Jackal\ImageMerge\Model\File\File;
+use Jackal\ImageMerge\Model\File\FileInterface;
 
+/**
+ * Class Metadata
+ * @package Jackal\ImageMerge\Metadata
+ */
 class Metadata
 {
+    /**
+     * @var ExifParser
+     */
     private $exif;
+
+    /**
+     * @var XMPParser
+     */
     private $xmp;
+
+    /**
+     * @var IPTCParser
+     */
     private $iptc;
 
-    public function __construct(File $file)
+    /**
+     * Metadata constructor.
+     * @param FileInterface $file
+     */
+    public function __construct(FileInterface $file)
     {
         $this->exif = new ExifParser($file);
         $this->xmp = new XMPParser($file);
         $this->iptc = new IPTCParser($file);
     }
 
+    /**
+     * @return ExifParser
+     */
     public function getExif(){
         return $this->exif;
     }
@@ -37,9 +53,10 @@ class Metadata
         return $this->xmp;
     }
 
+    /**
+     * @return IPTCParser
+     */
     public function getIPTC(){
         return $this->iptc;
     }
-
-
 }

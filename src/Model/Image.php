@@ -15,12 +15,25 @@ use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
 use Jackal\ImageMerge\Utils\ColorUtils;
 
+/**
+ * Class Image
+ * @package Jackal\ImageMerge\Model
+ */
 class Image
 {
+    /**
+     * @var integer
+     */
     private $width;
 
+    /**
+     * @var integer
+     */
     private $height;
 
+    /**
+     * @var resource
+     */
     private $resource;
 
     /**

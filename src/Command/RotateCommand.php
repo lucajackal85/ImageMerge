@@ -1,23 +1,29 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 09/09/17
- * Time: 9.38
- */
 
 namespace Jackal\ImageMerge\Command;
 
 use Jackal\ImageMerge\Command\Options\LevelCommandOption;
 use Jackal\ImageMerge\Model\Image;
 
+/**
+ * Class RotateCommand
+ * @package Jackal\ImageMerge\Command
+ */
 class RotateCommand extends AbstractCommand
 {
+    /**
+     * RotateCommand constructor.
+     * @param Image $image
+     * @param LevelCommandOption $options
+     */
     public function __construct(Image $image, LevelCommandOption $options)
     {
         parent::__construct($image, $options);
     }
 
+    /**
+     * @return Image
+     */
     public function execute()
     {
         $degree = $this->options->getLevel();

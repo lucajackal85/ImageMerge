@@ -1,17 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 25/11/17
- * Time: 00:29
- */
 
 namespace Jackal\ImageMerge\Metadata\Parser;
 
+use Jackal\ImageMerge\Model\File\FileInterface;
 
-use Jackal\ImageMerge\Metadata\Parser\ParserInterface;
-use Jackal\ImageMerge\Model\File\File;
-
+/**
+ * Class IPTCParser
+ * @package Jackal\ImageMerge\Metadata\Parser
+ */
 class IPTCParser extends AbstractParser
 {
 
@@ -42,20 +38,31 @@ class IPTCParser extends AbstractParser
     const CHARSET = '1#090';
     const KEYWORDS = '2#025';
 
-    public function __construct(File $file)
+    /**
+     * IPTCParser constructor.
+     * @param FileInterface $file
+     */
+    public function __construct(FileInterface $file)
     {
-        $buffer = iptcembed("",$file->getPathname(),0);
-        $size = getImageSize ($file->getPathname(), $info);
+        @iptcembed("",$file->getPathname(),0);
+        $info = null;
+        getimagesize($file->getPathname(), $info);
 
         if(isset($info['APP13'])){
             $this->data = iptcparse($info["APP13"]);
         }
     }
 
+    /**
+     * @return array|null|string
+     */
     public function getCategory(){
         return $this->getValue(self::CATEGORY);
     }
 
+    /**
+     * @return \DateTime|null
+     */
     public function getCreationDateTime(){
         if($this->getSingleValue(self::CREATION_DATE)) {
             $dt = trim($this->getSingleValue(self::CREATION_DATE) . ' ' . $this->getSingleValue(self::CREATION_TIME));
@@ -64,18 +71,30 @@ class IPTCParser extends AbstractParser
         return null;
     }
 
+    /**
+     * @return array|null|string
+     */
     public function getKeywords(){
         return $this->getValue(self::KEYWORDS);
     }
 
+    /**
+     * @return bool
+     */
     public function isUTF8(){
         return $this->getSingleValue(self::CHARSET) == "\x1B%G";
     }
 
+    /**
+     * @return null|string
+     */
     public function getCreator(){
         return $this->getSingleValue(self::CAPTION_WRITER);
     }
 
+    /**
+     * @return null|string
+     */
     public function getDescription(){
         return $this->getSingleValue(self::CAPTION);
     }
@@ -83,6 +102,4 @@ class IPTCParser extends AbstractParser
     public function getCopyrights(){
         return $this->getSingleValue(self::COPYRIGHT);
     }
-
-
 }

@@ -1,16 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 30/08/17
- * Time: 12.40
- */
 
 namespace Jackal\ImageMerge\Command\Asset;
 
 use Jackal\ImageMerge\Command\AbstractCommand;
-use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
-use Jackal\ImageMerge\Command\Options\SingleCoordinateCommandOption;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Image;
@@ -21,27 +13,44 @@ use Jackal\ImageMerge\Model\Image;
  */
 class ImageAssetCommand extends AbstractCommand
 {
+    /**
+     * ImageAssetCommand constructor.
+     * @param Image $image
+     * @param SingleCoordinateFileObjectCommandOption $options
+     */
     public function __construct(Image $image, SingleCoordinateFileObjectCommandOption $options)
     {
         parent::__construct($image, $options);
     }
 
+    /**
+     * @return resource
+     */
     protected function getResourceToApply()
     {
         $res = ImageReader::fromPathname($this->options->getFile());
         return $res->getResource();
     }
 
+    /**
+     * @return int
+     */
     protected function getWidth()
     {
         return imagesx($this->getResourceToApply());
     }
 
+    /**
+     * @return int
+     */
     protected function getHeight()
     {
         return imagesy($this->getResourceToApply());
     }
 
+    /**
+     * @return Image
+     */
     public function execute()
     {
         /** @var SingleCoordinateFileObjectCommandOption $options */

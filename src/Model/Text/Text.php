@@ -1,25 +1,42 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 07/11/17
- * Time: 10.34
- */
 
 namespace Jackal\ImageMerge\Model\Text;
 
 use Jackal\ImageMerge\Model\Font\Font;
 
+/**
+ * Class Text
+ * @package Jackal\ImageMerge\Model\Text
+ */
 class Text
 {
+    /**
+     * @var string
+     */
     private $text;
 
+    /**
+     * @var Font
+     */
     private $font;
 
+    /**
+     * @var int
+     */
     private $size;
 
+    /**
+     * @var string
+     */
     private $color;
 
+    /**
+     * Text constructor.
+     * @param $text
+     * @param Font $font
+     * @param $size
+     * @param $color
+     */
     public function __construct($text, Font $font, $size,$color)
     {
         $this->text = $text;
@@ -56,10 +73,16 @@ class Text
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getWidth(){
         return $this->getBoundBox()['width'];
     }
 
+    /**
+     * @return int
+     */
     public function getHeight(){
         return $this->getBoundBox()['height'];
     }
@@ -75,6 +98,10 @@ class Text
         ];
     }
 
+    /**
+     * @param $size
+     * @return float
+     */
     private function fontToPixel($size){
         return round($size * 0.75);
     }

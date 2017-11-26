@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 12/09/17
- * Time: 9.22
- */
 
 namespace Jackal\ImageMerge\Command;
 
@@ -13,8 +7,17 @@ use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Utils\ColorUtils;
 
+/**
+ * Class CropPolygonCommand
+ * @package Jackal\ImageMerge\Command
+ */
 class CropPolygonCommand extends AbstractCommand
 {
+    /**
+     * CropPolygonCommand constructor.
+     * @param Image $image
+     * @param MultiCoordinateCommandOption|null $options
+     */
     public function __construct(Image $image, MultiCoordinateCommandOption $options = null)
     {
         parent::__construct($image, $options);

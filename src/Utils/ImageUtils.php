@@ -1,13 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 08/09/17
- * Time: 17.47
- */
 
 namespace Jackal\ImageMerge\Utils;
 
+/**
+ * Class ImageUtils
+ * @package Jackal\ImageMerge\Utils
+ */
 class ImageUtils
 {
     /**

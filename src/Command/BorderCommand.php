@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 11/09/17
- * Time: 15.03
- */
 
 namespace Jackal\ImageMerge\Command;
 
@@ -15,13 +9,25 @@ use Jackal\ImageMerge\Command\Asset\LineAssetCommand;
 use Jackal\ImageMerge\Model\Coordinate;
 use Jackal\ImageMerge\Model\Image;
 
+/**
+ * Class BorderCommand
+ * @package Jackal\ImageMerge\Command
+ */
 class BorderCommand extends AbstractCommand
 {
+    /**
+     * BorderCommand constructor.
+     * @param Image $image
+     * @param BorderCommandOption $options
+     */
     public function __construct(Image $image, BorderCommandOption $options)
     {
         parent::__construct($image, $options);
     }
 
+    /**
+     * @return Image
+     */
     public function execute()
     {
         /** @var BorderCommandOption $options */

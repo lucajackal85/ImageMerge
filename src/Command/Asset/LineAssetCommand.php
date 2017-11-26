@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 09/09/17
- * Time: 0.15
- */
 
 namespace Jackal\ImageMerge\Command\Asset;
 
@@ -12,6 +6,10 @@ use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorCommandOption;
 use Jackal\ImageMerge\Utils\ColorUtils;
 
+/**
+ * Class LineAssetCommand
+ * @package Jackal\ImageMerge\Command\Asset
+ */
 class LineAssetCommand extends AbstractCommand
 {
     /**

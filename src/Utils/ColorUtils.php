@@ -1,16 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 09/09/17
- * Time: 12.19
- */
 
 namespace Jackal\ImageMerge\Utils;
 
 use Jackal\ImageMerge\Model\Color;
-use Jackal\ImageMerge\Model\Image;
 
+/**
+ * Class ColorUtils
+ * @package Jackal\ImageMerge\Utils
+ */
 class ColorUtils
 {
     /**

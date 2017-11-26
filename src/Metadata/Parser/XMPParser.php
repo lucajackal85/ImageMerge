@@ -1,19 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 19/11/17
- * Time: 15:05
- */
 
 namespace Jackal\ImageMerge\Metadata\Parser;
 
+use Jackal\ImageMerge\Model\File\FileInterface;
 
-use Jackal\ImageMerge\Model\File\File;
-
+/**
+ * Class XMPParser
+ * @package Jackal\ImageMerge\Metadata\Parser
+ */
 class XMPParser extends AbstractParser
 {
-    public function __construct(File $file){
+    /**
+     * XMPParser constructor.
+     * @param FileInterface $file
+     */
+    public function __construct(FileInterface $file){
 
         $content = $file->getContents();
 
@@ -67,6 +68,9 @@ class XMPParser extends AbstractParser
 
     }
 
+    /**
+     * @return array
+     */
     public function getPhotoMechanic(){
         return [
             'prefs' => $this->getSingleValue('photomechanic_prefs'),
@@ -76,30 +80,52 @@ class XMPParser extends AbstractParser
         ];
     }
 
+    /**
+     * @return null|string
+     */
     public function getCaptionWriter(){
         return $this->getSingleValue('caption_writer');
     }
 
+    /**
+     * @return null|string
+     */
     public function getCreator(){
         return $this->getSingleValue('creator');
     }
 
+    /**
+     * @return null|string
+     */
     public function getDescription(){
         return $this->getSingleValue('description');
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getCreationDateTime(){
         return new \DateTime($this->getSingleValue('created_at'));
     }
 
+    /**
+     * @return array|null|string
+     */
     public function getKeywords(){
         return $this->getValue('keywords');
     }
 
+    /**
+     * @return mixed
+     */
     public function getCopyrights(){
         return $this->data['rights'];
     }
 
+    /**
+     * @param $valueArr
+     * @return mixed
+     */
     private function sanitizeChars($valueArr){
         if(is_array($valueArr)) {
             foreach($valueArr as &$value) {
@@ -109,5 +135,4 @@ class XMPParser extends AbstractParser
 
         return $valueArr;
     }
-
 }

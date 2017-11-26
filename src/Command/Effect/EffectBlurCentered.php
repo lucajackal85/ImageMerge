@@ -1,25 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 08/09/17
- * Time: 15.39
- */
 
 namespace Jackal\ImageMerge\Command\Effect;
 
 use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
-use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorCommandOption;
-use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
-use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
-use Jackal\ImageMerge\Command\Asset\SquareAssetCommand;
-use Jackal\ImageMerge\Model\Coordinate;
 use Jackal\ImageMerge\Model\File\File;
 use Jackal\ImageMerge\Model\File\FileTemp;
 use Jackal\ImageMerge\Model\Image;
 
+/**
+ * Class EffectBlurCentered
+ * @package Jackal\ImageMerge\Command\Effect
+ */
 class EffectBlurCentered extends AbstractCommand
 {
     /**

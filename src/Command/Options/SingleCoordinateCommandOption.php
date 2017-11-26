@@ -1,17 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 09/09/17
- * Time: 18.21
- */
 
 namespace Jackal\ImageMerge\Command\Options;
 
 use Jackal\ImageMerge\Model\Coordinate;
 
+/**
+ * Class SingleCoordinateCommandOption
+ * @package Jackal\ImageMerge\Command\Options
+ */
 class SingleCoordinateCommandOption extends AbstractCommandOption
 {
+    /**
+     * SingleCoordinateCommandOption constructor.
+     * @param Coordinate $coordinate
+     */
     public function __construct(Coordinate $coordinate)
     {
         $this->add('coord1', $coordinate);

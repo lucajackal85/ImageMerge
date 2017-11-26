@@ -1,21 +1,25 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 31/08/17
- * Time: 14.59
- */
 
 namespace Jackal\ImageMerge\Model\Font;
 
 use Jackal\ImageMerge\Exception\InvalidFontException;
 
+/**
+ * Class Font
+ * @package Jackal\ImageMerge\Model\Font
+ */
 class Font
 {
     const FONT_ARIAL = 'arial';
 
+    /**
+     * @var string
+     */
     private $fontPathname;
 
+    /**
+     * @return array
+     */
     private static function getFonts()
     {
         $directory = dirname(__FILE__).'/../../Resources/Fonts/';
@@ -24,20 +28,31 @@ class Font
         ];
     }
 
+    /**
+     * Font constructor.
+     * @param $fontPathname
+     * @throws InvalidFontException
+     */
     public function __construct($fontPathname)
     {
         if(!is_file($fontPathname)){
-            throw new \Exception('Font file not found at path '.$fontPathname);
+            throw new InvalidFontException('Font file not found at path '.$fontPathname);
         }
         $this->fontPathname =  $fontPathname;
     }
 
+    /**
+     * @return Font
+     */
     public static function arial()
     {
         $fonts = Font::getFonts();
         return new Font($fonts[Font::FONT_ARIAL]);
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->fontPathname;

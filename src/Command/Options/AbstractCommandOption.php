@@ -1,22 +1,31 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 09/09/17
- * Time: 18.09
- */
 
 namespace Jackal\ImageMerge\Command\Options;
 
+/**
+ * Class AbstractCommandOption
+ * @package Jackal\ImageMerge\Command\Options
+ */
 abstract class AbstractCommandOption implements CommandOptionInterface
 {
+    /**
+     * @var array
+     */
     protected $options = [];
 
+    /**
+     * @param $key
+     * @param $value
+     */
     public function add($key, $value)
     {
         $this->options[$key] = $value;
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
     public function get($key)
     {
         if (!array_key_exists($key,$this->options)) {
@@ -31,6 +40,9 @@ abstract class AbstractCommandOption implements CommandOptionInterface
         return $this->options[$key];
     }
 
+    /**
+     * @return array
+     */
     public function all()
     {
         return $this->options;

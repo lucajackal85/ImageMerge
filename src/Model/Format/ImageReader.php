@@ -1,18 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 30/08/17
- * Time: 15.47
- */
 
 namespace Jackal\ImageMerge\Model\Format;
 
 use Jackal\ImageMerge\Model\File\File;
 use Jackal\ImageMerge\Model\File\FileInterface;
 
+/**
+ * Class ImageReader
+ * @package Jackal\ImageMerge\Model\Format
+ */
 class ImageReader
 {
+    const FORMAT_JPG = 'jpg';
+    const FORMAT_PNG = 'png';
+    const FORMAT_GIF = 'gif';
+
     private $resource;
 
     private $format;
@@ -29,15 +31,15 @@ class ImageReader
 
         switch (exif_imagetype($filename->getPathname())) {
             case IMAGETYPE_PNG:{
-                $ir->format =  ImageFormat::PNG;
+                $ir->format =  self::FORMAT_PNG;
                 break;
             }
             case IMAGETYPE_JPEG:{
-                $ir->format = ImageFormat::JPG;
+                $ir->format = self::FORMAT_JPG;
                 break;
             }
             case IMAGETYPE_GIF:{
-                $ir->format = ImageFormat::GIF;
+                $ir->format = self::FORMAT_GIF;
                 break;
             }
             default: {

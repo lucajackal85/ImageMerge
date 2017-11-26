@@ -1,17 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 25/11/17
- * Time: 00:28
- */
 
 namespace Jackal\ImageMerge\Metadata\Parser;
 
+use Jackal\ImageMerge\Model\File\FileInterface;
 
-use Jackal\ImageMerge\Model\File\File;
-
+/**
+ * Interface ParserInterface
+ * @package Jackal\ImageMerge\Metadata\Parser
+ */
 interface ParserInterface
 {
-    public function __construct(File $file);
+    /**
+     * ParserInterface constructor.
+     * @param FileInterface $file
+     */
+    public function __construct(FileInterface $file);
 }

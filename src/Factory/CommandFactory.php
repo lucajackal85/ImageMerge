@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 11/09/17
- * Time: 12.41
- */
 
 namespace Jackal\ImageMerge\Factory;
 
@@ -12,6 +6,10 @@ use Jackal\ImageMerge\Command\CommandInterface;
 use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
 use Jackal\ImageMerge\Model\Image;
 
+/**
+ * Class CommandFactory
+ * @package Jackal\ImageMerge\Factory
+ */
 class CommandFactory
 {
     /**

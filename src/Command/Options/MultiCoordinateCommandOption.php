@@ -1,13 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 12/09/17
- * Time: 9.30
- */
 
 namespace Jackal\ImageMerge\Command\Options;
 
+/**
+ * Class MultiCoordinateCommandOption
+ * @package Jackal\ImageMerge\Command\Options
+ */
 class MultiCoordinateCommandOption extends AbstractCommandOption
 {
     /**
@@ -61,36 +59,57 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
         return $points;
     }
 
+    /**
+     * @return int
+     */
     public function countPoints()
     {
         return count($this->args);
     }
 
+    /**
+     * @return mixed
+     */
     public function getMinX()
     {
         return min($this->getEvenValues());
     }
 
+    /**
+     * @return mixed
+     */
     public function getMinY()
     {
         return min($this->getOddValues());
     }
 
+    /**
+     * @return mixed
+     */
     public function getMaxX()
     {
         return max($this->getEvenValues());
     }
 
+    /**
+     * @return mixed
+     */
     public function getMaxY()
     {
         return max($this->getOddValues());
     }
 
+    /**
+     * @return mixed
+     */
     public function getCropWidth()
     {
         return $this->getMaxX() - $this->getMinX();
     }
 
+    /**
+     * @return mixed
+     */
     public function getCropHeight()
     {
         return $this->getMaxY() - $this->getMinY();
