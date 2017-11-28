@@ -1,6 +1,9 @@
 <?php
 
 namespace Jackal\ImageMerge\Model\Format;
+use Jackal\ImageMerge\Model\ImageContent\ImageGIFContent;
+use Jackal\ImageMerge\Model\ImageContent\ImageJPGContent;
+use Jackal\ImageMerge\Model\ImageContent\ImagePNGContent;
 
 /**
  * Class ImageWriter
@@ -28,7 +31,7 @@ class ImageWriter
     /**
      * @param $resource
      * @param null $filePathName
-     * @return bool|string
+     * @return bool|ImagePNGContent
      */
     public static function toPNG($resource, $filePathName = null)
     {
@@ -40,13 +43,13 @@ class ImageWriter
             ImageWriter::checkPermissions($filePathName);
             return file_put_contents($filePathName, $content)== true;
         }
-        return $content;
+        return new ImagePNGContent($content);
     }
 
     /**
      * @param $resource
      * @param null $filePathName
-     * @return bool|string
+     * @return bool|ImageJPGContent
      */
     public static function toJPG($resource, $filePathName=null)
     {
@@ -59,13 +62,13 @@ class ImageWriter
             ImageWriter::checkPermissions($filePathName);
             return file_put_contents($filePathName, $content) == true;
         }
-        return $content;
+        return new ImageJPGContent($content);
     }
 
     /**
      * @param $resource
      * @param null $filePathName
-     * @return bool|string
+     * @return bool|ImageGIFContent
      */
     public static function toGIF($resource, $filePathName=null)
     {
@@ -77,6 +80,6 @@ class ImageWriter
             ImageWriter::checkPermissions($filePathName);
             return file_put_contents($filePathName, $content) == true;
         }
-        return $content;
+        return new ImageGIFContent($content);
     }
 }
