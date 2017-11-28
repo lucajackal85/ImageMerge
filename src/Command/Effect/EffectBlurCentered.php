@@ -5,6 +5,7 @@ namespace Jackal\ImageMerge\Command\Effect;
 use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
+use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\File\File;
 use Jackal\ImageMerge\Model\File\FileTemp;
 use Jackal\ImageMerge\Model\Image;
@@ -59,7 +60,7 @@ class EffectBlurCentered extends AbstractCommand
         $x = round(($options->getWidth() - $originalWidth) / 2);
         $y = round(($options->getHeight() - $originalHeight) / 2);
 
-        $borderColor = 'FFFFFF';
+        $borderColor = Color::WHITE;
 
         $builder->addSquare($x - 1, $y - 1,$x + $originalWidth, $y + $originalHeight,$borderColor);
 

@@ -26,6 +26,7 @@ use Jackal\ImageMerge\Command\ResizeCommand;
 use Jackal\ImageMerge\Command\RotateCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
 use Jackal\ImageMerge\Metadata\Metadata;
+use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\Coordinate;
 use Jackal\ImageMerge\Model\File\FileInterface;
 use Jackal\ImageMerge\Model\File\FileTemp;
@@ -185,7 +186,7 @@ class ImageBuilder
      * @param string $colorHex
      * @return ImageBuilder
      */
-    public function border($stroke, $colorHex = 'FFFFFF')
+    public function border($stroke, $colorHex = Color::WHITE)
     {
         return $this->addCommand(BorderCommand::class,
             new BorderCommandOption($stroke, $colorHex)

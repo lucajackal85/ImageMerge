@@ -114,7 +114,7 @@ class ExifParser extends AbstractParser
      * @return null|string
      */
     public function getLensSpecification(){
-        return $this->getSingleValue('UndefinedTag:0xA432');
+        return $this->getValue('UndefinedTag:0xA432');
     }
 
     /**

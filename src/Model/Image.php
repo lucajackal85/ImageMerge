@@ -51,7 +51,7 @@ class Image
 
         if ($transparent) {
             imagesavealpha($resource, true);
-            $color = ColorUtils::colorIdentifier($resource, new Color('000000'), true);
+            $color = ColorUtils::colorIdentifier($resource, new Color(Color::BLACK), true);
             imagefill($resource, 0, 0, $color);
         }
 

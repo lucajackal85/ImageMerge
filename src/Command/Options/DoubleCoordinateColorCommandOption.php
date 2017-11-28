@@ -17,7 +17,7 @@ class DoubleCoordinateColorCommandOption extends DoubleCoordinateCommandOption
      * @param Coordinate $coordinate2
      * @param string $colorHex
      */
-    public function __construct(Coordinate $coordinate1, Coordinate $coordinate2, $colorHex = '000000')
+    public function __construct(Coordinate $coordinate1, Coordinate $coordinate2, $colorHex = Color::BLACK)
     {
         parent::__construct($coordinate1, $coordinate2);
         $this->add('color', new Color($colorHex));
