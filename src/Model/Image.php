@@ -13,6 +13,9 @@ use Jackal\ImageMerge\Model\File\FileInterface;
 use Jackal\ImageMerge\Model\File\FileTemp;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
+use Jackal\ImageMerge\Model\ImageContent\ImageGIFContent;
+use Jackal\ImageMerge\Model\ImageContent\ImageJPGContent;
+use Jackal\ImageMerge\Model\ImageContent\ImagePNGContent;
 use Jackal\ImageMerge\Utils\ColorUtils;
 
 /**
@@ -148,7 +151,7 @@ class Image
 
     /**
      * @param null $filePathName
-     * @return bool|string
+     * @return bool|ImagePNGContent
      */
     public function toPNG($filePathName = null)
     {
@@ -157,7 +160,7 @@ class Image
 
     /**
      * @param null $filePathName
-     * @return bool|string
+     * @return bool|ImageJPGContent
      */
     public function toJPG($filePathName = null)
     {
@@ -166,7 +169,7 @@ class Image
 
     /**
      * @param null $filePathName
-     * @return bool|string
+     * @return bool|ImageGIFContent
      */
     public function toGIF($filePathName = null)
     {

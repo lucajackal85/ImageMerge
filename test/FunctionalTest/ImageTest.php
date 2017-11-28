@@ -1,25 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 03/11/17
- * Time: 20.48
- */
 
 namespace Jackal\ImageMerge\Test\FunctionalTest;
-
 
 use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\Effect\EffectBlurCentered;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
-use Jackal\ImageMerge\Model\Coordinate;
 use Jackal\ImageMerge\Model\File\File;
 use Jackal\ImageMerge\Model\Font\Font;
 use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Model\Text\Text;
-use PHPUnit\Framework\TestCase;
 
-class ImageTest extends TestCase
+class ImageTest extends FunctionalTest
 {
 
     public function testAddEffects(){
@@ -40,7 +31,7 @@ class ImageTest extends TestCase
 
         $builder->addCommand(EffectBlurCentered::class,new DimensionCommandOption(200,200));
 
-        $this->compareImages($builder->getImage(),__DIR__.'/Resources/test.png');
+        $this->assertSameImage($builder->getImage(),__DIR__.'/Resources/test.png');
 
     }
 
@@ -50,11 +41,6 @@ class ImageTest extends TestCase
         $builder->merge(Image::fromFile(new File(__DIR__.'/Resources/trasparent.png')));
         $builder->crop(0,0,200,200);
 
-        $this->compareImages($builder->getImage(),__DIR__.'/Resources/test_trasparency.png');
-    }
-
-    private function compareImages(Image $image,$imagePathnameToCompare){
-
-        $this->assertEquals(file_get_contents($imagePathnameToCompare),$image->toPNG());
+        $this->assertSameImage($builder->getImage(),__DIR__.'/Resources/test_trasparency.png');
     }
 }

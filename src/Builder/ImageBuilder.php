@@ -10,6 +10,8 @@ use Jackal\ImageMerge\Command\BorderCommand;
 use Jackal\ImageMerge\Command\BrightnessCommand;
 use Jackal\ImageMerge\Command\CropCommand;
 use Jackal\ImageMerge\Command\CropPolygonCommand;
+use Jackal\ImageMerge\Command\FlipHorizontalCommand;
+use Jackal\ImageMerge\Command\FlipVerticalCommand;
 use Jackal\ImageMerge\Command\GrayScaleCommand;
 use Jackal\ImageMerge\Command\Options\BorderCommandOption;
 use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
@@ -122,6 +124,14 @@ class ImageBuilder
         return $this->addCommand(RotateCommand::class,
             new LevelCommandOption($degree)
         );
+    }
+
+    public function flipVertical(){
+        return $this->addCommand(FlipVerticalCommand::class);
+    }
+
+    public function flipHorizontal(){
+        return $this->addCommand(FlipHorizontalCommand::class);
     }
 
     /**
