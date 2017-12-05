@@ -173,7 +173,7 @@ class ImageBuilder
      */
     public function merge(Image $image, $x = 0, $y = 0)
     {
-        $fileObject = FileTemp::fromString($image->toPNG());
+        $fileObject = FileTemp::fromString($image->toPNG()->getBody());
 
         return $this->addCommand(ImageAssetCommand::class,
             new SingleCoordinateFileObjectCommandOption($fileObject, new Coordinate($x, $y))

@@ -75,6 +75,6 @@ class EffectBlurCentered extends AbstractCommand
      */
     private function saveImage(Image $image)
     {
-        return FileTemp::fromString($image->toPNG());
+        return FileTemp::fromString($image->toPNG()->getBody());
     }
 }

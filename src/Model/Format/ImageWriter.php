@@ -1,9 +1,8 @@
 <?php
 
 namespace Jackal\ImageMerge\Model\Format;
-use Jackal\ImageMerge\Model\ImageContent\ImageGIFContent;
-use Jackal\ImageMerge\Model\ImageContent\ImageJPGContent;
-use Jackal\ImageMerge\Model\ImageContent\ImagePNGContent;
+use Jackal\ImageMerge\Http\Message\ImageResponse;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class ImageWriter
@@ -31,7 +30,7 @@ class ImageWriter
     /**
      * @param $resource
      * @param null $filePathName
-     * @return bool|ImagePNGContent
+     * @return bool|ResponseInterface
      */
     public static function toPNG($resource, $filePathName = null)
     {
@@ -43,13 +42,16 @@ class ImageWriter
             ImageWriter::checkPermissions($filePathName);
             return file_put_contents($filePathName, $content)== true;
         }
-        return new ImagePNGContent($content);
+
+        return new ImageResponse($content,[
+            'content-type' => ['image/png']
+        ]);
     }
 
     /**
      * @param $resource
      * @param null $filePathName
-     * @return bool|ImageJPGContent
+     * @return bool|ResponseInterface
      */
     public static function toJPG($resource, $filePathName=null)
     {
@@ -62,13 +64,16 @@ class ImageWriter
             ImageWriter::checkPermissions($filePathName);
             return file_put_contents($filePathName, $content) == true;
         }
-        return new ImageJPGContent($content);
+
+        return new ImageResponse($content,[
+            'content-type' => ['image/jpg']
+        ]);
     }
 
     /**
      * @param $resource
      * @param null $filePathName
-     * @return bool|ImageGIFContent
+     * @return bool|ResponseInterface
      */
     public static function toGIF($resource, $filePathName=null)
     {
@@ -80,6 +85,9 @@ class ImageWriter
             ImageWriter::checkPermissions($filePathName);
             return file_put_contents($filePathName, $content) == true;
         }
-        return new ImageGIFContent($content);
+
+        return new ImageResponse($content,[
+            'content-type' => ['image/gif']
+        ]);
     }
 }

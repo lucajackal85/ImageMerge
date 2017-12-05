@@ -8,6 +8,7 @@ use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
+use Jackal\ImageMerge\Http\Message\ImageResponse;
 use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\File\FileInterface;
 use Jackal\ImageMerge\Model\File\FileTemp;
@@ -151,7 +152,7 @@ class Image
 
     /**
      * @param null $filePathName
-     * @return bool|ImagePNGContent
+     * @return bool|ImageResponse
      */
     public function toPNG($filePathName = null)
     {
@@ -160,7 +161,7 @@ class Image
 
     /**
      * @param null $filePathName
-     * @return bool|ImageJPGContent
+     * @return bool|ImageResponse
      */
     public function toJPG($filePathName = null)
     {
@@ -169,7 +170,7 @@ class Image
 
     /**
      * @param null $filePathName
-     * @return bool|ImageGIFContent
+     * @return bool|ImageResponse
      */
     public function toGIF($filePathName = null)
     {
