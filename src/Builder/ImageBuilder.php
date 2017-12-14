@@ -8,6 +8,7 @@ use Jackal\ImageMerge\Command\Asset\TextAssetCommand;
 use Jackal\ImageMerge\Command\BlurCommand;
 use Jackal\ImageMerge\Command\BorderCommand;
 use Jackal\ImageMerge\Command\BrightnessCommand;
+use Jackal\ImageMerge\Command\ContrastCommand;
 use Jackal\ImageMerge\Command\CropCommand;
 use Jackal\ImageMerge\Command\CropPolygonCommand;
 use Jackal\ImageMerge\Command\FlipHorizontalCommand;
@@ -25,6 +26,7 @@ use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\Options\TextCommandOption;
 use Jackal\ImageMerge\Command\PixelCommand;
 use Jackal\ImageMerge\Command\ResizeCommand;
+use Jackal\ImageMerge\Command\ResolutionCommand;
 use Jackal\ImageMerge\Command\RotateCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
 use Jackal\ImageMerge\Metadata\Metadata;
@@ -126,10 +128,16 @@ class ImageBuilder
         );
     }
 
+    /**
+     * @return ImageBuilder
+     */
     public function flipVertical(){
         return $this->addCommand(FlipVerticalCommand::class);
     }
 
+    /**
+     * @return ImageBuilder
+     */
     public function flipHorizontal(){
         return $this->addCommand(FlipHorizontalCommand::class);
     }
@@ -321,6 +329,15 @@ class ImageBuilder
     public function grayScale()
     {
         return $this->addCommand(GrayScaleCommand::class, null);
+    }
+
+    /**
+     * @param $level
+     * @return ImageBuilder
+     */
+    public function contrast($level){
+
+        return $this->addCommand(ContrastCommand::class,new LevelCommandOption($level));
     }
 
     /**

@@ -82,4 +82,8 @@ class Color
     {
         return $this->blue;
     }
+
+    public function rgb(){
+        return $this->red().$this->green().$this->blue();
+    }
 }
