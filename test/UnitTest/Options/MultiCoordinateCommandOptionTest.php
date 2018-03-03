@@ -19,10 +19,10 @@ class MultiCoordinateCommandOptionTest extends TestCase
     public function testMultiCoordinateCommandOptionObject(){
 
         $object = new MultiCoordinateCommandOption([
-            new SingleCoordinateCommandOption(new Coordinate(10,20)),
-            new SingleCoordinateCommandOption(new Coordinate(100,20)),
-            new SingleCoordinateCommandOption(new Coordinate(10,100)),
-            new SingleCoordinateCommandOption(new Coordinate(100,100))
+            new Coordinate(10,20),
+            new Coordinate(100,20),
+            new Coordinate(10,100),
+            new Coordinate(100,100)
         ]);
 
         $this->assertEquals(10,$object->getCoordinates()[0]);
