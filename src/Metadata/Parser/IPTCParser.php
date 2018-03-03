@@ -102,4 +102,20 @@ class IPTCParser extends AbstractParser
     public function getCopyrights(){
         return $this->getSingleValue(self::COPYRIGHT);
     }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'category' => $this->getCategory(),
+            'created_at' => $this->getCreationDateTime(),
+            'keywords' => $this->getKeywords(),
+            'utf8' => $this->isUTF8(),
+            'created_by' => $this->getCreator(),
+            'description' => $this->getDescription(),
+            'copyrights' => $this->getCopyrights(),
+        ];
+    }
 }

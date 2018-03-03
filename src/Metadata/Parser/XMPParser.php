@@ -135,4 +135,20 @@ class XMPParser extends AbstractParser
 
         return $valueArr;
     }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'photomechanic' => $this->getPhotoMechanic(),
+            'caption' => $this->getCaptionWriter(),
+            'created_by' => $this->getCreator(),
+            'description' => $this->getDescription(),
+            'created_at' => $this->getCreationDateTime(),
+            'keywords' => $this->getKeywords(),
+            'copyrights' => $this->getCopyrights(),
+        ];
+    }
 }

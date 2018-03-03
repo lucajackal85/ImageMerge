@@ -146,5 +146,36 @@ class ExifParser extends AbstractParser
     }
 
 
-
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'camera' => [
+                'make' => $this->getMake(),
+                'model' => $this->getModel(),
+                'serial_number' => $this->getCameraSerialNumber(),
+                'owner' => $this->getCameraOwnerName(),
+            ],
+            'exposure' => $this->getExposure(),
+            'exposure_compensation' => $this->getExposureCompensation(),
+            'flash' => $this->getFlash(),
+            'iso' => $this->getISO(),
+            'resolution' => [
+                'x' => $this->getResolutionX(),
+                'y' => $this->getResolutionY(),
+            ],
+            'focal_length' => $this->getFocalLength(),
+            'software' => $this->getSoftware(),
+            'lens' => [
+                'model' => $this->getLensModel(),
+                'serial_number' => $this->getLensSerialNumber(),
+                'specification' => $this->getLensSpecification(),
+            ],
+            'aperture' => $this->getApertureValue(),
+            'metering' => $this->getMeteringMode(),
+            'shutter' => $this->getShutterSpeed(),
+        ];
+    }
 }
