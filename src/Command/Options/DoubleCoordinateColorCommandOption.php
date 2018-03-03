@@ -16,6 +16,7 @@ class DoubleCoordinateColorCommandOption extends DoubleCoordinateCommandOption
      * @param Coordinate $coordinate1
      * @param Coordinate $coordinate2
      * @param string $colorHex
+     * @throws \Jackal\ImageMerge\Exception\InvalidColorException
      */
     public function __construct(Coordinate $coordinate1, Coordinate $coordinate2, $colorHex = Color::BLACK)
     {

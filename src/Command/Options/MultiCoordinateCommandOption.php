@@ -2,6 +2,8 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
+use Jackal\ImageMerge\Model\Coordinate;
+
 /**
  * Class MultiCoordinateCommandOption
  * @package Jackal\ImageMerge\Command\Options
@@ -9,7 +11,7 @@ namespace Jackal\ImageMerge\Command\Options;
 class MultiCoordinateCommandOption extends AbstractCommandOption
 {
     /**
-     * @var SingleCoordinateCommandOption[]
+     * @var Coordinate[]
      */
     private $args;
 
@@ -50,10 +52,10 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
     public function getCoordinates()
     {
         $points = [];
-        /** @var SingleCoordinateCommandOption $arg */
+        /** @var Coordinate $arg */
         foreach ($this->args as $arg) {
-            $points[] = $arg->getCoordinate1()->getX();
-            $points[] = $arg->getCoordinate1()->getY();
+            $points[] = $arg->getX();
+            $points[] = $arg->getY();
         }
 
         return $points;
