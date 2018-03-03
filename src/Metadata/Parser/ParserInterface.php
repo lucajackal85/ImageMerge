@@ -15,4 +15,9 @@ interface ParserInterface
      * @param FileInterface $file
      */
     public function __construct(FileInterface $file);
+
+    /**
+     * @return array
+     */
+    public function toArray();
 }
