@@ -32,8 +32,8 @@ use Jackal\ImageMerge\Factory\CommandFactory;
 use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\Coordinate;
-use Jackal\ImageMerge\Model\File\FileInterface;
-use Jackal\ImageMerge\Model\File\FileTemp;
+use Jackal\ImageMerge\Model\File\FileObjectInterface;
+use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Model\Text\Text;
 
@@ -61,10 +61,10 @@ class ImageBuilder
     }
 
     /**
-     * @param FileInterface $file
+     * @param FileObjectInterface $file
      * @return ImageBuilder
      */
-    public static function fromFile(FileInterface $file){
+    public static function fromFile(FileObjectInterface $file){
 
         $b = new self();
         $b->image = Image::fromFile($file);
@@ -81,7 +81,7 @@ class ImageBuilder
 
         $b = new self();
         $b->image = Image::fromString($contentString);
-        $b->image->addMetadata(new Metadata(FileTemp::fromString($contentString)));
+        $b->image->addMetadata(new Metadata(FileTempObject::fromString($contentString)));
 
         return $b;
     }
@@ -181,7 +181,7 @@ class ImageBuilder
      */
     public function merge(Image $image, $x = 0, $y = 0)
     {
-        $fileObject = FileTemp::fromString($image->toPNG()->getBody());
+        $fileObject = FileTempObject::fromString($image->toPNG()->getBody());
 
         return $this->addCommand(ImageAssetCommand::class,
             new SingleCoordinateFileObjectCommandOption($fileObject, new Coordinate($x, $y))

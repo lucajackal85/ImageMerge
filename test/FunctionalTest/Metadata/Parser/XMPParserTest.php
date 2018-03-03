@@ -9,14 +9,14 @@
 namespace Jackal\ImageMerge\Test\FunctionalTest\Metadata\Parser;
 
 use Jackal\ImageMerge\Metadata\Parser\XMPParser;
-use Jackal\ImageMerge\Model\File\File;
+use Jackal\ImageMerge\Model\File\FileObject;
 use PHPUnit\Framework\TestCase;
 
 class XMPParserTest extends TestCase
 {
 
     public function testXMPData(){
-        $xmp = new XMPParser(new File(__DIR__ . '/../../Resources/0.jpg'));
+        $xmp = new XMPParser(new FileObject(__DIR__ . '/../../Resources/0.jpg'));
         $xmpArray = $xmp->toArray();
 
         $this->assertEquals(["LAT Images\nemail: sales@latimages.com"], $xmp->getCopyrights());

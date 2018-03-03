@@ -8,7 +8,7 @@
 
 namespace Jackal\ImageMerge\Model\File;
 
-class File extends \SplFileObject implements FileInterface
+class FileObject extends \SplFileObject implements FileObjectInterface
 {
 
     public function getContents()

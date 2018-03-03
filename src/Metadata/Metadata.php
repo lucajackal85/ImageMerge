@@ -5,7 +5,7 @@ namespace Jackal\ImageMerge\Metadata;
 use Jackal\ImageMerge\Metadata\Parser\ExifParser;
 use Jackal\ImageMerge\Metadata\Parser\IPTCParser;
 use Jackal\ImageMerge\Metadata\Parser\XMPParser;
-use Jackal\ImageMerge\Model\File\FileInterface;
+use Jackal\ImageMerge\Model\File\FileObjectInterface;
 
 /**
  * Class Metadata
@@ -30,9 +30,9 @@ class Metadata
 
     /**
      * Metadata constructor.
-     * @param FileInterface $file
+     * @param FileObjectInterface $file
      */
-    public function __construct(FileInterface $file)
+    public function __construct(FileObjectInterface $file)
     {
         $this->exif = new ExifParser($file);
         $this->xmp = new XMPParser($file);

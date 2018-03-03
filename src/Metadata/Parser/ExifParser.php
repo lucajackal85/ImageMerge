@@ -2,7 +2,7 @@
 
 namespace Jackal\ImageMerge\Metadata\Parser;
 
-use Jackal\ImageMerge\Model\File\FileInterface;
+use Jackal\ImageMerge\Model\File\FileObjectInterface;
 
 /**
  * Class ExifParser
@@ -12,9 +12,9 @@ class ExifParser extends AbstractParser
 {
     /**
      * ExifParser constructor.
-     * @param FileInterface $file
+     * @param FileObjectInterface $file
      */
-    public function __construct(FileInterface $file){
+    public function __construct(FileObjectInterface $file){
 
         $this->data = @exif_read_data($file->getPathname());
     }

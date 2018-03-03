@@ -10,8 +10,8 @@ use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
 use Jackal\ImageMerge\Http\Message\ImageResponse;
 use Jackal\ImageMerge\Metadata\Metadata;
-use Jackal\ImageMerge\Model\File\FileInterface;
-use Jackal\ImageMerge\Model\File\FileTemp;
+use Jackal\ImageMerge\Model\File\FileObjectInterface;
+use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
 use Jackal\ImageMerge\Model\ImageContent\ImageGIFContent;
@@ -63,10 +63,10 @@ class Image
     }
 
     /**
-     * @param FileInterface $filePathName
+     * @param FileObjectInterface $filePathName
      * @return Image
      */
-    public static function fromFile(FileInterface $filePathName)
+    public static function fromFile(FileObjectInterface $filePathName)
     {
         $resource = ImageReader::fromPathname($filePathName);
         $imageResource = $resource->getResource();
@@ -83,7 +83,7 @@ class Image
      */
     public static function fromString($contentString)
     {
-        $file = FileTemp::fromString($contentString);
+        $file = FileTempObject::fromString($contentString);
         $resource = ImageReader::fromPathname($file);
 
         $image = new self(imagesx($resource->getResource()), imagesy($resource->getResource()));

@@ -2,7 +2,7 @@
 
 namespace Jackal\ImageMerge\Metadata\Parser;
 
-use Jackal\ImageMerge\Model\File\FileInterface;
+use Jackal\ImageMerge\Model\File\FileObjectInterface;
 
 /**
  * Interface ParserInterface
@@ -12,9 +12,9 @@ interface ParserInterface
 {
     /**
      * ParserInterface constructor.
-     * @param FileInterface $file
+     * @param FileObjectInterface $file
      */
-    public function __construct(FileInterface $file);
+    public function __construct(FileObjectInterface $file);
 
     /**
      * @return array

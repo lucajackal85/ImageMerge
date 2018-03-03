@@ -10,12 +10,12 @@ namespace Jackal\ImageMerge\Test\FunctionalTest;
 
 
 use Jackal\ImageMerge\Builder\ImageBuilder;
-use Jackal\ImageMerge\Model\File\File;
+use Jackal\ImageMerge\Model\File\FileObject;
 
 class FlipTest extends FunctionalTest
 {
     public function testFlipHorizontal(){
-        $builder = ImageBuilder::fromFile(new File(__DIR__.'/Resources/image1.jpg'));
+        $builder = ImageBuilder::fromFile(new FileObject(__DIR__.'/Resources/image1.jpg'));
 
         $builder->flipHorizontal();
 
@@ -23,7 +23,7 @@ class FlipTest extends FunctionalTest
     }
 
     public function testFlipVertical(){
-        $builder = ImageBuilder::fromFile(new File(__DIR__.'/Resources/image1.jpg'));
+        $builder = ImageBuilder::fromFile(new FileObject(__DIR__.'/Resources/image1.jpg'));
 
         $builder->flipVertical();
 

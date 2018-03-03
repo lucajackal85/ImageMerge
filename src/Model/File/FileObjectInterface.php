@@ -8,7 +8,7 @@
 
 namespace Jackal\ImageMerge\Model\File;
 
-interface FileInterface
+interface FileObjectInterface
 {
     public function getPathname();
 

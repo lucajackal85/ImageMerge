@@ -2,7 +2,7 @@
 
 namespace Jackal\ImageMerge\Metadata\Parser;
 
-use Jackal\ImageMerge\Model\File\FileInterface;
+use Jackal\ImageMerge\Model\File\FileObjectInterface;
 
 /**
  * Class IPTCParser
@@ -40,9 +40,9 @@ class IPTCParser extends AbstractParser
 
     /**
      * IPTCParser constructor.
-     * @param FileInterface $file
+     * @param FileObjectInterface $file
      */
-    public function __construct(FileInterface $file)
+    public function __construct(FileObjectInterface $file)
     {
         @iptcembed("",$file->getPathname(),0);
         $info = null;

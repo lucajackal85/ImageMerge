@@ -6,8 +6,8 @@ use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
 use Jackal\ImageMerge\Model\Color;
-use Jackal\ImageMerge\Model\File\File;
-use Jackal\ImageMerge\Model\File\FileTemp;
+use Jackal\ImageMerge\Model\File\FileObject;
+use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
 
 /**
@@ -71,10 +71,10 @@ class EffectBlurCentered extends AbstractCommand
 
     /**
      * @param Image $image
-     * @return File
+     * @return FileTempObject
      */
     private function saveImage(Image $image)
     {
-        return FileTemp::fromString($image->toPNG()->getBody());
+        return FileTempObject::fromString($image->toPNG()->getBody());
     }
 }

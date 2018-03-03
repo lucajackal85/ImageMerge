@@ -9,13 +9,13 @@
 namespace Jackal\ImageMerge\Test\FunctionalTest\Metadata\Parser;
 
 use Jackal\ImageMerge\Metadata\Parser\ExifParser;
-use Jackal\ImageMerge\Model\File\File;
+use Jackal\ImageMerge\Model\File\FileObject;
 use PHPUnit\Framework\TestCase;
 
 class ExifParserTest extends TestCase
 {
     public function testExifData(){
-        $exif = new ExifParser(new File(__DIR__ . '/../../Resources/0.jpg'));
+        $exif = new ExifParser(new FileObject(__DIR__ . '/../../Resources/0.jpg'));
         $exifArray = $exif->toArray();
 
         $this->assertEquals('Canon',$exif->getMake());

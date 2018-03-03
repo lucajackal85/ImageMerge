@@ -9,11 +9,11 @@
 namespace Jackal\ImageMerge\Model\File;
 
 
-class FileTemp extends File
+class FileTempObject extends FileObject
 {
     public static function fromString($content)
     {
-        $path = sys_get_temp_dir().'/'.uniqid('tmp_');
+        $path = Filename::createTempFilename();
 
         $o = new self($path, 'w+');
         $o->fwrite($content);

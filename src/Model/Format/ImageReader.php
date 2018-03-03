@@ -2,8 +2,7 @@
 
 namespace Jackal\ImageMerge\Model\Format;
 
-use Jackal\ImageMerge\Model\File\File;
-use Jackal\ImageMerge\Model\File\FileInterface;
+use Jackal\ImageMerge\Model\File\FileObjectInterface;
 
 /**
  * Class ImageReader
@@ -20,11 +19,11 @@ class ImageReader
     private $format;
 
     /**
-     * @param FileInterface $filename
+     * @param FileObjectInterface $filename
      * @return ImageReader
      * @throws \Exception
      */
-    public static function fromPathname(FileInterface $filename)
+    public static function fromPathname(FileObjectInterface $filename)
     {
         $ir = new self();
         $ir->resource = imagecreatefromstring($filename->getContents());

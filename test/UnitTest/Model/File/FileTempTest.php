@@ -8,8 +8,7 @@
 
 namespace Jackal\ImageMerge\Test\UnitTest\Model\File;
 
-
-use Jackal\ImageMerge\Model\File\FileTemp;
+use Jackal\ImageMerge\Model\File\FileTempObject;
 use PHPUnit\Framework\TestCase;
 
 class FileTempTest extends TestCase
@@ -20,7 +19,7 @@ class FileTempTest extends TestCase
 
         fopen($tempFilepath,'w');
 
-        $file = new FileTemp($tempFilepath);
+        $file = new FileTempObject($tempFilepath);
 
         $this->assertTrue(file_exists($tempFilepath));
 
@@ -32,7 +31,7 @@ class FileTempTest extends TestCase
 
     public function testCreateFromString(){
 
-        $tf = FileTemp::fromString('this is the string');
+        $tf = FileTempObject::fromString('this is the string');
 
         $this->assertEquals('this is the string',$tf->getContents());
         $this->assertTrue(file_exists($tf->getPathname()));

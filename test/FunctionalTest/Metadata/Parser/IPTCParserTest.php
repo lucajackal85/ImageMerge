@@ -9,14 +9,14 @@
 namespace Jackal\ImageMerge\Test\FunctionalTest\Metadata\Parser;
 
 use Jackal\ImageMerge\Metadata\Parser\IPTCParser;
-use Jackal\ImageMerge\Model\File\File;
+use Jackal\ImageMerge\Model\File\FileObject;
 use PHPUnit\Framework\TestCase;
 
 class IPTCParserTest extends TestCase
 {
     public function testParseMetadata(){
 
-        $iptc = new IPTCParser(new File(__DIR__.'/../../Resources/0.jpg'));
+        $iptc = new IPTCParser(new FileObject(__DIR__.'/../../Resources/0.jpg'));
         $iptcArray = $iptc->toArray();
 
         $this->assertEquals('andrewhone@gmail.com',$iptc->getCreator());

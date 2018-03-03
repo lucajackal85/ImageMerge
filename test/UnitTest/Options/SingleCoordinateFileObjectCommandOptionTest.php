@@ -17,7 +17,7 @@ class SingleCoordinateFileObjectCommandOptionTest extends TestCase
 {
     public function testSingleCoordinateFileObjectCommandOptionObject(){
 
-        $mock = $this->getMockBuilder('\Jackal\ImageMerge\Model\File\FileInterface')->disableOriginalConstructor()->getMock();
+        $mock = $this->getMockBuilder('\Jackal\ImageMerge\Model\File\FileObjectInterface')->disableOriginalConstructor()->getMock();
 
         $object = new SingleCoordinateFileObjectCommandOption($mock,new Coordinate(10,20));
 
