@@ -11,6 +11,10 @@ use Jackal\ImageMerge\Model\Image;
  */
 class CropCommand extends AbstractCommand
 {
+
+    const CLASSNAME = __CLASS__;
+
+
     /**
      * CropCommand constructor.
      * @param Image $image

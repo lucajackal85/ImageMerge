@@ -13,6 +13,8 @@ use Jackal\ImageMerge\Model\Image;
  */
 class ImageAssetCommand extends AbstractCommand
 {
+    const CLASSNAME = __CLASS__;
+
     /**
      * ImageAssetCommand constructor.
      * @param Image $image
@@ -25,6 +27,7 @@ class ImageAssetCommand extends AbstractCommand
 
     /**
      * @return resource
+     * @throws \Exception
      */
     protected function getResourceToApply()
     {

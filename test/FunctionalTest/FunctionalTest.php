@@ -14,8 +14,13 @@ use PHPUnit\Framework\TestCase;
 
 abstract class FunctionalTest extends TestCase
 {
-    protected function assertSameImage(Image $image,$imagePathnameToCompare){
+    protected function assertPNGSameImage(Image $image,$imagePathnameToCompare){
 
         $this->assertEquals(file_get_contents($imagePathnameToCompare),$image->toPNG()->getBody());
+    }
+
+    protected function assertJPGSameImage(Image $image,$imagePathnameToCompare){
+
+        $this->assertEquals(file_get_contents($imagePathnameToCompare),$image->toJPG()->getBody());
     }
 }

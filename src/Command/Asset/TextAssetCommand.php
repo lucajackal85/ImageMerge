@@ -12,6 +12,9 @@ use Jackal\ImageMerge\Utils\ColorUtils;
  */
 class TextAssetCommand extends AbstractCommand
 {
+
+    const CLASSNAME = __CLASS__;
+
     /**
      * @return \Jackal\ImageMerge\Model\Image
      */

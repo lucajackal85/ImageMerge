@@ -11,5 +11,6 @@ namespace Jackal\ImageMerge\Exception;
 
 class InvalidColorException extends \Exception
 {
+    const CLASSNAME = __CLASS__;
 
 }

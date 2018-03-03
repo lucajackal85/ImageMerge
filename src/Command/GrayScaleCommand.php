@@ -10,6 +10,9 @@ use Jackal\ImageMerge\Model\Image;
  */
 class GrayScaleCommand extends AbstractCommand
 {
+
+    const CLASSNAME = __CLASS__;
+
     /**
      * GrayScaleCommand constructor.
      * @param Image $image

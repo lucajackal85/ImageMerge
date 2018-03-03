@@ -26,7 +26,6 @@ use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\Options\TextCommandOption;
 use Jackal\ImageMerge\Command\PixelCommand;
 use Jackal\ImageMerge\Command\ResizeCommand;
-use Jackal\ImageMerge\Command\ResolutionCommand;
 use Jackal\ImageMerge\Command\RotateCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
 use Jackal\ImageMerge\Metadata\Metadata;
@@ -88,8 +87,9 @@ class ImageBuilder
 
     /**
      * @param $className
-     * @param CommandOptionInterface $options
-     * @return ImageBuilder
+     * @param CommandOptionInterface|null $options
+     * @return $this
+     * @throws \Exception
      */
     public function addCommand($className, CommandOptionInterface $options = null)
     {
@@ -101,45 +101,50 @@ class ImageBuilder
     /**
      * @param $level
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function blur($level)
     {
-        return $this->addCommand(BlurCommand::class, new LevelCommandOption($level));
+        return $this->addCommand(BlurCommand::CLASSNAME, new LevelCommandOption($level));
     }
 
     /**
      * @param $width
      * @param $height
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function resize($width, $height)
     {
-        return $this->addCommand(ResizeCommand::class, new DimensionCommandOption($width, $height));
+        return $this->addCommand(ResizeCommand::CLASSNAME, new DimensionCommandOption($width, $height));
     }
 
     /**
      * @param $degree
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function rotate($degree)
     {
-        return $this->addCommand(RotateCommand::class,
+        return $this->addCommand(RotateCommand::CLASSNAME,
             new LevelCommandOption($degree)
         );
     }
 
     /**
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function flipVertical(){
-        return $this->addCommand(FlipVerticalCommand::class);
+        return $this->addCommand(FlipVerticalCommand::CLASSNAME);
     }
 
     /**
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function flipHorizontal(){
-        return $this->addCommand(FlipHorizontalCommand::class);
+        return $this->addCommand(FlipHorizontalCommand::CLASSNAME);
     }
 
     /**
@@ -147,10 +152,11 @@ class ImageBuilder
      * @param $x1
      * @param $y1
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function addText(Text $text, $x1,$y1)
     {
-        return $this->addCommand(TextAssetCommand::class,
+        return $this->addCommand(TextAssetCommand::CLASSNAME,
             new TextCommandOption($text, new Coordinate($x1,$y1))
         );
     }
@@ -162,9 +168,11 @@ class ImageBuilder
      * @param $y2
      * @param $color
      * @return ImageBuilder
+     * @throws \Exception
+     * @throws \Jackal\ImageMerge\Exception\InvalidColorException
      */
     public function addSquare($x1,$y1,$x2,$y2,$color){
-        return $this->addCommand(SquareAssetCommand::class,
+        return $this->addCommand(SquareAssetCommand::CLASSNAME,
             new DoubleCoordinateColorCommandOption(
                 new Coordinate($x1,$y1),
                 new Coordinate($x2,$y2),
@@ -178,12 +186,13 @@ class ImageBuilder
      * @param int $x
      * @param int $y
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function merge(Image $image, $x = 0, $y = 0)
     {
         $fileObject = FileTempObject::fromString($image->toPNG()->getBody());
 
-        return $this->addCommand(ImageAssetCommand::class,
+        return $this->addCommand(ImageAssetCommand::CLASSNAME,
             new SingleCoordinateFileObjectCommandOption($fileObject, new Coordinate($x, $y))
         );
     }
@@ -191,10 +200,11 @@ class ImageBuilder
     /**
      * @param $level
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function pixelate($level)
     {
-        return $this->addCommand(PixelCommand::class,
+        return $this->addCommand(PixelCommand::CLASSNAME,
             new LevelCommandOption($level)
         );
     }
@@ -203,10 +213,11 @@ class ImageBuilder
      * @param $stroke
      * @param string $colorHex
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function border($stroke, $colorHex = Color::WHITE)
     {
-        return $this->addCommand(BorderCommand::class,
+        return $this->addCommand(BorderCommand::CLASSNAME,
             new BorderCommandOption($stroke, $colorHex)
         );
     }
@@ -229,12 +240,17 @@ class ImageBuilder
         $x = ($width- $newWidth) / 2;
         $y = ($height - $newHeight) / 2;
 
-        return $this->addCommand(CropCommand::class, new CropCommandOption(new Coordinate($x, $y), $newWidth, $newHeight));
+        return $this->addCommand(CropCommand::CLASSNAME, new CropCommandOption(new Coordinate($x, $y), $newWidth, $newHeight));
     }
 
+    /**
+     * @param $level
+     * @return ImageBuilder
+     * @throws \Exception
+     */
     public function brightness($level)
     {
-        return $this->addCommand(BrightnessCommand::class,
+        return $this->addCommand(BrightnessCommand::CLASSNAME,
             new LevelCommandOption($level)
         );
     }
@@ -245,10 +261,11 @@ class ImageBuilder
      * @param $width
      * @param $height
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function crop($x, $y, $width, $height)
     {
-        return $this->addCommand(CropCommand::class,
+        return $this->addCommand(CropCommand::CLASSNAME,
             new CropCommandOption(new Coordinate($x, $y), $width, $height)
         );
     }
@@ -261,6 +278,7 @@ class ImageBuilder
      * @param $x3
      * @param $y3
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function cropPolygon($x1, $y1, $x2, $y2, $x3, $y3)
     {
@@ -277,7 +295,7 @@ class ImageBuilder
             }
         }
 
-        return $this->addCommand(CropPolygonCommand::class,
+        return $this->addCommand(CropPolygonCommand::CLASSNAME,
             new MultiCoordinateCommandOption($coords)
         );
     }
@@ -325,19 +343,21 @@ class ImageBuilder
 
     /**
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function grayScale()
     {
-        return $this->addCommand(GrayScaleCommand::class, null);
+        return $this->addCommand(GrayScaleCommand::CLASSNAME, null);
     }
 
     /**
      * @param $level
      * @return ImageBuilder
+     * @throws \Exception
      */
     public function contrast($level){
 
-        return $this->addCommand(ContrastCommand::class,new LevelCommandOption($level));
+        return $this->addCommand(ContrastCommand::CLASSNAME,new LevelCommandOption($level));
     }
 
     /**

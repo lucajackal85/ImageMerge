@@ -7,6 +7,8 @@ use Jackal\ImageMerge\Model\Image;
 
 class ResizeCommand extends AbstractCommand
 {
+    const CLASSNAME = __CLASS__;
+
     /**
      * ResizeCommand constructor.
      * @param Image $image

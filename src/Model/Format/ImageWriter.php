@@ -31,6 +31,7 @@ class ImageWriter
      * @param $resource
      * @param null $filePathName
      * @return bool|ResponseInterface
+     * @throws \Exception
      */
     public static function toPNG($resource, $filePathName = null)
     {
@@ -52,6 +53,7 @@ class ImageWriter
      * @param $resource
      * @param null $filePathName
      * @return bool|ResponseInterface
+     * @throws \Exception
      */
     public static function toJPG($resource, $filePathName=null)
     {
@@ -74,6 +76,7 @@ class ImageWriter
      * @param $resource
      * @param null $filePathName
      * @return bool|ResponseInterface
+     * @throws \Exception
      */
     public static function toGIF($resource, $filePathName=null)
     {

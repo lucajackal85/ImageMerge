@@ -6,7 +6,6 @@ use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
 use Jackal\ImageMerge\Model\Color;
-use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
 
@@ -16,6 +15,9 @@ use Jackal\ImageMerge\Model\Image;
  */
 class EffectBlurCentered extends AbstractCommand
 {
+
+    const CLASSNAME = __CLASS__;
+
     /**
      * EffectBlurCentered constructor.
      * @param Image $image
@@ -28,6 +30,8 @@ class EffectBlurCentered extends AbstractCommand
 
     /**
      * @return Image
+     * @throws \Exception
+     * @throws \Jackal\ImageMerge\Exception\InvalidColorException
      */
     public function execute()
     {

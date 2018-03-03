@@ -104,8 +104,7 @@ class ImageStream implements StreamInterface
      * Write data to the stream.
      *
      * @param string $string The string that is to be written.
-     * @return int Returns the number of bytes written to the stream.
-     * @throws \RuntimeException on failure.
+     * @return void Returns the number of bytes written to the stream.
      */
     public function write($string)
     {

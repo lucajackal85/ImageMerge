@@ -13,6 +13,10 @@ use Jackal\ImageMerge\Utils\ColorUtils;
  */
 class CropPolygonCommand extends AbstractCommand
 {
+
+    const CLASSNAME = __CLASS__;
+
+
     /**
      * CropPolygonCommand constructor.
      * @param Image $image
@@ -26,6 +30,7 @@ class CropPolygonCommand extends AbstractCommand
 
     /**
      * @return Image
+     * @throws \Jackal\ImageMerge\Exception\InvalidColorException
      */
     public function execute()
     {

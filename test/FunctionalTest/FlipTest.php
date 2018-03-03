@@ -19,7 +19,7 @@ class FlipTest extends FunctionalTest
 
         $builder->flipHorizontal();
 
-        $this->assertSameImage($builder->getImage(),__DIR__.'/Resources/image1_flip_h.jpg');
+        $this->assertPNGSameImage($builder->getImage(),__DIR__.'/Resources/image1_flip_h.png');
     }
 
     public function testFlipVertical(){
@@ -27,6 +27,6 @@ class FlipTest extends FunctionalTest
 
         $builder->flipVertical();
 
-        $this->assertSameImage($builder->getImage(),__DIR__.'/Resources/image1_flip_v.jpg');
+        $this->assertPNGSameImage($builder->getImage(),__DIR__.'/Resources/image1_flip_v.png');
     }
 }

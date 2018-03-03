@@ -19,6 +19,7 @@ class ScannedDocument extends AbstractCommand
 
     /**
      * @return Image
+     * @throws \Exception
      */
     public function execute()
     {

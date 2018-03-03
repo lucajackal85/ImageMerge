@@ -11,6 +11,9 @@ use Jackal\ImageMerge\Model\Image;
  */
 class PixelCommand extends AbstractCommand
 {
+
+    const CLASSNAME = __CLASS__;
+
     /**
      * PixelCommand constructor.
      * @param Image $image

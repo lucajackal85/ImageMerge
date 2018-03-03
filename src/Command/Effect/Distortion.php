@@ -21,6 +21,9 @@ use Symfony\Component\Process\Process;
 
 class Distortion extends AbstractCommand
 {
+
+    const CLASSNAME = __CLASS__;
+
     /**
      * Distortion constructor.
      * @param Image $image

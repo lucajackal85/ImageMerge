@@ -12,6 +12,8 @@ use Jackal\ImageMerge\Utils\ColorUtils;
  */
 class SquareAssetCommand extends AbstractCommand
 {
+    const CLASSNAME = __CLASS__;
+
     /**
      * @return \Jackal\ImageMerge\Model\Image
      */

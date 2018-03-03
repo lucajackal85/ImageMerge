@@ -43,6 +43,7 @@ class Font
 
     /**
      * @return Font
+     * @throws InvalidFontException
      */
     public static function arial()
     {

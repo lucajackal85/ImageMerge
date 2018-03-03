@@ -29,9 +29,9 @@ class ImageTest extends FunctionalTest
             ->rotate(90)
             ->border(1);
 
-        $builder->addCommand(EffectBlurCentered::class,new DimensionCommandOption(200,200));
+        $builder->addCommand(EffectBlurCentered::CLASSNAME,new DimensionCommandOption(200,200));
 
-        $this->assertSameImage($builder->getImage(),__DIR__.'/Resources/test.png');
+        $this->assertPNGSameImage($builder->getImage(),__DIR__.'/Resources/test.png');
 
     }
 
@@ -41,6 +41,6 @@ class ImageTest extends FunctionalTest
         $builder->merge(Image::fromFile(new FileObject(__DIR__.'/Resources/trasparent.png')));
         $builder->crop(0,0,200,200);
 
-        $this->assertSameImage($builder->getImage(),__DIR__.'/Resources/test_trasparency.png');
+        $this->assertPNGSameImage($builder->getImage(),__DIR__.'/Resources/test_trasparency.png');
     }
 }

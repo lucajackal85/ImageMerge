@@ -11,6 +11,9 @@ use Jackal\ImageMerge\Model\Image;
  */
 class BrightnessCommand extends AbstractCommand
 {
+
+    const CLASSNAME = __CLASS__;
+
     /**
      * BrightnessCommand constructor.
      * @param Image $image

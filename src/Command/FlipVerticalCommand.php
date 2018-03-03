@@ -10,6 +10,8 @@ use Jackal\ImageMerge\Model\Image;
  */
 class FlipVerticalCommand extends AbstractCommand
 {
+    const CLASSNAME = __CLASS__;
+
     /**
      * @return Image
      */

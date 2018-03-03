@@ -45,6 +45,13 @@ class Image
      */
     private $metadata;
 
+    /**
+     * Image constructor.
+     * @param $width
+     * @param $height
+     * @param bool $transparent
+     * @throws \Jackal\ImageMerge\Exception\InvalidColorException
+     */
     public function __construct($width, $height,$transparent = true)
     {
         $this->width = $width;
@@ -65,6 +72,7 @@ class Image
     /**
      * @param FileObjectInterface $filePathName
      * @return Image
+     * @throws \Exception
      */
     public static function fromFile(FileObjectInterface $filePathName)
     {
@@ -72,7 +80,7 @@ class Image
         $imageResource = $resource->getResource();
 
         $image = new self(imagesx($imageResource), imagesy($imageResource));
-        $command = CommandFactory::getInstance(ImageAssetCommand::class,$image,new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
+        $command = CommandFactory::getInstance(ImageAssetCommand::CLASSNAME,$image,new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
         $command->execute();
         return $image;
     }
@@ -80,6 +88,7 @@ class Image
     /**
      * @param $contentString
      * @return Image
+     * @throws \Exception
      */
     public static function fromString($contentString)
     {
@@ -87,7 +96,7 @@ class Image
         $resource = ImageReader::fromPathname($file);
 
         $image = new self(imagesx($resource->getResource()), imagesy($resource->getResource()));
-        $command = CommandFactory::getInstance(ImageAssetCommand::class,$image,new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
+        $command = CommandFactory::getInstance(ImageAssetCommand::CLASSNAME,$image,new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
         $command->execute();
 
         return $image;
@@ -105,11 +114,12 @@ class Image
     }
 
     /**
-     * @param int|null $fromX
-     * @param int|null $fromY
-     * @param int|null $width
-     * @param int|null $height
+     * @param null $fromX
+     * @param null $fromY
+     * @param null $width
+     * @param null $height
      * @return bool
+     * @throws \Exception
      */
     public function isDark($fromX = null, $fromY = null, $width =null, $height = null)
     {

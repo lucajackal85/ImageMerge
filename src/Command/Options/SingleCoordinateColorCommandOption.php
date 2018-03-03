@@ -15,6 +15,7 @@ class SingleCoordinateColorCommandOption extends SingleCoordinateCommandOption
      * SingleCoordinateColorCommandOption constructor.
      * @param Coordinate $coordinate
      * @param $colorHex
+     * @throws \Jackal\ImageMerge\Exception\InvalidColorException
      */
     public function __construct(Coordinate $coordinate, $colorHex)
     {
