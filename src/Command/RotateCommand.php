@@ -11,7 +11,6 @@ use Jackal\ImageMerge\Model\Image;
  */
 class RotateCommand extends AbstractCommand
 {
-    const CLASSNAME = __CLASS__;
 
     /**
      * RotateCommand constructor.

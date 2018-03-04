@@ -15,10 +15,11 @@ class TextCommandOption extends SingleCoordinateColorCommandOption
      * TextCommandOption constructor.
      * @param Text $text
      * @param Coordinate $coordinate
+     * @throws \Jackal\ImageMerge\Exception\InvalidColorException
      */
     public function __construct(Text $text, Coordinate $coordinate)
     {
-        parent::__construct($coordinate,$text->getColor());
+        parent::__construct($coordinate, $text->getColor());
         $this->add('text', $text);
     }
 

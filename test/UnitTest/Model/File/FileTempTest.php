@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 08/11/17
- * Time: 11.53
- */
 
 namespace Jackal\ImageMerge\Test\UnitTest\Model\File;
 
@@ -13,11 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 class FileTempTest extends TestCase
 {
-    public function testRemoveFileOnDestruct(){
-
+    public function testRemoveFileOnDestruct()
+    {
         $tempFilepath = __DIR__.'/temp.file';
 
-        fopen($tempFilepath,'w');
+        fopen($tempFilepath, 'w');
 
         $file = new FileTempObject($tempFilepath);
 
@@ -29,11 +23,11 @@ class FileTempTest extends TestCase
         $this->assertFalse(file_exists($tempFilepath));
     }
 
-    public function testCreateFromString(){
-
+    public function testCreateFromString()
+    {
         $tf = FileTempObject::fromString('this is the string');
 
-        $this->assertEquals('this is the string',$tf->getContents());
+        $this->assertEquals('this is the string', $tf->getContents());
         $this->assertTrue(file_exists($tf->getPathname()));
     }
 }

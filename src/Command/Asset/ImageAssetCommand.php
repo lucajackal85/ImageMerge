@@ -13,7 +13,6 @@ use Jackal\ImageMerge\Model\Image;
  */
 class ImageAssetCommand extends AbstractCommand
 {
-    const CLASSNAME = __CLASS__;
 
     /**
      * ImageAssetCommand constructor.
@@ -37,6 +36,7 @@ class ImageAssetCommand extends AbstractCommand
 
     /**
      * @return int
+     * @throws \Exception
      */
     protected function getWidth()
     {
@@ -45,6 +45,7 @@ class ImageAssetCommand extends AbstractCommand
 
     /**
      * @return int
+     * @throws \Exception
      */
     protected function getHeight()
     {
@@ -53,6 +54,7 @@ class ImageAssetCommand extends AbstractCommand
 
     /**
      * @return Image
+     * @throws \Exception
      */
     public function execute()
     {

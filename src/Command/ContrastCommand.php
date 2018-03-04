@@ -8,8 +8,6 @@ use Jackal\ImageMerge\Model\Image;
 class ContrastCommand extends AbstractCommand
 {
 
-    const CLASSNAME = __CLASS__;
-
     /**
      * ContrastCommand constructor.
      * @param Image $image

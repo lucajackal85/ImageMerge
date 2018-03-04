@@ -10,7 +10,6 @@ use Jackal\ImageMerge\Model\File\FileObjectInterface;
  */
 class IPTCParser extends AbstractParser
 {
-
     const TITLE = '2#005';
     const URGENCY = '2#010';
     const CATEGORY = '2#015';
@@ -44,11 +43,11 @@ class IPTCParser extends AbstractParser
      */
     public function __construct(FileObjectInterface $file)
     {
-        @iptcembed("",$file->getPathname(),0);
+        @iptcembed("", $file->getPathname(), 0);
         $info = null;
         getimagesize($file->getPathname(), $info);
 
-        if(isset($info['APP13'])){
+        if (isset($info['APP13'])) {
             $this->data = iptcparse($info["APP13"]);
         }
     }
@@ -56,15 +55,17 @@ class IPTCParser extends AbstractParser
     /**
      * @return array|null|string
      */
-    public function getCategory(){
+    public function getCategory()
+    {
         return $this->getValue(self::CATEGORY);
     }
 
     /**
      * @return \DateTime|null
      */
-    public function getCreationDateTime(){
-        if($this->getSingleValue(self::CREATION_DATE)) {
+    public function getCreationDateTime()
+    {
+        if ($this->getSingleValue(self::CREATION_DATE)) {
             $dt = trim($this->getSingleValue(self::CREATION_DATE) . ' ' . $this->getSingleValue(self::CREATION_TIME));
             return new \DateTime($dt);
         }
@@ -74,32 +75,37 @@ class IPTCParser extends AbstractParser
     /**
      * @return array|null|string
      */
-    public function getKeywords(){
+    public function getKeywords()
+    {
         return $this->getValue(self::KEYWORDS);
     }
 
     /**
      * @return bool
      */
-    public function isUTF8(){
+    public function isUTF8()
+    {
         return $this->getSingleValue(self::CHARSET) == "\x1B%G";
     }
 
     /**
      * @return null|string
      */
-    public function getCreator(){
+    public function getCreator()
+    {
         return $this->getSingleValue(self::CAPTION_WRITER);
     }
 
     /**
      * @return null|string
      */
-    public function getDescription(){
+    public function getDescription()
+    {
         return $this->getSingleValue(self::CAPTION);
     }
 
-    public function getCopyrights(){
+    public function getCopyrights()
+    {
         return $this->getSingleValue(self::COPYRIGHT);
     }
 

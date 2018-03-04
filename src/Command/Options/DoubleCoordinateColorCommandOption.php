@@ -27,9 +27,8 @@ class DoubleCoordinateColorCommandOption extends DoubleCoordinateCommandOption
     /**
      * @return mixed
      */
-    public function getColor(){
+    public function getColor()
+    {
         return $this->get('color');
     }
-
-
 }

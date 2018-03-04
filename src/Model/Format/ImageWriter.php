@@ -1,7 +1,8 @@
 <?php
 
 namespace Jackal\ImageMerge\Model\Format;
-use Jackal\ImageMerge\Http\Message\ImageResponse;
+
+use Jackal\ImageMerge\Http\Response\ImageResponse;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -30,7 +31,7 @@ class ImageWriter
     /**
      * @param $resource
      * @param null $filePathName
-     * @return bool|ResponseInterface
+     * @return bool|ImageResponse
      * @throws \Exception
      */
     public static function toPNG($resource, $filePathName = null)
@@ -44,7 +45,7 @@ class ImageWriter
             return file_put_contents($filePathName, $content)== true;
         }
 
-        return new ImageResponse($content,[
+        return new ImageResponse($content, 200, [
             'content-type' => ['image/png']
         ]);
     }
@@ -52,7 +53,7 @@ class ImageWriter
     /**
      * @param $resource
      * @param null $filePathName
-     * @return bool|ResponseInterface
+     * @return bool|ImageResponse
      * @throws \Exception
      */
     public static function toJPG($resource, $filePathName=null)
@@ -67,7 +68,7 @@ class ImageWriter
             return file_put_contents($filePathName, $content) == true;
         }
 
-        return new ImageResponse($content,[
+        return new ImageResponse($content, 200, [
             'content-type' => ['image/jpg']
         ]);
     }
@@ -75,7 +76,7 @@ class ImageWriter
     /**
      * @param $resource
      * @param null $filePathName
-     * @return bool|ResponseInterface
+     * @return bool|ImageResponse
      * @throws \Exception
      */
     public static function toGIF($resource, $filePathName=null)
@@ -89,7 +90,7 @@ class ImageWriter
             return file_put_contents($filePathName, $content) == true;
         }
 
-        return new ImageResponse($content,[
+        return new ImageResponse($content, 200, [
             'content-type' => ['image/gif']
         ]);
     }

@@ -15,9 +15,6 @@ use Jackal\ImageMerge\Model\Image;
  */
 class BorderCommand extends AbstractCommand
 {
-
-    const CLASSNAME = __CLASS__;
-
     /**
      * BorderCommand constructor.
      * @param Image $image
@@ -39,11 +36,10 @@ class BorderCommand extends AbstractCommand
         $options = $this->options;
 
         for ($i=0;$i<$options->getStroke();$i++) {
-
-            $builder = ImageBuilder::fromImage($this->image);
+            $builder = new ImageBuilder($this->image);
 
             $builder->addCommand(
-                LineAssetCommand::CLASSNAME,
+                LineAssetCommand::class,
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate(0, $i),
                         new Coordinate($this->image->getWidth(), $i),
@@ -52,7 +48,7 @@ class BorderCommand extends AbstractCommand
             );
             //bottom
             $builder->addCommand(
-                LineAssetCommand::CLASSNAME,
+                LineAssetCommand::class,
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate(0, $this->image->getHeight() - $i - 1),
                         new Coordinate($this->image->getWidth(), $this->image->getHeight() - $i - 1),
@@ -61,7 +57,7 @@ class BorderCommand extends AbstractCommand
             );
             //right
             $builder->addCommand(
-                LineAssetCommand::CLASSNAME,
+                LineAssetCommand::class,
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate($this->image->getWidth() - $i -1, 0),
                         new Coordinate($this->image->getWidth() - $i -1, $this->image->getHeight()),
@@ -70,7 +66,7 @@ class BorderCommand extends AbstractCommand
             );
             //left
             $builder->addCommand(
-                LineAssetCommand::CLASSNAME,
+                LineAssetCommand::class,
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate($i, 0),
                         new Coordinate($i, $this->image->getHeight()),

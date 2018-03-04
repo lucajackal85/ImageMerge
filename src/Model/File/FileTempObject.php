@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 08/11/17
- * Time: 11.38
- */
 
 namespace Jackal\ImageMerge\Model\File;
-
 
 class FileTempObject extends FileObject
 {
@@ -22,8 +15,9 @@ class FileTempObject extends FileObject
         return $o;
     }
 
-    public function __destruct(){
-        if(is_file($this->getPathname())) {
+    public function __destruct()
+    {
+        if (is_file($this->getPathname())) {
             unlink($this->getPathname());
         }
     }

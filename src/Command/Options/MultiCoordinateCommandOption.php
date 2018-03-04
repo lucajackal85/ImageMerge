@@ -117,8 +117,8 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
         return $this->getMaxY() - $this->getMinY();
     }
 
-    public function isQuadrilateral(){
+    public function isQuadrilateral()
+    {
         return count($this->getCoordinates()) == 8;
     }
-
 }

@@ -16,8 +16,6 @@ use Jackal\ImageMerge\Model\Image;
 class EffectBlurCentered extends AbstractCommand
 {
 
-    const CLASSNAME = __CLASS__;
-
     /**
      * EffectBlurCentered constructor.
      * @param Image $image
@@ -38,7 +36,7 @@ class EffectBlurCentered extends AbstractCommand
         /** @var DimensionCommandOption $options */
         $options = $this->options;
 
-        $builder = ImageBuilder::fromImage($this->image);
+        $builder = new ImageBuilder($this->image);
 
         $originalWidth = $this->image->getWidth();
         $originalHeight = $this->image->getHeight();
@@ -66,9 +64,9 @@ class EffectBlurCentered extends AbstractCommand
 
         $borderColor = Color::WHITE;
 
-        $builder->addSquare($x - 1, $y - 1,$x + $originalWidth, $y + $originalHeight,$borderColor);
+        $builder->addSquare($x - 1, $y - 1, $x + $originalWidth, $y + $originalHeight, $borderColor);
 
-        $builder->merge(Image::fromFile($originalImg),$x, $y);
+        $builder->merge(Image::fromFile($originalImg), $x, $y);
 
         return $builder->getImage();
     }
@@ -76,9 +74,10 @@ class EffectBlurCentered extends AbstractCommand
     /**
      * @param Image $image
      * @return FileTempObject
+     * @throws \Exception
      */
     private function saveImage(Image $image)
     {
-        return FileTempObject::fromString($image->toPNG()->getBody());
+        return FileTempObject::fromString($image->toPNG()->getContent());
     }
 }

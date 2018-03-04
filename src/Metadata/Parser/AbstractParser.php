@@ -16,7 +16,8 @@ abstract class AbstractParser implements ParserInterface
     /**
      * @return bool
      */
-    public function isEmpty(){
+    public function isEmpty()
+    {
         return !$this->data;
     }
 
@@ -24,8 +25,9 @@ abstract class AbstractParser implements ParserInterface
      * @param $key
      * @return string|null|array
      */
-    protected function getValue($key){
-        if(isset($this->data[$key])){
+    protected function getValue($key)
+    {
+        if (isset($this->data[$key])) {
             return $this->data[$key];
         }
         return null;
@@ -35,11 +37,12 @@ abstract class AbstractParser implements ParserInterface
      * @param $key
      * @return int|string
      */
-    protected function getDivisionValue($key){
+    protected function getDivisionValue($key)
+    {
         $value = $this->getValue($key);
-        if(strpos($value,'/1') !== false) {
+        if (strpos($value, '/1') !== false) {
             return (int)str_replace('/1', '', $value);
-        }else{
+        } else {
             return $value;
         }
     }
@@ -48,9 +51,10 @@ abstract class AbstractParser implements ParserInterface
      * @param $key
      * @return bool|null
      */
-    protected function getBooleanValue($key){
+    protected function getBooleanValue($key)
+    {
         $value = $this->getSingleValue($key);
-        if(is_null($value)){
+        if (is_null($value)) {
             return $value;
         }
         return $value == true and strtolower($value) != 'false';
@@ -60,8 +64,9 @@ abstract class AbstractParser implements ParserInterface
      * @param $data
      * @return string|null
      */
-    protected function removeEmptyData($data){
-        if(is_string($data) and $data == ''){
+    protected function removeEmptyData($data)
+    {
+        if (is_string($data) and $data == '') {
             return null;
         }
         return $data;
@@ -71,13 +76,13 @@ abstract class AbstractParser implements ParserInterface
      * @param $key
      * @return string|null
      */
-    protected function getSingleValue($key){
+    protected function getSingleValue($key)
+    {
         $value = $this->getValue($key);
-        if(is_array($value)) {
+        if (is_array($value)) {
             $value = array_shift($this->getValue($key));
         }
-        $value = preg_replace('/[\r\n]/',"\n",$value);
+        $value = preg_replace('/[\r\n]/', "\n", $value);
         return $value;
     }
-
 }

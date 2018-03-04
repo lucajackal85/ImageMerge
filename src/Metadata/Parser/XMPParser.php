@@ -14,15 +14,15 @@ class XMPParser extends AbstractParser
      * XMPParser constructor.
      * @param FileObjectInterface $file
      */
-    public function __construct(FileObjectInterface $file){
-
+    public function __construct(FileObjectInterface $file)
+    {
         $content = $file->getContents();
 
         $xmp_data_start = strpos($content, '<x:xmpmeta');
         $xmp_data_end = strpos($content, '</x:xmpmeta>');
 
         $xmp_data = '';
-        if($xmp_data_start !== false) {
+        if ($xmp_data_start !== false) {
             $xmp_length = $xmp_data_end - $xmp_data_start;
             $xmp_data = substr($content, $xmp_data_start, $xmp_length + 12);
         }
@@ -54,24 +54,23 @@ class XMPParser extends AbstractParser
                      'creator'       => '<dc:creator>\s*<rdf:Seq>\s*(.*?)\s*<\/rdf:Seq>\s*<\/dc:creator>',
                      'keywords'      => '<dc:subject>\s*<rdf:Bag>\s*(.*?)\s*<\/rdf:Bag>\s*<\/dc:subject>',
                      'rights'      => '<dc:Rights>\s*(.*?)\s*<\/dc:Rights>',
-                 ] as $key => $regex ) {
+                 ] as $key => $regex) {
 
             // get a single text string
-            $xmp_arr[$key] = preg_match( "/$regex/is", $xmp_data, $match ) ? $match[1] : '';
+            $xmp_arr[$key] = preg_match("/$regex/is", $xmp_data, $match) ? $match[1] : '';
 
             // if string contains a list, then re-assign the variable as an array with the list elements
-            $xmp_arr[$key] = preg_match_all( "/<rdf:li[^>]*>([^>]*)<\/rdf:li>/is", $xmp_arr[$key], $match ) ? $match[1] : $xmp_arr[$key];
+            $xmp_arr[$key] = preg_match_all("/<rdf:li[^>]*>([^>]*)<\/rdf:li>/is", $xmp_arr[$key], $match) ? $match[1] : $xmp_arr[$key];
 
             $this->data[$key] = $this->sanitizeChars($xmp_arr[$key]);
-
         }
-
     }
 
     /**
      * @return array
      */
-    public function getPhotoMechanic(){
+    public function getPhotoMechanic()
+    {
         return [
             'prefs' => $this->getSingleValue('photomechanic_prefs'),
             'pm_version' => $this->getSingleValue('photomechanic_pm_version'),
@@ -83,42 +82,48 @@ class XMPParser extends AbstractParser
     /**
      * @return null|string
      */
-    public function getCaptionWriter(){
+    public function getCaptionWriter()
+    {
         return $this->getSingleValue('caption_writer');
     }
 
     /**
      * @return null|string
      */
-    public function getCreator(){
+    public function getCreator()
+    {
         return $this->getSingleValue('creator');
     }
 
     /**
      * @return null|string
      */
-    public function getDescription(){
+    public function getDescription()
+    {
         return $this->getSingleValue('description');
     }
 
     /**
      * @return \DateTime
      */
-    public function getCreationDateTime(){
+    public function getCreationDateTime()
+    {
         return new \DateTime($this->getSingleValue('created_at'));
     }
 
     /**
      * @return array|null|string
      */
-    public function getKeywords(){
+    public function getKeywords()
+    {
         return $this->getValue('keywords');
     }
 
     /**
      * @return mixed
      */
-    public function getCopyrights(){
+    public function getCopyrights()
+    {
         return $this->data['rights'];
     }
 
@@ -126,9 +131,10 @@ class XMPParser extends AbstractParser
      * @param $valueArr
      * @return mixed
      */
-    private function sanitizeChars($valueArr){
-        if(is_array($valueArr)) {
-            foreach($valueArr as &$value) {
+    private function sanitizeChars($valueArr)
+    {
+        if (is_array($valueArr)) {
+            foreach ($valueArr as &$value) {
                 $value = preg_replace('/&#x(A{1});/', "\n", $value);
             }
         }

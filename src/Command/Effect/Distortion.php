@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 03/03/18
- * Time: 10.10
- */
 
 namespace Jackal\ImageMerge\Command\Effect;
-
 
 use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
@@ -22,8 +15,6 @@ use Symfony\Component\Process\Process;
 class Distortion extends AbstractCommand
 {
 
-    const CLASSNAME = __CLASS__;
-
     /**
      * Distortion constructor.
      * @param Image $image
@@ -37,8 +28,8 @@ class Distortion extends AbstractCommand
     /**
      *
      */
-    protected function getImageMagickBin(){
-
+    protected function getImageMagickBin()
+    {
         $binFolders =[
             '/usr/local/bin',
             '/usr/bin'
@@ -50,17 +41,17 @@ class Distortion extends AbstractCommand
         $finder->files()->name('convert');
 
 
-        if(!$finder->count()){
-            throw new \RuntimeException(sprintf('Cannot find ImageMagick binaries [Looked into: %s]',implode(',',$binFolders)));
+        if (!$finder->count()) {
+            throw new \RuntimeException(sprintf('Cannot find ImageMagick binaries [Looked into: %s]', implode(',', $binFolders)));
         }
 
         return $finder->getIterator()->current()->getPathName();
-
     }
 
 
     /**
      * @return Image
+     * @throws \Exception
      */
     public function execute()
     {
@@ -68,12 +59,12 @@ class Distortion extends AbstractCommand
 
         $outputFilepathname = Filename::createTempFilename();
 
-        $inputFile = FileTempObject::fromString($image->toPNG()->getBody());
+        $inputFile = FileTempObject::fromString($image->toPNG()->getContent());
 
         /** @var MultiCoordinateCommandOption $options */
         $options = $this->options;
 
-        if(!$options->isQuadrilateral()){
+        if (!$options->isQuadrilateral()) {
             throw new \InvalidArgumentException('Coordinates must represent a quadrilateral shape');
         }
 
@@ -113,6 +104,5 @@ class Distortion extends AbstractCommand
         $tempfile = new FileTempObject($outputFilepathname);
 
         return Image::fromFile($tempfile);
-
     }
 }

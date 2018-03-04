@@ -42,21 +42,24 @@ class Metadata
     /**
      * @return ExifParser
      */
-    public function getExif(){
+    public function getExif()
+    {
         return $this->exif;
     }
 
     /**
      * @return XMPParser
      */
-    public function getXMP(){
+    public function getXMP()
+    {
         return $this->xmp;
     }
 
     /**
      * @return IPTCParser
      */
-    public function getIPTC(){
+    public function getIPTC()
+    {
         return $this->iptc;
     }
 }

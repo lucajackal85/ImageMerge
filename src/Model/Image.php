@@ -8,15 +8,12 @@ use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
 use Jackal\ImageMerge\Factory\CommandFactory;
-use Jackal\ImageMerge\Http\Message\ImageResponse;
+use Jackal\ImageMerge\Http\Response\ImageResponse;
 use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
-use Jackal\ImageMerge\Model\ImageContent\ImageGIFContent;
-use Jackal\ImageMerge\Model\ImageContent\ImageJPGContent;
-use Jackal\ImageMerge\Model\ImageContent\ImagePNGContent;
 use Jackal\ImageMerge\Utils\ColorUtils;
 
 /**
@@ -52,7 +49,7 @@ class Image
      * @param bool $transparent
      * @throws \Jackal\ImageMerge\Exception\InvalidColorException
      */
-    public function __construct($width, $height,$transparent = true)
+    public function __construct($width, $height, $transparent = true)
     {
         $this->width = $width;
         $this->height = $height;
@@ -80,7 +77,7 @@ class Image
         $imageResource = $resource->getResource();
 
         $image = new self(imagesx($imageResource), imagesy($imageResource));
-        $command = CommandFactory::getInstance(ImageAssetCommand::CLASSNAME,$image,new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
+        $command = CommandFactory::getInstance(ImageAssetCommand::class, $image, new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
         $command->execute();
         return $image;
     }
@@ -96,11 +93,10 @@ class Image
         $resource = ImageReader::fromPathname($file);
 
         $image = new self(imagesx($resource->getResource()), imagesy($resource->getResource()));
-        $command = CommandFactory::getInstance(ImageAssetCommand::CLASSNAME,$image,new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
+        $command = CommandFactory::getInstance(ImageAssetCommand::class, $image, new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
         $command->execute();
 
         return $image;
-
     }
 
     /**
@@ -127,7 +123,7 @@ class Image
         $threshold = 60;
 
         if (!is_null($fromY) and !is_null($fromY) and !is_null($width) and !is_null($height)) {
-            $builder = ImageBuilder::fromImage(clone $this);
+            $builder = new ImageBuilder(clone $this);
             $builder->crop($fromX, $fromY, $width, $height);
             $portion = $builder->getImage();
         } else {
@@ -163,6 +159,7 @@ class Image
     /**
      * @param null $filePathName
      * @return bool|ImageResponse
+     * @throws \Exception
      */
     public function toPNG($filePathName = null)
     {
@@ -172,6 +169,7 @@ class Image
     /**
      * @param null $filePathName
      * @return bool|ImageResponse
+     * @throws \Exception
      */
     public function toJPG($filePathName = null)
     {
@@ -181,6 +179,7 @@ class Image
     /**
      * @param null $filePathName
      * @return bool|ImageResponse
+     * @throws \Exception
      */
     public function toGIF($filePathName = null)
     {
@@ -235,16 +234,16 @@ class Image
         return $this->getAspectRatio() == 1;
     }
 
-    public function addMetadata(Metadata $metadata){
-
+    public function addMetadata(Metadata $metadata)
+    {
         $this->metadata = $metadata;
     }
 
     /**
      * @return Metadata
      */
-    public function getMetadata(){
-
+    public function getMetadata()
+    {
         return $this->metadata;
     }
 }

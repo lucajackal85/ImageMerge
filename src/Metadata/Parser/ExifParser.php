@@ -14,134 +14,152 @@ class ExifParser extends AbstractParser
      * ExifParser constructor.
      * @param FileObjectInterface $file
      */
-    public function __construct(FileObjectInterface $file){
-
+    public function __construct(FileObjectInterface $file)
+    {
         $this->data = @exif_read_data($file->getPathname());
     }
 
     /**
      * @return null|string
      */
-    public function getMake(){
+    public function getMake()
+    {
         return $this->getSingleValue('Make');
     }
 
     /**
      * @return null|string
      */
-    public function getModel(){
+    public function getModel()
+    {
         return $this->getSingleValue('Model');
     }
 
     /**
      * @return null|string
      */
-    public function getExposure(){
+    public function getExposure()
+    {
         return $this->getSingleValue('ExposureTime');
     }
 
     /**
      * @return bool|null
      */
-    public function getFlash(){
+    public function getFlash()
+    {
         return $this->getBooleanValue('Flash');
     }
 
     /**
      * @return null|string
      */
-    public function getISO(){
+    public function getISO()
+    {
         return $this->getSingleValue('ISOSpeedRatings');
     }
 
     /**
      * @return int|string
      */
-    public function getResolutionX(){
+    public function getResolutionX()
+    {
         return $this->getDivisionValue('XResolution');
     }
 
     /**
      * @return int|string
      */
-    public function getResolutionY(){
+    public function getResolutionY()
+    {
         return $this->getDivisionValue('YResolution');
     }
 
     /**
      * @return int|string
      */
-    public function getFocalLength(){
+    public function getFocalLength()
+    {
         return $this->getDivisionValue('FocalLength');
     }
 
     /**
      * @return null|string
      */
-    public function getSoftware(){
+    public function getSoftware()
+    {
         return $this->getSingleValue('Software');
     }
 
     /**
      * @return null|string
      */
-    public function getLensModel(){
+    public function getLensModel()
+    {
         return $this->getSingleValue('UndefinedTag:0xA434');
     }
 
     /**
      * @return null|string
      */
-    public function getCameraSerialNumber(){
+    public function getCameraSerialNumber()
+    {
         return $this->getSingleValue('UndefinedTag:0xA431');
     }
 
     /**
      * @return null|string
      */
-    public function getLensSerialNumber(){
+    public function getLensSerialNumber()
+    {
         return $this->getSingleValue('UndefinedTag:0xA435');
     }
 
     /**
      * @return null|string
      */
-    public function getCameraOwnerName(){
+    public function getCameraOwnerName()
+    {
         return $this->getSingleValue('UndefinedTag:0xA430');
     }
 
     /**
      * @return null|string
      */
-    public function getLensSpecification(){
+    public function getLensSpecification()
+    {
         return $this->getValue('UndefinedTag:0xA432');
     }
 
     /**
      * @return null|string
      */
-    public function getExposureCompensation(){
+    public function getExposureCompensation()
+    {
         return $this->getSingleValue('ExposureBiasValue');
     }
 
     /**
      * @return int|string
      */
-    public function getApertureValue(){
+    public function getApertureValue()
+    {
         return $this->getDivisionValue('FNumber');
     }
 
     /**
      * @return null|string
      */
-    public function getMeteringMode(){
+    public function getMeteringMode()
+    {
         return $this->getSingleValue('MeteringMode');
     }
 
     /**
      * @return null|string
      */
-    public function getShutterSpeed(){
+    public function getShutterSpeed()
+    {
         return $this->getSingleValue('ExposureTime');
     }
 

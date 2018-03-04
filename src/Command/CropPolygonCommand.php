@@ -2,6 +2,7 @@
 
 namespace Jackal\ImageMerge\Command;
 
+use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
 use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\Image;
@@ -13,10 +14,6 @@ use Jackal\ImageMerge\Utils\ColorUtils;
  */
 class CropPolygonCommand extends AbstractCommand
 {
-
-    const CLASSNAME = __CLASS__;
-
-
     /**
      * CropPolygonCommand constructor.
      * @param Image $image
@@ -30,12 +27,15 @@ class CropPolygonCommand extends AbstractCommand
 
     /**
      * @return Image
+     * @throws \Exception
      * @throws \Jackal\ImageMerge\Exception\InvalidColorException
      */
     public function execute()
     {
         /** @var MultiCoordinateCommandOption $options */
         $options = $this->options;
+
+        $builder = new ImageBuilder($this->image);
 
         // Setup the merge image from the source image with scaling
         $mergeImage = ImageCreateTrueColor($this->image->getWidth(), $this->image->getHeight());
@@ -72,7 +72,7 @@ class CropPolygonCommand extends AbstractCommand
 
         $this->image->assignResource($destImage);
 
-        $this->image->crop($options->getMinX(), $options->getMinY(), $options->getCropWidth(), $options->getCropHeight());
+        $builder->crop($options->getMinX(), $options->getMinY(), $options->getCropWidth(), $options->getCropHeight());
 
         return $this->image;
     }

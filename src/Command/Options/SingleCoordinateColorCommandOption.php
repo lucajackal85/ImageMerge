@@ -26,7 +26,8 @@ class SingleCoordinateColorCommandOption extends SingleCoordinateCommandOption
     /**
      * @return mixed
      */
-    public function getColor(){
+    public function getColor()
+    {
         return $this->get('color');
     }
 }

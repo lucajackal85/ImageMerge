@@ -10,14 +10,13 @@ use Jackal\ImageMerge\Model\Image;
  */
 class FlipVerticalCommand extends AbstractCommand
 {
-    const CLASSNAME = __CLASS__;
 
     /**
      * @return Image
      */
     public function execute()
     {
-        imageflip($this->image->getResource(),IMG_FLIP_VERTICAL);
+        imageflip($this->image->getResource(), IMG_FLIP_VERTICAL);
 
         return $this->image;
     }

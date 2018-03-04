@@ -37,7 +37,7 @@ class Text
      * @param $size
      * @param $color
      */
-    public function __construct($text, Font $font, $size,$color)
+    public function __construct($text, Font $font, $size, $color)
     {
         $this->text = $text;
         $this->font = $font;
@@ -53,7 +53,7 @@ class Text
      */
     public function fitToBox($boxWidth = null, $boxHeight = null)
     {
-        if(is_null($boxWidth) and is_null($boxHeight)){
+        if (is_null($boxWidth) and is_null($boxHeight)) {
             throw new \Exception('At least one dimension must be defined');
         }
 
@@ -63,7 +63,7 @@ class Text
 
             $height = $textbox[1] + abs($textbox[7]);
             $width = abs($textbox[2]) + $textbox[0];
-            if((($height < $boxHeight) or is_null($boxHeight)) and (($width < $boxWidth) or is_null($boxWidth))){
+            if ((($height < $boxHeight) or is_null($boxHeight)) and (($width < $boxWidth) or is_null($boxWidth))) {
                 continue;
             }
             $finalSize = $i;
@@ -76,21 +76,24 @@ class Text
     /**
      * @return int
      */
-    public function getWidth(){
+    public function getWidth()
+    {
         return $this->getBoundBox()['width'];
     }
 
     /**
      * @return int
      */
-    public function getHeight(){
+    public function getHeight()
+    {
         return $this->getBoundBox()['height'];
     }
 
     /**
      * @return array
      */
-    private function getBoundBox(){
+    private function getBoundBox()
+    {
         $textbox = imageftbbox($this->fontToPixel($this->size), 0, (string)$this->getFont(), $this->getText());
         return [
             'width' => abs($textbox[2]) + $textbox[0],
@@ -102,7 +105,8 @@ class Text
      * @param $size
      * @return float
      */
-    private function fontToPixel($size){
+    private function fontToPixel($size)
+    {
         return round($size * 0.75);
     }
 

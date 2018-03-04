@@ -28,7 +28,7 @@ abstract class AbstractCommandOption implements CommandOptionInterface
      */
     public function get($key)
     {
-        if (!array_key_exists($key,$this->options)) {
+        if (!array_key_exists($key, $this->options)) {
             throw new \InvalidArgumentException(
                 sprintf('Key %s is not valid, available options are: %s',
                     $key,

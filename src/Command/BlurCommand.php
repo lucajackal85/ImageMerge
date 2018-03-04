@@ -11,8 +11,6 @@ use Jackal\ImageMerge\Model\Image;
  */
 class BlurCommand extends AbstractCommand
 {
-    const CLASSNAME = __CLASS__;
-
     /**
      * BlurCommand constructor.
      * @param Image $image

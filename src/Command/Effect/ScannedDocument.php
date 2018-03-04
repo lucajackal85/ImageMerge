@@ -23,9 +23,9 @@ class ScannedDocument extends AbstractCommand
      */
     public function execute()
     {
-        $builder = ImageBuilder::fromImage($this->image);
+        $builder = new ImageBuilder($this->image);
 
-        if($this->image->getWidth() > $this->image->getHeight()){
+        if ($this->image->getWidth() > $this->image->getHeight()) {
             $builder->rotate(-90);
         }
 

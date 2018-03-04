@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luca
- * Date: 07/11/17
- * Time: 17.18
- */
 
 namespace Jackal\ImageMerge\Test\Options;
-
 
 use Jackal\ImageMerge\Command\Options\TextCommandOption;
 use Jackal\ImageMerge\Model\Coordinate;
@@ -17,18 +10,17 @@ use PHPUnit\Framework\TestCase;
 
 class TextCommandOptionsTest extends TestCase
 {
-    public function testTextCommandOptionsObject(){
+    public function testTextCommandOptionsObject()
+    {
+        $text = new Text('this is a text', Font::arial(), 12, 'ABCDEF');
 
-        $text = new Text('this is a text',Font::arial(),12,'ABCDEF');
+        $object = new TextCommandOption($text, new Coordinate(10, 20));
 
-        $object = new TextCommandOption($text,new Coordinate(10,20));
+        $this->assertEquals(10, $object->getCoordinate1()->getX());
+        $this->assertEquals(20, $object->getCoordinate1()->getY());
 
-        $this->assertEquals(10,$object->getCoordinate1()->getX());
-        $this->assertEquals(20,$object->getCoordinate1()->getY());
-
-        $this->assertEquals(239,$object->getColor()->blue());
-        $this->assertEquals(205,$object->getColor()->Green());
-        $this->assertEquals(171,$object->getColor()->red());
-
+        $this->assertEquals(239, $object->getColor()->blue());
+        $this->assertEquals(205, $object->getColor()->Green());
+        $this->assertEquals(171, $object->getColor()->red());
     }
 }

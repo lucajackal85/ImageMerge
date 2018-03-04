@@ -23,7 +23,7 @@ class Coordinate
      * @param $x
      * @param $y
      */
-    public function __construct($x,$y)
+    public function __construct($x, $y)
     {
         $this->x = $x;
         $this->y = $y;
@@ -44,6 +44,4 @@ class Coordinate
     {
         return $this->y;
     }
-
-
 }

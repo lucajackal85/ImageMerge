@@ -35,7 +35,7 @@ class Font
      */
     public function __construct($fontPathname)
     {
-        if(!is_file($fontPathname)){
+        if (!is_file($fontPathname)) {
             throw new InvalidFontException('Font file not found at path '.$fontPathname);
         }
         $this->fontPathname =  $fontPathname;
