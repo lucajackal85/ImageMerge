@@ -4,11 +4,11 @@ ImageMerge
 
 ````
 
-$filePath = '/var/www/image.png';
+$imageMerge = new ImageMerge();
+$imageBuilder = $imageMerge->getImageBuilder('/path/to/file/image.jpg'));
 
-$builder = ImageBuilder::fromFile(new File($filePath));
-$builder->crop(0,0,500,500);
-$builder->grayScale();
+$imageBuilder->blur(20);
+$imageBuilder->crop(10, 10, 90, 90)
 
-echo $builder->getImage()->toPNG()
+$imageResponse = $imageBuilder->getImage()->toPNG();
 ````
