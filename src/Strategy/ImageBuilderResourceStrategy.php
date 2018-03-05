@@ -18,7 +18,7 @@ class ImageBuilderResourceStrategy implements ImageBuilderStrategyInterface
      */
     public function support($source)
     {
-       return is_object($source) and is_resource($source);
+       return is_resource($source);
     }
 
     /**
