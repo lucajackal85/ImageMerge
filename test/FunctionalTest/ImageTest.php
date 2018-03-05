@@ -5,6 +5,7 @@ namespace Jackal\ImageMerge\Test\FunctionalTest;
 use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\Effect\EffectBlurCentered;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
+use Jackal\ImageMerge\ImageMerge;
 use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\Model\Font\Font;
@@ -16,7 +17,8 @@ class ImageTest extends FunctionalTest
 {
     public function testAddEffects()
     {
-        $builder = new ImageBuilder(new FileObject(__DIR__.'/Resources/image1.jpg'));
+        $imageMerge = new ImageMerge();
+        $builder = $imageMerge->getImageBuilder(new FileObject(__DIR__.'/Resources/image1.jpg'));
         $builder
             ->addSquare(10, 10, 20, 20, 'ABCDEF')
             ->addText(new Text('this is the text', Font::arial(), 12, new Color('ABCDEF')), 10, 20)
@@ -38,7 +40,9 @@ class ImageTest extends FunctionalTest
 
     public function testTrasparencyImage()
     {
-        $builder = new ImageBuilder(new FileObject(__DIR__.'/Resources/image2.jpg'));
+        $imageMerge = new ImageMerge();
+
+        $builder = $imageMerge->getImageBuilder(new FileObject(__DIR__.'/Resources/image2.jpg'));
         $builder->merge(Image::fromFile(new FileObject(__DIR__.'/Resources/trasparent.png')));
         $builder->crop(0, 0, 200, 200);
 

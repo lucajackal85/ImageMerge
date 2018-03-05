@@ -28,7 +28,6 @@ class BorderCommand extends AbstractCommand
     /**
      * @return Image
      * @throws \Exception
-     * @throws \Jackal\ImageMerge\Exception\InvalidColorException
      */
     public function execute()
     {

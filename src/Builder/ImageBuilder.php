@@ -45,29 +45,11 @@ class ImageBuilder
 
     /**
      * ImageBuilder constructor.
-     * @param FileObject|Image|string $image
-     * @throws \Exception
+     * @param Image $image
      */
-    public function __construct($image)
+    public function __construct(Image $image)
     {
-        switch (true) {
-            case is_object($image) and $image instanceof Image:{
-                $this->image = $image;
-                break;
-            }
-            case is_object($image) and $image instanceof FileObject:{
-                $this->image = Image::fromFile($image);
-                $this->image->addMetadata(new Metadata($image));
-                break;
-            }
-            case is_string($image):{
-                $this->image = Image::fromString($image);
-                $this->image->addMetadata(new Metadata(FileTempObject::fromString($image)));
-                break;
-            }
-            default:
-                throw new \InvalidArgumentException('Cannot instantiate ImaBuilder');
-        }
+        $this->image = $image;
     }
 
     /**

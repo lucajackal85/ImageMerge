@@ -47,10 +47,6 @@ class ImageReader
             }
         }
 
-        if (function_exists('imageantialias')) {
-            imageantialias($ir->resource, true);
-        }
-
         return $ir;
     }
 

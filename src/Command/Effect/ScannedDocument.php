@@ -4,17 +4,28 @@ namespace Jackal\ImageMerge\Command\Effect;
 
 use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\AbstractCommand;
+use Jackal\ImageMerge\Command\Options\LevelCommandOption;
 use Jackal\ImageMerge\Model\Image;
 
 class ScannedDocument extends AbstractCommand
 {
     /**
-     * EffectBlurCentered constructor.
-     * @param Image $image
+     * @var LevelCommandOption
      */
-    public function __construct(Image $image)
+    private $contrast;
+
+    /**
+     * ScannedDocument constructor.
+     * @param Image $image
+     * @param LevelCommandOption|null $contrast
+     */
+    public function __construct(Image $image,LevelCommandOption $contrast = null)
     {
-        parent::__construct($image, null);
+        if($contrast == null){
+            $this->contrast = new LevelCommandOption(80);
+        }
+
+        parent::__construct($image, $this->contrast);
     }
 
     /**
@@ -30,7 +41,7 @@ class ScannedDocument extends AbstractCommand
         }
 
         $builder->grayScale();
-        $builder->contrast(-80);
+        $builder->contrast($this->contrast->getLevel());
 
         return $builder->getImage();
     }
