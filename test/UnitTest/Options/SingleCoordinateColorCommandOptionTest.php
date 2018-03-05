@@ -3,14 +3,15 @@
 namespace Jackal\ImageMerge\Test\Options;
 
 use Jackal\ImageMerge\Command\Options\SingleCoordinateColorCommandOption;
-use Jackal\ImageMerge\Model\Coordinate;
+use Jackal\ImageMerge\Model\Color;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 use PHPUnit\Framework\TestCase;
 
 class SingleCoordinateColorCommandOptionTest extends TestCase
 {
     public function testSingleCoordinateColorCommandOptionObject()
     {
-        $object = new SingleCoordinateColorCommandOption(new Coordinate(10, 20), 'ABCDEF');
+        $object = new SingleCoordinateColorCommandOption(new Coordinate(10, 20), new Color('ABCDEF'));
 
         $this->assertEquals(10, $object->getCoordinate1()->getX());
         $this->assertEquals(20, $object->getCoordinate1()->getY());

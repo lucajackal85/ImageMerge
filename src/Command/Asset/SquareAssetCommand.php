@@ -25,7 +25,8 @@ class SquareAssetCommand extends AbstractCommand
             $options->getCoordinate1()->getX(),
             $options->getCoordinate1()->getY(),
             $options->getCoordinate2()->getX(),
-            $options->getCoordinate2()->getY(), $color
+            $options->getCoordinate2()->getY(),
+            $color
         );
 
         return $this->image;

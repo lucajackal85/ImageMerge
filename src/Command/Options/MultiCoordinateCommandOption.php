@@ -2,7 +2,7 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
-use Jackal\ImageMerge\Model\Coordinate;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 
 /**
  * Class MultiCoordinateCommandOption

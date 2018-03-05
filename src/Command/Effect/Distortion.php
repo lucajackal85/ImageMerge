@@ -4,7 +4,7 @@ namespace Jackal\ImageMerge\Command\Effect;
 
 use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
-use Jackal\ImageMerge\Model\Coordinate;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\File\Filename;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;

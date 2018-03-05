@@ -3,14 +3,15 @@
 namespace Jackal\ImageMerge\Test\Options;
 
 use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorCommandOption;
-use Jackal\ImageMerge\Model\Coordinate;
+use Jackal\ImageMerge\Model\Color;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 use PHPUnit\Framework\TestCase;
 
 class DoubleCoordinateColorCommandOptionTest extends TestCase
 {
     public function testDoubleCoordinateColorCommandOption()
     {
-        $object = new DoubleCoordinateColorCommandOption(new Coordinate(10, 20), new Coordinate(100, 100), 'ABCDEF');
+        $object = new DoubleCoordinateColorCommandOption(new Coordinate(10, 20), new Coordinate(100, 100), new Color('ABCDEF'));
 
         $this->assertEquals(10, $object->getCoordinate1()->getX());
         $this->assertEquals(20, $object->getCoordinate1()->getY());

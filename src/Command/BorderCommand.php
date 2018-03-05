@@ -6,7 +6,7 @@ use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\Options\BorderCommandOption;
 use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorCommandOption;
 use Jackal\ImageMerge\Command\Asset\LineAssetCommand;
-use Jackal\ImageMerge\Model\Coordinate;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\Image;
 
 /**
@@ -39,40 +39,40 @@ class BorderCommand extends AbstractCommand
             $builder = new ImageBuilder($this->image);
 
             $builder->addCommand(
-                LineAssetCommand::class,
+                new LineAssetCommand($this->image,
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate(0, $i),
                         new Coordinate($this->image->getWidth(), $i),
-                        $options->getColors()
+                        $options->getColor()
                     )
-            );
+            ));
             //bottom
             $builder->addCommand(
-                LineAssetCommand::class,
+                new LineAssetCommand($this->image,
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate(0, $this->image->getHeight() - $i - 1),
                         new Coordinate($this->image->getWidth(), $this->image->getHeight() - $i - 1),
-                        $options->getColors()
+                        $options->getColor()
                 )
-            );
+            ));
             //right
             $builder->addCommand(
-                LineAssetCommand::class,
+                new LineAssetCommand($this->image,
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate($this->image->getWidth() - $i -1, 0),
                         new Coordinate($this->image->getWidth() - $i -1, $this->image->getHeight()),
-                        $options->getColors()
+                        $options->getColor()
                 )
-            );
+            ));
             //left
             $builder->addCommand(
-                LineAssetCommand::class,
+                new LineAssetCommand($this->image,
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate($i, 0),
                         new Coordinate($i, $this->image->getHeight()),
-                        $options->getColors()
+                        $options->getColor()
                     )
-            );
+            ));
         }
 
 

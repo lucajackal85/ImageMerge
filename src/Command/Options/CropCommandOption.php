@@ -2,7 +2,8 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
-use Jackal\ImageMerge\Model\Coordinate;
+use Jackal\ImageMerge\ValueObject\Coordinate;
+use Jackal\ImageMerge\ValueObject\Dimention;
 
 /**
  * Class CropCommandOption
@@ -13,12 +14,11 @@ class CropCommandOption extends DimensionCommandOption
     /**
      * CropCommandOption constructor.
      * @param Coordinate $coordinate
-     * @param $width
-     * @param $height
+     * @param Dimention $dimention
      */
-    public function __construct(Coordinate $coordinate, $width, $height)
+    public function __construct(Coordinate $coordinate, Dimention $dimention)
     {
-        parent::__construct($width, $height);
+        parent::__construct($dimention);
         $this->add('coord1', $coordinate);
     }
 

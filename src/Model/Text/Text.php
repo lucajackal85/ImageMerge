@@ -2,6 +2,7 @@
 
 namespace Jackal\ImageMerge\Model\Text;
 
+use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\Font\Font;
 
 /**
@@ -37,7 +38,7 @@ class Text
      * @param $size
      * @param $color
      */
-    public function __construct($text, Font $font, $size, $color)
+    public function __construct($text, Font $font, $size, Color $color)
     {
         $this->text = $text;
         $this->font = $font;
@@ -135,7 +136,7 @@ class Text
     }
 
     /**
-     * @return mixed
+     * @return Color
      */
     public function getColor()
     {

@@ -8,6 +8,7 @@ use Jackal\ImageMerge\Command\Asset\TextAssetCommand;
 use Jackal\ImageMerge\Command\BlurCommand;
 use Jackal\ImageMerge\Command\BorderCommand;
 use Jackal\ImageMerge\Command\BrightnessCommand;
+use Jackal\ImageMerge\Command\CommandInterface;
 use Jackal\ImageMerge\Command\ContrastCommand;
 use Jackal\ImageMerge\Command\CropCommand;
 use Jackal\ImageMerge\Command\CropPolygonCommand;
@@ -15,7 +16,6 @@ use Jackal\ImageMerge\Command\FlipHorizontalCommand;
 use Jackal\ImageMerge\Command\FlipVerticalCommand;
 use Jackal\ImageMerge\Command\GrayScaleCommand;
 use Jackal\ImageMerge\Command\Options\BorderCommandOption;
-use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
 use Jackal\ImageMerge\Command\Options\CropCommandOption;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
 use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorCommandOption;
@@ -27,15 +27,14 @@ use Jackal\ImageMerge\Command\Options\TextCommandOption;
 use Jackal\ImageMerge\Command\PixelCommand;
 use Jackal\ImageMerge\Command\ResizeCommand;
 use Jackal\ImageMerge\Command\RotateCommand;
-use Jackal\ImageMerge\Factory\CommandFactory;
 use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\Color;
-use Jackal\ImageMerge\Model\Coordinate;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\File\FileObject;
-use Jackal\ImageMerge\Model\File\FileObjectInterface;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Model\Text\Text;
+use Jackal\ImageMerge\ValueObject\Dimention;
 
 class ImageBuilder
 {
@@ -64,23 +63,19 @@ class ImageBuilder
             case is_string($image):{
                 $this->image = Image::fromString($image);
                 $this->image->addMetadata(new Metadata(FileTempObject::fromString($image)));
-
                 break;
             }
             default:
-                throw new \Exception('Cannot instantiate'.get_class($image));
+                throw new \InvalidArgumentException('Cannot instantiate ImaBuilder');
         }
     }
 
     /**
-     * @param $className
-     * @param CommandOptionInterface|null $options
+     * @param CommandInterface $command
      * @return $this
-     * @throws \Exception
      */
-    public function addCommand($className, CommandOptionInterface $options = null)
+    public function addCommand(CommandInterface $command)
     {
-        $command = CommandFactory::getInstance($className, $this->image, $options);
         $this->image = $command->execute();
         return $this;
     }
@@ -92,7 +87,7 @@ class ImageBuilder
      */
     public function blur($level)
     {
-        return $this->addCommand(BlurCommand::class, new LevelCommandOption($level));
+        return $this->addCommand(new BlurCommand($this->image, new LevelCommandOption($level)));
     }
 
     /**
@@ -101,9 +96,9 @@ class ImageBuilder
      * @return ImageBuilder
      * @throws \Exception
      */
-    public function resize($width, $height)
+    public function resize($width = null, $height = null)
     {
-        return $this->addCommand(ResizeCommand::class, new DimensionCommandOption($width, $height));
+        return $this->addCommand(new ResizeCommand($this->image, new DimensionCommandOption(new Dimention($width, $height))));
     }
 
     /**
@@ -113,9 +108,7 @@ class ImageBuilder
      */
     public function rotate($degree)
     {
-        return $this->addCommand(RotateCommand::class,
-            new LevelCommandOption($degree)
-        );
+        return $this->addCommand(new RotateCommand($this->image, new LevelCommandOption($degree)));
     }
 
     /**
@@ -124,7 +117,7 @@ class ImageBuilder
      */
     public function flipVertical()
     {
-        return $this->addCommand(FlipVerticalCommand::class);
+        return $this->addCommand(new FlipVerticalCommand($this->image));
     }
 
     /**
@@ -133,7 +126,7 @@ class ImageBuilder
      */
     public function flipHorizontal()
     {
-        return $this->addCommand(FlipHorizontalCommand::class);
+        return $this->addCommand(new FlipHorizontalCommand($this->image));
     }
 
     /**
@@ -145,9 +138,7 @@ class ImageBuilder
      */
     public function addText(Text $text, $x1, $y1)
     {
-        return $this->addCommand(TextAssetCommand::class,
-            new TextCommandOption($text, new Coordinate($x1, $y1))
-        );
+        return $this->addCommand(new TextAssetCommand($this->image, new TextCommandOption($text, new Coordinate($x1, $y1))));
     }
 
     /**
@@ -155,19 +146,18 @@ class ImageBuilder
      * @param $y1
      * @param $x2
      * @param $y2
-     * @param $color
+     * @param string $colorHex
      * @return ImageBuilder
-     * @throws \Exception
      * @throws \Jackal\ImageMerge\Exception\InvalidColorException
      */
-    public function addSquare($x1, $y1, $x2, $y2, $color)
+    public function addSquare($x1, $y1, $x2, $y2, $colorHex = COLOR::BLACK)
     {
-        return $this->addCommand(SquareAssetCommand::class,
+        return $this->addCommand(new SquareAssetCommand($this->image,
             new DoubleCoordinateColorCommandOption(
                 new Coordinate($x1, $y1),
                 new Coordinate($x2, $y2),
-                $color)
-        );
+                new Color($colorHex))
+        ));
     }
 
     /**
@@ -181,9 +171,9 @@ class ImageBuilder
     {
         $fileObject = FileTempObject::fromString($image->toPNG()->getContent());
 
-        return $this->addCommand(ImageAssetCommand::class,
+        return $this->addCommand(new ImageAssetCommand($this->image,
             new SingleCoordinateFileObjectCommandOption($fileObject, new Coordinate($x, $y))
-        );
+        ));
     }
 
     /**
@@ -193,9 +183,7 @@ class ImageBuilder
      */
     public function pixelate($level)
     {
-        return $this->addCommand(PixelCommand::class,
-            new LevelCommandOption($level)
-        );
+        return $this->addCommand(new PixelCommand($this->image, new LevelCommandOption($level)));
     }
 
     /**
@@ -206,9 +194,7 @@ class ImageBuilder
      */
     public function border($stroke, $colorHex = Color::WHITE)
     {
-        return $this->addCommand(BorderCommand::class,
-            new BorderCommandOption($stroke, $colorHex)
-        );
+        return $this->addCommand(new BorderCommand($this->image, new BorderCommandOption($stroke, new Color($colorHex))));
     }
 
     /**
@@ -222,14 +208,10 @@ class ImageBuilder
         $width = $this->image->getWidth();
         $height = $this->image->getHeight();
 
-        if ($newWidth > $width || $newHeight > $height) {
-            throw new \Exception(sprintf('Crop area exceed, max dimensions are: %s X %s', $width, $height));
-        }
+        $x = round(($width- $newWidth) / 2);
+        $y = round(($height - $newHeight) / 2);
 
-        $x = ($width- $newWidth) / 2;
-        $y = ($height - $newHeight) / 2;
-
-        return $this->addCommand(CropCommand::class, new CropCommandOption(new Coordinate($x, $y), $newWidth, $newHeight));
+        return $this->crop($x, $y, $newWidth, $newHeight);
     }
 
     /**
@@ -239,9 +221,7 @@ class ImageBuilder
      */
     public function brightness($level)
     {
-        return $this->addCommand(BrightnessCommand::class,
-            new LevelCommandOption($level)
-        );
+        return $this->addCommand(new BrightnessCommand($this->image, new LevelCommandOption($level)));
     }
 
     /**
@@ -254,8 +234,13 @@ class ImageBuilder
      */
     public function crop($x, $y, $width, $height)
     {
-        return $this->addCommand(CropCommand::class,
-            new CropCommandOption(new Coordinate($x, $y), $width, $height)
+        return $this->addCommand(
+            new CropCommand($this->image,
+                new CropCommandOption(
+                    new Coordinate($x, $y),
+                    new Dimention($width, $height)
+                )
+            )
         );
     }
 
@@ -284,9 +269,9 @@ class ImageBuilder
             }
         }
 
-        return $this->addCommand(CropPolygonCommand::class,
+        return $this->addCommand(new CropPolygonCommand($this->image,
             new MultiCoordinateCommandOption($coords)
-        );
+        ));
     }
 
     /**
@@ -298,34 +283,30 @@ class ImageBuilder
     public function thumbnail($width = null, $height = null)
     {
         /** @var DimensionCommandOption $options */
-        $options = new DimensionCommandOption($width, $height);
+        $options = new DimensionCommandOption(new Dimention($width, $height));
 
-        if (!$options->getWidth() and !$options->getHeight()) {
-            throw new \Exception('Both width and height are empy value');
+        if (!$options->getDimention()->getWidth()) {
+            $options->add('width', round($this->image->getAspectRatio() * $options->getDimention()->getHeight()));
         }
 
-        if (!$options->getWidth()) {
-            $options->add('width', $options->getWidth() ? $options->getWidth() : round($this->image->getAspectRatio() * $options->getHeight()));
+        if (!$options->getDimention()->getHeight()) {
+            $options->add('height', round($options->getDimention()->getWidth() / $this->image->getAspectRatio()));
         }
 
-        if (!$options->getHeight()) {
-            $options->add('height', $options->getHeight() ? $options->getHeight() : round($options->getWidth() / $this->image->getAspectRatio()));
-        }
-
-        $thumbAspect = $options->getWidth() / $options->getHeight();
+        $thumbAspect = $options->getDimention()->getWidth() / $options->getDimention()->getHeight();
 
         if ($this->image->getAspectRatio() >= $thumbAspect) {
             // If image is wider than thumbnail (in aspect ratio sense)
-            $newHeight = $options->getHeight();
-            $newWidth = $this->image->getWidth() / ($this->image->getHeight() / $options->getHeight());
+            $newHeight = $options->getDimention()->getHeight();
+            $newWidth = round($this->image->getWidth() / ($this->image->getHeight() / $options->getDimention()->getHeight()));
         } else {
             // If the thumbnail is wider than the image
-            $newHeight = $this->image->getHeight() / ($this->image->getWidth() / $options->getWidth());
-            $newWidth = $options->getWidth();
+            $newHeight = round($this->image->getHeight() / ($this->image->getWidth() / $options->getDimention()->getWidth()));
+            $newWidth = $options->getDimention()->getWidth();
         }
 
         $this->resize($newWidth, $newHeight);
-        $this->cropCenter($options->getWidth(), $options->getHeight());
+        $this->cropCenter($options->getDimention()->getWidth(), $options->getDimention()->getHeight());
 
         return $this;
     }
@@ -336,7 +317,7 @@ class ImageBuilder
      */
     public function grayScale()
     {
-        return $this->addCommand(GrayScaleCommand::class, null);
+        return $this->addCommand(new GrayScaleCommand($this->image));
     }
 
     /**
@@ -346,7 +327,7 @@ class ImageBuilder
      */
     public function contrast($level)
     {
-        return $this->addCommand(ContrastCommand::class, new LevelCommandOption($level));
+        return $this->addCommand(new ContrastCommand($this->image, new LevelCommandOption($level)));
     }
 
     /**

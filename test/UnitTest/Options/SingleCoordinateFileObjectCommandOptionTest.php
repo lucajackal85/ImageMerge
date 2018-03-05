@@ -3,7 +3,7 @@
 namespace Jackal\ImageMerge\Test\Options;
 
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
-use Jackal\ImageMerge\Model\Coordinate;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 use PHPUnit\Framework\TestCase;
 
 class SingleCoordinateFileObjectCommandOptionTest extends TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jackal\ImageMerge\Model;
+namespace Jackal\ImageMerge\ValueObject;
 
 /**
  * Class Coordinate

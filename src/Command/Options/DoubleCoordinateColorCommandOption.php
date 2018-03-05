@@ -3,7 +3,7 @@
 namespace Jackal\ImageMerge\Command\Options;
 
 use Jackal\ImageMerge\Model\Color;
-use Jackal\ImageMerge\Model\Coordinate;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 
 /**
  * Class DoubleCoordinateColorCommandOption
@@ -15,13 +15,12 @@ class DoubleCoordinateColorCommandOption extends DoubleCoordinateCommandOption
      * DoubleCoordinateColorCommandOption constructor.
      * @param Coordinate $coordinate1
      * @param Coordinate $coordinate2
-     * @param string $colorHex
-     * @throws \Jackal\ImageMerge\Exception\InvalidColorException
+     * @param Color $color
      */
-    public function __construct(Coordinate $coordinate1, Coordinate $coordinate2, $colorHex = Color::BLACK)
+    public function __construct(Coordinate $coordinate1, Coordinate $coordinate2, Color $color)
     {
         parent::__construct($coordinate1, $coordinate2);
-        $this->add('color', new Color($colorHex));
+        $this->add('color', $color);
     }
 
     /**

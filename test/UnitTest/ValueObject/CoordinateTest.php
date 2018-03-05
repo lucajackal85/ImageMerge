@@ -2,7 +2,7 @@
 
 namespace Jackal\ImageMerge\Test\UnitTest\Model;
 
-use Jackal\ImageMerge\Model\Coordinate;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 use PHPUnit\Framework\TestCase;
 
 class CoordinateTest extends TestCase

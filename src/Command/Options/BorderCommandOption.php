@@ -2,6 +2,8 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
+use Jackal\ImageMerge\Model\Color;
+
 /**
  * Class BorderCommandOption
  * @package Jackal\ImageMerge\Command\Options
@@ -13,7 +15,7 @@ class BorderCommandOption extends AbstractCommandOption
      * @param $stroke
      * @param $color
      */
-    public function __construct($stroke, $color)
+    public function __construct($stroke, Color $color)
     {
         $this->add('stroke', $stroke);
         $this->add('color', $color);
@@ -22,7 +24,7 @@ class BorderCommandOption extends AbstractCommandOption
     /**
      * @return mixed
      */
-    public function getColors()
+    public function getColor()
     {
         return $this->get('color');
     }

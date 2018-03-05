@@ -7,7 +7,6 @@ use Jackal\ImageMerge\Builder\ImageBuilder;
 
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
-use Jackal\ImageMerge\Factory\CommandFactory;
 use Jackal\ImageMerge\Http\Response\ImageResponse;
 use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
@@ -15,6 +14,7 @@ use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
 use Jackal\ImageMerge\Utils\ColorUtils;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 
 /**
  * Class Image
@@ -77,7 +77,7 @@ class Image
         $imageResource = $resource->getResource();
 
         $image = new self(imagesx($imageResource), imagesy($imageResource));
-        $command = CommandFactory::getInstance(ImageAssetCommand::class, $image, new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
+        $command = new ImageAssetCommand($image, new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
         $command->execute();
         return $image;
     }
@@ -93,7 +93,7 @@ class Image
         $resource = ImageReader::fromPathname($file);
 
         $image = new self(imagesx($resource->getResource()), imagesy($resource->getResource()));
-        $command = CommandFactory::getInstance(ImageAssetCommand::class, $image, new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
+        $command = new ImageAssetCommand($image, new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
         $command->execute();
 
         return $image;

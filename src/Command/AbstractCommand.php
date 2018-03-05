@@ -21,6 +21,11 @@ abstract class AbstractCommand implements CommandInterface
      */
     protected $options;
 
+    /**
+     * AbstractCommand constructor.
+     * @param Image $image
+     * @param CommandOptionInterface|null $options
+     */
     public function __construct(Image $image, CommandOptionInterface $options = null)
     {
         $this->image = $image;

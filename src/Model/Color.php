@@ -29,6 +29,11 @@ class Color
     private $blue;
 
     /**
+     * @var string
+     */
+    private $colorHex;
+
+    /**
      * Color constructor.
      * @param $colorHex
      * @throws InvalidColorException
@@ -53,6 +58,8 @@ class Color
             $c3 = str_repeat(substr($colorHex, 2, 1), 2);
             $colorHex = $c1.$c2.$c3;
         }
+
+        $this->colorHex = $colorHex;
 
         $this->red = hexdec(substr($colorHex, 0, 2));
         $this->green = hexdec(substr($colorHex, 2, 2));
@@ -86,5 +93,10 @@ class Color
     public function rgb()
     {
         return $this->red().$this->green().$this->blue();
+    }
+
+    public function getHex()
+    {
+        return $this->colorHex;
     }
 }

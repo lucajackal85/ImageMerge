@@ -41,26 +41,26 @@ class EffectBlurCentered extends AbstractCommand
         $originalWidth = $this->image->getWidth();
         $originalHeight = $this->image->getHeight();
 
-        if ($originalHeight > $options->getHeight()) {
-            $builder->thumbnail(null, $options->getHeight() - 4);
+        if ($originalHeight > $options->getDimention()->getHeight()) {
+            $builder->thumbnail(null, $options->getDimention()->getHeight() - 4);
             $originalWidth = $this->image->getWidth();
             $originalHeight = $this->image->getHeight();
         }
 
-        if ($originalWidth > $options->getWidth()) {
-            $builder->thumbnail($options->getWidth() - 4, null);
+        if ($originalWidth > $options->getDimention()->getWidth()) {
+            $builder->thumbnail($options->getDimention()->getWidth() - 4, null);
             $originalWidth = $this->image->getWidth();
             $originalHeight = $this->image->getHeight();
         }
 
         $originalImg = $this->saveImage($this->image);
 
-        $builder->resize($options->getWidth(), $options->getHeight());
+        $builder->resize($options->getDimention()->getWidth(), $options->getDimention()->getHeight());
         $builder->blur(40);
         $builder->brightness(-70);
 
-        $x = round(($options->getWidth() - $originalWidth) / 2);
-        $y = round(($options->getHeight() - $originalHeight) / 2);
+        $x = round(($options->getDimention()->getWidth() - $originalWidth) / 2);
+        $y = round(($options->getDimention()->getHeight() - $originalHeight) / 2);
 
         $borderColor = Color::WHITE;
 

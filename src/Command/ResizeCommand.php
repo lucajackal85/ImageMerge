@@ -23,8 +23,16 @@ class ResizeCommand extends AbstractCommand
      */
     public function execute()
     {
-        $width = $this->options->getWidth();
-        $height = $this->options->getHeight();
+        if (!$this->options->getDimention()->getWidth()) {
+            $this->options->add('dimention', round($this->image->getAspectRatio() * $this->options->getDimention()->getHeight()), $this->options->getDimention()->getHeight());
+        }
+
+        if (!$this->options->getDimention()->getHeight()) {
+            $this->options->add('dimention', $this->options->getDimention()->getWidth(), round($this->options->getDimention()->getWidth() / $this->image->getAspectRatio()));
+        }
+
+        $width = $this->options->getDimention()->getWidth();
+        $height = $this->options->getDimention()->getHeight();
 
         if ($this->image->getWidth() != $width or $this->image->getHeight() != $height) {
             $resourceResized = imagecreatetruecolor($width, $height);

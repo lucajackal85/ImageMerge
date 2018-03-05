@@ -3,7 +3,8 @@
 namespace Jackal\ImageMerge\Test\Options;
 
 use Jackal\ImageMerge\Command\Options\TextCommandOption;
-use Jackal\ImageMerge\Model\Coordinate;
+use Jackal\ImageMerge\Model\Color;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\Font\Font;
 use Jackal\ImageMerge\Model\Text\Text;
 use PHPUnit\Framework\TestCase;
@@ -12,7 +13,7 @@ class TextCommandOptionsTest extends TestCase
 {
     public function testTextCommandOptionsObject()
     {
-        $text = new Text('this is a text', Font::arial(), 12, 'ABCDEF');
+        $text = new Text('this is a text', Font::arial(), 12, new Color('ABCDEF'));
 
         $object = new TextCommandOption($text, new Coordinate(10, 20));
 

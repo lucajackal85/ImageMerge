@@ -5,10 +5,12 @@ namespace Jackal\ImageMerge\Test\FunctionalTest;
 use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\Effect\EffectBlurCentered;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
+use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\Model\Font\Font;
 use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Model\Text\Text;
+use Jackal\ImageMerge\ValueObject\Dimention;
 
 class ImageTest extends FunctionalTest
 {
@@ -17,7 +19,7 @@ class ImageTest extends FunctionalTest
         $builder = new ImageBuilder(new FileObject(__DIR__.'/Resources/image1.jpg'));
         $builder
             ->addSquare(10, 10, 20, 20, 'ABCDEF')
-            ->addText(new Text('this is the text', Font::arial(), 12, 'ABCDEF'), 10, 20)
+            ->addText(new Text('this is the text', Font::arial(), 12, new Color('ABCDEF')), 10, 20)
             ->thumbnail(100, 100)
             ->grayScale()
             ->brightness(10)
@@ -29,7 +31,7 @@ class ImageTest extends FunctionalTest
             ->rotate(90)
             ->border(1);
 
-        $builder->addCommand(EffectBlurCentered::class, new DimensionCommandOption(200, 200));
+        $builder->addCommand(new EffectBlurCentered($builder->getImage(), new DimensionCommandOption(new Dimention(200, 200))));
 
         $this->assertPNGSameImage($builder->getImage(), __DIR__.'/Resources/test.png');
     }
