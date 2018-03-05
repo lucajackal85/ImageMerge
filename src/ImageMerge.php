@@ -8,9 +8,23 @@ use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
+use Jackal\ImageMerge\Strategy\ImageBuilderContentStrategy;
+use Jackal\ImageMerge\Strategy\ImageBuilderFileObjectStrategy;
+use Jackal\ImageMerge\Strategy\ImageBuilderFileStrategy;
+use Jackal\ImageMerge\Strategy\ImageBuilderImageStrategy;
+use Jackal\ImageMerge\Strategy\ImageBuilderStrategyInterface;
+use Jackal\ImageMerge\Strategy\ImageBuilderURLStrategy;
 
 class ImageMerge
 {
+    private $strategies = [
+        ImageBuilderContentStrategy::class,
+        ImageBuilderFileStrategy::class,
+        ImageBuilderFileObjectStrategy::class,
+        ImageBuilderImageStrategy::class,
+        ImageBuilderURLStrategy::class,
+    ];
+
     /**
      * @param Image|FileObject|string $source
      * @return ImageBuilder
@@ -18,25 +32,18 @@ class ImageMerge
      */
     public function getImageBuilder($source)
     {
-        switch (true) {
-            case is_object($source) and $source instanceof Image:{
-                $image = $source;
-                break;
+        foreach ($this->strategies as $strategyClass) {
+            $strategy = new $strategyClass;
+            if ($strategy->support($source)) {
+                return $strategy->getImageBuilder($source);
             }
-            case is_object($source) and $source instanceof FileObject:{
-                $image = Image::fromFile($source);
-                $image->addMetadata(new Metadata($source));
-                break;
-            }
-            case is_string($source):{
-                $image = Image::fromString($source);
-                $image->addMetadata(new Metadata(FileTempObject::fromString($source)));
-                break;
-            }
-            default:
-                throw new \InvalidArgumentException('Cannot instantiate ImageBuilder');
         }
 
-        return new ImageBuilder($image);
+        throw new \Exception('No strategy found, cannot create ImageBuilder');
+    }
+
+    public function registerImageBuilderStrategy(ImageBuilderStrategyInterface $strategy)
+    {
+        $this->strategies[] = get_class($strategy);
     }
 }
