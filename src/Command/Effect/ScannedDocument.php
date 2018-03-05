@@ -19,9 +19,9 @@ class ScannedDocument extends AbstractCommand
      * @param Image $image
      * @param LevelCommandOption|null $contrast
      */
-    public function __construct(Image $image,LevelCommandOption $contrast = null)
+    public function __construct(Image $image, LevelCommandOption $contrast = null)
     {
-        if($contrast == null){
+        if ($contrast == null) {
             $this->contrast = new LevelCommandOption(80);
         }
 

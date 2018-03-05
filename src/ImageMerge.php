@@ -3,7 +3,6 @@
 
 namespace Jackal\ImageMerge;
 
-
 use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\File\FileObject;
@@ -17,8 +16,8 @@ class ImageMerge
      * @return ImageBuilder
      * @throws \Exception
      */
-    public function getImageBuilder($source){
-
+    public function getImageBuilder($source)
+    {
         switch (true) {
             case is_object($source) and $source instanceof Image:{
                 $image = $source;
