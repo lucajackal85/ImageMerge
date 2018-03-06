@@ -4,6 +4,7 @@ namespace Jackal\ImageMerge\Command\Effect;
 
 use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
+use Jackal\ImageMerge\Utils\GeometryUtils;
 use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\File\Filename;
 use Jackal\ImageMerge\Model\File\FileTempObject;
@@ -67,6 +68,8 @@ class Distortion extends AbstractCommand
         if (!$options->isQuadrilateral()) {
             throw new \InvalidArgumentException('Coordinates must represent a quadrilateral shape');
         }
+
+        $options = GeometryUtils::getClockwiseOrder($options);
 
         /** @var Coordinate[] $coordinates */
         $coordinates = $options->getCoordinates();
