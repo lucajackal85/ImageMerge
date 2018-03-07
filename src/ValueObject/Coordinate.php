@@ -45,7 +45,8 @@ class Coordinate
         return $this->y;
     }
 
-    public function toArray(){
+    public function toArray()
+    {
         return [
             $this->getX(),
             $this->getY()

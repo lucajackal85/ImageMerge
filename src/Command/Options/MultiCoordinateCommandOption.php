@@ -50,15 +50,16 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
     /**
      * @return Coordinate[]
      */
-    public function getCoordinates(){
+    public function getCoordinates()
+    {
         $coords = [];
         $points = $this->toArray();
         foreach ($points as $k => $coordinateCommandOption) {
             if ($k == 0) {
-                $coords[] = new Coordinate($coordinateCommandOption,$points[$k+1]);
+                $coords[] = new Coordinate($coordinateCommandOption, $points[$k+1]);
             } else {
                 if (($k % 2) == 0) {
-                    $coords[] = new Coordinate($coordinateCommandOption,$points[$k+1]);
+                    $coords[] = new Coordinate($coordinateCommandOption, $points[$k+1]);
                 }
             }
         }
@@ -126,7 +127,7 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
      */
     public function getCropDimention()
     {
-        return new Dimention($this->getMaxX() - $this->getMinX(),$this->getMaxY() - $this->getMinY());
+        return new Dimention($this->getMaxX() - $this->getMinX(), $this->getMaxY() - $this->getMinY());
     }
 
 

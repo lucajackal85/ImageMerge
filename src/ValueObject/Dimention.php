@@ -22,11 +22,11 @@ class Dimention
      */
     public function __construct($width, $height)
     {
-        if(!$width){
+        if (!$width) {
             $width = null;
         }
 
-        if(!$height){
+        if (!$height) {
             $height = null;
         }
 

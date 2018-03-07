@@ -3,7 +3,6 @@
 
 namespace Jackal\ImageMerge\Strategy;
 
-
 use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\File\FileTempObject;
@@ -18,7 +17,7 @@ class ImageBuilderResourceStrategy implements ImageBuilderStrategyInterface
      */
     public function support($source)
     {
-       return is_resource($source);
+        return is_resource($source);
     }
 
     /**
