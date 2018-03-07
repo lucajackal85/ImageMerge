@@ -1,14 +1,31 @@
-ImageMerge
+# Image Merge
+A simple PHP libraty to manipulate images, it support GIF,PNG and JPG
 
-### Sample Usage
+### Requirement
+PHP >= **5.5.9** with GD support 
+For some additional features (for example image distortion) ImageMagick binaries are required.
 
-````
+## Getting Started
+Install library with composer
+```
+composer require jackal/image-merge
+```
+## Usage
+Minimal example
+```
+$imageMerge = new ImageMerge('/path/to/my/file.png'); #or URL, or resource, or binary content
+$imageBuilder = $imageMerge->getBuilder();
 
-$imageMerge = new ImageMerge();
-$imageBuilder = $imageMerge->getImageBuilder('/path/to/file/image.jpg'));
+$imageBuilder->resize(620,350)
+$imageBuilder->rotate(90);
+     
+header('Content-type: image/png');           
+echo $imageBuilder->getImage()->toPNG()->getContent();           
+```
 
-$imageBuilder->blur(20);
-$imageBuilder->crop(10, 10, 90, 90)
 
-$imageResponse = $imageBuilder->getImage()->toPNG();
-````
+## Authors
+* **Luca Giacalone** (AKA JackalOne)
+
+## License
+This project is licensed under the MIT License

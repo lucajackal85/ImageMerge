@@ -20,7 +20,7 @@ class GeometryUtilsTest extends TestCase
             new Coordinate(10,0)
         ]));
 
-        $array = $coords->getCoordinates();
+        $array = $coords->toArray();
 
         $this->assertEquals(0,$array[0]);
         $this->assertEquals(0,$array[1]);
@@ -45,7 +45,7 @@ class GeometryUtilsTest extends TestCase
 
         ]));
 
-        $array = $coords->getCoordinates();
+        $array = $coords->toArray();
 
         $this->assertEquals(0,$array[0]);
         $this->assertEquals(1,$array[1]);

@@ -14,7 +14,7 @@ class DistortionTest extends FunctionalTest
     public function testDistortion()
     {
         $imageMerge = new ImageMerge();
-        $builder = $imageMerge->getImageBuilder(new FileObject(__DIR__.'/Resources/monkey.jpg'));
+        $builder = $imageMerge->getBuilder(new FileObject(__DIR__.'/Resources/monkey.jpg'));
 
 
         $builder->addCommand(new Distortion($builder->getImage(), new MultiCoordinateCommandOption([

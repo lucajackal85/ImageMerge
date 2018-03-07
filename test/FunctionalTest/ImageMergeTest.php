@@ -18,7 +18,7 @@ class ImageMergeTest extends TestCase
 
         $imageMerge = new ImageMerge();
         $file = new FileObject($source);
-        $imageBuilder = $imageMerge->getImageBuilder($file);
+        $imageBuilder = $imageMerge->getBuilder($file);
 
         $this->assertInstanceOf(ImageBuilder::class,$imageBuilder);
     }
@@ -29,7 +29,7 @@ class ImageMergeTest extends TestCase
 
         $imageMerge = new ImageMerge();
         $image = Image::fromFile(new FileObject($source));
-        $imageBuilder = $imageMerge->getImageBuilder($image);
+        $imageBuilder = $imageMerge->getBuilder($image);
 
         $this->assertInstanceOf(ImageBuilder::class,$imageBuilder);
     }
@@ -39,7 +39,7 @@ class ImageMergeTest extends TestCase
 
         $imageMerge = new ImageMerge();
         $content = file_get_contents($source);
-        $imageBuilder = $imageMerge->getImageBuilder($content);
+        $imageBuilder = $imageMerge->getBuilder($content);
 
         $this->assertInstanceOf(ImageBuilder::class,$imageBuilder);
     }
@@ -49,7 +49,7 @@ class ImageMergeTest extends TestCase
         $source = __DIR__ . '/../FunctionalTest/Resources/0.jpg';
 
         $imageMerge = new ImageMerge();
-        $imageBuilder = $imageMerge->getImageBuilder($source);
+        $imageBuilder = $imageMerge->getBuilder($source);
 
         $this->assertInstanceOf(ImageBuilder::class,$imageBuilder);
 
@@ -60,7 +60,7 @@ class ImageMergeTest extends TestCase
         $source = 'https://www.gstatic.com/webp/gallery3/1.sm.png';
 
         $imageMerge = new ImageMerge();
-        $imageBuilder = $imageMerge->getImageBuilder($source);
+        $imageBuilder = $imageMerge->getBuilder($source);
 
         $this->assertInstanceOf(ImageBuilder::class,$imageBuilder);
 

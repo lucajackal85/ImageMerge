@@ -48,7 +48,7 @@ class CropPolygonCommand extends AbstractCommand
         // Add the transparent polygon mask
         $transparency = imagecolortransparent($maskPolygon, ColorUtils::colorIdentifier($maskPolygon, new Color('ff01fe')));
         imagesavealpha($maskPolygon, true);
-        imagefilledpolygon($maskPolygon, $options->getCoordinates(), $options->countPoints(), $transparency);
+        imagefilledpolygon($maskPolygon, $options->toArray(), $options->countPoints(), $transparency);
 
         // Apply the mask
         imagesavealpha($mergeImage, true);
@@ -72,7 +72,7 @@ class CropPolygonCommand extends AbstractCommand
 
         $this->image->assignResource($destImage);
 
-        $builder->crop($options->getMinX(), $options->getMinY(), $options->getCropWidth(), $options->getCropHeight());
+        $builder->crop($options->getMinX(), $options->getMinY(), $options->getCropDimention()->getWidth(), $options->getCropDimention()->getHeight());
 
         return $this->image;
     }

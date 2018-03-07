@@ -11,7 +11,7 @@ class FlipTest extends FunctionalTest
     public function testFlipHorizontal()
     {
         $imageMerge = new ImageMerge();
-        $builder = $imageMerge->getImageBuilder(new FileObject(__DIR__.'/Resources/image1.jpg'));
+        $builder = $imageMerge->getBuilder(new FileObject(__DIR__.'/Resources/image1.jpg'));
 
         $builder->flipHorizontal();
 
@@ -21,7 +21,7 @@ class FlipTest extends FunctionalTest
     public function testFlipVertical()
     {
         $imageMerge = new ImageMerge();
-        $builder = $imageMerge->getImageBuilder(new FileObject(__DIR__.'/Resources/image1.jpg'));
+        $builder = $imageMerge->getBuilder(new FileObject(__DIR__.'/Resources/image1.jpg'));
 
         $builder->flipVertical();
 

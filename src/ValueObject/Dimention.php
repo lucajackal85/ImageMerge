@@ -22,8 +22,16 @@ class Dimention
      */
     public function __construct($width, $height)
     {
-        if (!$width and !$height) {
-            throw new \InvalidArgumentException('Both width and height are empy values');
+        if(!$width){
+            $width = null;
+        }
+
+        if(!$height){
+            $height = null;
+        }
+
+        if (is_null($width) and is_null($height)) {
+            throw new \InvalidArgumentException('Both width and height are empty values');
         }
 
         $this->width = $width;

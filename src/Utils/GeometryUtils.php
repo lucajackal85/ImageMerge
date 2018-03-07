@@ -5,41 +5,17 @@ namespace Jackal\ImageMerge\Utils;
 
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
 use Jackal\ImageMerge\ValueObject\Coordinate;
+use Jackal\ImageMerge\ValueObject\Dimention;
 
 class GeometryUtils
 {
     public static function getClockwiseOrder(MultiCoordinateCommandOption $multiCoordinateCommandOption){
 
-        $Xs = [];
-        $Ys = [];
-        $points = $multiCoordinateCommandOption->getCoordinates();
-        $coords = [];
-
-        foreach ($points as $k => $coordinateCommandOption) {
-
-            if ($k == 0) {
-                $Xs[] = $coordinateCommandOption;
-                $coords[] = new Coordinate($coordinateCommandOption,$points[$k+1]);
-            } else {
-                if (($k % 2) == 1) {
-                    $Ys[] = $coordinateCommandOption;
-                }
-                if (($k % 2) == 0) {
-                    $coords[] = new Coordinate($coordinateCommandOption,$points[$k+1]);
-                    $Xs[] = $coordinateCommandOption;
-                }
-            }
-        }
+        $coords = $multiCoordinateCommandOption->getCoordinates();
 
 
-        $minX = min($Xs);
-        $minY = min($Ys);
-
-        $maxX = max($Xs);
-        $maxY = max($Ys);
-
-        $centerX = ($maxX - $minX) / 2;
-        $centerY = ($maxY - $minY) / 2;
+        $centerX = ($multiCoordinateCommandOption->getMaxX() - $multiCoordinateCommandOption->getMinX()) / 2;
+        $centerY = ($multiCoordinateCommandOption->getMaxY() - $multiCoordinateCommandOption->getMinY()) / 2;
 
         $outCoords = [];
 
@@ -64,7 +40,5 @@ class GeometryUtils
         }
 
         return new MultiCoordinateCommandOption($outCoords);
-
-
     }
 }

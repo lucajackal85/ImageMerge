@@ -72,13 +72,15 @@ class Distortion extends AbstractCommand
         $options = GeometryUtils::getClockwiseOrder($options);
 
         /** @var Coordinate[] $coordinates */
-        $coordinates = $options->getCoordinates();
+        $coordinates = $options->toArray();
 
         $width = $image->getWidth();
         $height = $image->getHeight();
 
+        // "%s %s -matte -virtual-pixel black -distort Perspective '%s,%s 0,0   %s,%s %s,0   %s,%s %s,%s  %s,%s 0,%s' %s",
+
         $cmd = sprintf(
-            "%s %s -matte -virtual-pixel black -distort BilinearForward '%s,%s 0,0   %s,%s %s,0   %s,%s %s,%s  %s,%s 0,%s' %s",
+            "%s %s -matte -virtual-pixel black -distort Perspective '%s,%s 0,0   %s,%s %s,0   %s,%s %s,%s  %s,%s 0,%s' %s",
             $this->getImageMagickBin(),
             $inputFile->getPathname(),
             $coordinates[0],

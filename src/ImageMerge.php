@@ -32,7 +32,7 @@ class ImageMerge
      * @return ImageBuilder
      * @throws \Exception
      */
-    public function getImageBuilder($source)
+    public function getBuilder($source)
     {
         foreach ($this->strategies as $strategyClass) {
             $strategy = new $strategyClass;

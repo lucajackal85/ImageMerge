@@ -18,7 +18,7 @@ class ImageTest extends FunctionalTest
     public function testAddEffects()
     {
         $imageMerge = new ImageMerge();
-        $builder = $imageMerge->getImageBuilder(new FileObject(__DIR__.'/Resources/image1.jpg'));
+        $builder = $imageMerge->getBuilder(new FileObject(__DIR__.'/Resources/image1.jpg'));
         $builder
             ->addSquare(10, 10, 20, 20, 'ABCDEF')
             ->addText(new Text('this is the text', Font::arial(), 12, new Color('ABCDEF')), 10, 20)
@@ -42,7 +42,7 @@ class ImageTest extends FunctionalTest
     {
         $imageMerge = new ImageMerge();
 
-        $builder = $imageMerge->getImageBuilder(new FileObject(__DIR__.'/Resources/image2.jpg'));
+        $builder = $imageMerge->getBuilder(new FileObject(__DIR__.'/Resources/image2.jpg'));
         $builder->merge(Image::fromFile(new FileObject(__DIR__.'/Resources/trasparent.png')));
         $builder->crop(0, 0, 200, 200);
 

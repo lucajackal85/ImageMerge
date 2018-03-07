@@ -3,6 +3,7 @@
 namespace Jackal\ImageMerge\Command\Options;
 
 use Jackal\ImageMerge\ValueObject\Coordinate;
+use Jackal\ImageMerge\ValueObject\Dimention;
 
 /**
  * Class MultiCoordinateCommandOption
@@ -27,7 +28,7 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
     private function getOddValues()
     {
         $arr = [];
-        foreach ($this->getCoordinates() as $k => $point) {
+        foreach ($this->toArray() as $k => $point) {
             if ($k % 2 == 1) {
                 $arr[] = $point;
             }
@@ -38,7 +39,7 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
     private function getEvenValues()
     {
         $arr = [];
-        foreach ($this->getCoordinates() as $k => $point) {
+        foreach ($this->toArray() as $k => $point) {
             if ($k == 0 or ($k % 2 == 0)) {
                 $arr[] = $point;
             }
@@ -47,9 +48,28 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
     }
 
     /**
+     * @return Coordinate[]
+     */
+    public function getCoordinates(){
+        $coords = [];
+        $points = $this->toArray();
+        foreach ($points as $k => $coordinateCommandOption) {
+            if ($k == 0) {
+                $coords[] = new Coordinate($coordinateCommandOption,$points[$k+1]);
+            } else {
+                if (($k % 2) == 0) {
+                    $coords[] = new Coordinate($coordinateCommandOption,$points[$k+1]);
+                }
+            }
+        }
+
+        return $coords;
+    }
+
+    /**
      * @return array
      */
-    public function getCoordinates()
+    public function toArray()
     {
         $points = [];
         /** @var Coordinate $arg */
@@ -102,23 +122,16 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
     }
 
     /**
-     * @return mixed
+     * @return Dimention
      */
-    public function getCropWidth()
+    public function getCropDimention()
     {
-        return $this->getMaxX() - $this->getMinX();
+        return new Dimention($this->getMaxX() - $this->getMinX(),$this->getMaxY() - $this->getMinY());
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCropHeight()
-    {
-        return $this->getMaxY() - $this->getMinY();
-    }
 
     public function isQuadrilateral()
     {
-        return count($this->getCoordinates()) == 8;
+        return $this->countPoints() == 4;
     }
 }
