@@ -9,36 +9,96 @@ use Jackal\ImageMerge\ValueObject\Dimention;
 
 class GeometryUtils
 {
+    const TOP_LEFT = 0;
+    const TOP_RIGHT = 1;
+    const BOTTOM_RIGHT = 2;
+    const BOTTOM_LEFT = 3;
+
     public static function getClockwiseOrder(MultiCoordinateCommandOption $multiCoordinateCommandOption)
     {
         $coords = $multiCoordinateCommandOption->getCoordinates();
 
+        $mostTop = self::getTopCoord($coords,2);
+        $mostBottom = self::getBottomCoord($coords,2);
 
-        $centerX = ($multiCoordinateCommandOption->getMaxX() - $multiCoordinateCommandOption->getMinX()) / 2;
-        $centerY = ($multiCoordinateCommandOption->getMaxY() - $multiCoordinateCommandOption->getMinY()) / 2;
+        $topLeft = self::getLeftCoord($mostTop)[0];
+        $topRight = self::getRightCoord($mostTop)[0];
+        $bottomLeft = self::getLeftCoord($mostBottom)[0];
+        $bottomRight = self::getRightCoord($mostBottom)[0];
 
-        $outCoords = [];
+        return new MultiCoordinateCommandOption([
+            self::TOP_LEFT => $topLeft,
+            self::TOP_RIGHT => $topRight,
+            self::BOTTOM_RIGHT => $bottomRight,
+            self::BOTTOM_LEFT => $bottomLeft,
+        ]);
+    }
 
-        /** @var Coordinate $coord */
-        foreach ($coords as $coord) {
-            //top-left
-            if ($coord->getX() <= $centerX and $coord->getY() <= $centerY) {
-                $outCoords[0] = $coord;
+    /**
+     * @param $coords
+     * @param int $limit
+     * @return Coordinate[]
+     */
+    public static function getLeftCoord($coords,$limit = 1){
+        $c = $coords;
+        usort($c,function (Coordinate $coordA,Coordinate $coordB){
+            if($coordA->getX() == $coordB->getX()){
+                return 0;
             }
-            //top-right
-            if ($coord->getX() >= $centerX and $coord->getY() <= $centerY) {
-                $outCoords[1] = $coord;
-            }
-            //bottom-right
-            if ($coord->getX() >= $centerX and $coord->getY() >= $centerY) {
-                $outCoords[2] = $coord;
-            }
-            //bottom-left
-            if ($coord->getX() <= $centerX and $coord->getY() >= $centerY) {
-                $outCoords[3] = $coord;
-            }
-        }
+            return ($coordA->getX() >= $coordB->getX()) ? 1 : -1;
+        });
 
-        return new MultiCoordinateCommandOption($outCoords);
+        return array_slice($c,0,$limit);
+    }
+
+    /**
+     * @param $coords
+     * @param int $limit
+     * @return Coordinate[]
+     */
+    public static function getTopCoord($coords,$limit = 1){
+        $c = $coords;
+        usort( $c,function (Coordinate $coordA,Coordinate $coordB){
+            if($coordA->getY() === $coordB->getY()){
+                return 0;
+            }
+            return ($coordA->getY() >= $coordB->getY()) ? 1 : -1;
+        });
+
+        return array_slice($c,0,$limit);
+    }
+
+    /**
+     * @param $coords
+     * @param int $limit
+     * @return Coordinate[]
+     */
+    public static function getRightCoord($coords,$limit = 1){
+        $c = $coords;
+        usort( $c,function (Coordinate $coordA,Coordinate $coordB){
+            if($coordA->getX() === $coordB->getX()){
+                return 0;
+            }
+            return ($coordA->getX() >= $coordB->getX()) ? -1 : 1;
+        });
+
+        return array_slice($c,0,$limit);
+    }
+
+    /**
+     * @param $coords
+     * @param int $limit
+     * @return Coordinate[]
+     */
+    public static function getBottomCoord($coords,$limit = 1){
+        $c = $coords;
+        usort($c,function (Coordinate $coordA,Coordinate $coordB){
+            if($coordA->getY() === $coordB->getY()){
+                return 0;
+            }
+            return ($coordA->getY() >= $coordB->getY()) ? -1 : 1;
+        });
+
+        return array_slice($c,0,$limit);
     }
 }

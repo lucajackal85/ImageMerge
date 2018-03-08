@@ -52,4 +52,8 @@ class Coordinate
             $this->getY()
         ];
     }
+
+    public function match(Coordinate $coordinate){
+        return ($this->getX() == $coordinate->getX()) and ($this->getY() == $coordinate->getY());
+    }
 }
