@@ -9,7 +9,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.5.9|^7.0",
+        "php": ">=5.5.11|^7.0",
         "ext-gd": "*",
         "symfony/http-foundation": "^3.4",
         "friendsofphp/php-cs-fixer": "^2.2",
@@ -25,7 +25,7 @@
     "config": {
         "bin-dir": "bin",
         "platform": {
-            "php": "5.5"
+            "php": "5.5.11"
         }
     },
     "require-dev": {
