@@ -1,0 +1,10 @@
+language: php
+
+php:
+  - 5.5.9
+
+install:
+  - composer install
+
+script:
+  - vendor/phpunit/phpunit/phpunit
