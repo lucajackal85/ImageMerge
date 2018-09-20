@@ -25,40 +25,28 @@ class CropOuter extends AbstractCommand
     /**
      * @return Image
      * @throws \Exception
-     * @throws \Jackal\ImageMerge\Exception\InvalidColorException
      */
     public function execute()
     {
+        $newWidth = $this->options->getDimention()->getWidth();
+        $newHeight = $this->options->getDimention()->getHeight();
+
+        $thumbAspect = $newWidth / $newHeight;
         $builder = new ImageBuilder($this->image);
-        $width = $this->options->getDimention()->getWidth();
-        $height = $this->options->getDimention()->getHeight();
-
-        $thumbAspect = $width / $height;
-
         if ($this->image->getAspectRatio() >= $thumbAspect) {
-            $builder->resize($width,null);
-            $mergeX = 0;
-            $mergeY = round(($height - $builder->getImage()->getHeight()) / 2);
+            $builder->resize($newWidth,null);
         } else {
-            $builder->resize(null,$height);
-            $mergeX = round(($width - $builder->getImage()->getWidth()) / 2);
-            $mergeY = 0;
+            $builder->resize(null,$newHeight);
         }
 
-        $originalImg = $this->saveImage($builder->getImage());
-        $builder = new ImageBuilder(new Image($width,$height,false));
-        $builder->merge(Image::fromFile($originalImg), $mergeX, $mergeY);
+        $posX = ($newWidth - $this->image->getWidth()) / 2;
+        $posY = ($newHeight - $this->image->getHeight()) / 2;
 
-        return $builder->getImage();
-    }
+        $image_p = imagecreatetruecolor($newWidth, $newHeight);
+        imagecopyresampled($image_p, $this->image->getResource(), $posX, $posY, 0, 0, $this->image->getWidth(), $this->image->getHeight(), $this->image->getWidth(), $this->image->getHeight());
 
-    /**
-     * @param Image $image
-     * @return FileTempObject
-     * @throws \Exception
-     */
-    private function saveImage(Image $image)
-    {
-        return FileTempObject::fromString($image->toPNG()->getContent());
+        $this->image->assignResource($image_p);
+
+        return $this->image;
     }
 }
