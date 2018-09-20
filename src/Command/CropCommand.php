@@ -27,7 +27,7 @@ class CropCommand extends AbstractCommand
      */
     public function execute()
     {
-        if ($this->image->getWidth() == $this->options->getDimention()->getWidth() and $this->image->getHeight() != $this->options->getDimention()->getHeight()) {
+        if ($this->image->getWidth() == $this->options->getDimention()->getWidth() and $this->image->getHeight() == $this->options->getDimention()->getHeight()) {
             return $this->image;
         }
 
