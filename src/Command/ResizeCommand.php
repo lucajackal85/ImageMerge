@@ -37,7 +37,10 @@ class ResizeCommand extends AbstractCommand
 
         if ($this->image->getWidth() != $width or $this->image->getHeight() != $height) {
             $resourceResized = imagecreatetruecolor($width, $height);
-            imagecolortransparent($resourceResized);
+            imagealphablending($resourceResized, false);
+            imagesavealpha($resourceResized,true);
+            $transparent = imagecolorallocatealpha($resourceResized, 255, 255, 255, 127);
+            imagecolortransparent($resourceResized,$transparent);
             imagecopyresampled($resourceResized, $this->image->getResource(), 0, 0, 0, 0, $width, $height, $this->image->getWidth(), $this->image->getHeight());
 
             return $this->image->assignResource($resourceResized);
