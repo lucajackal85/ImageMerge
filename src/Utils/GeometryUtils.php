@@ -101,4 +101,17 @@ class GeometryUtils
 
         return array_slice($c,0,$limit);
     }
+
+    public static function calculateCenterCoord($coords){
+        $sumX = 0;
+        $sumY = 0;
+        foreach($coords as $coord){
+            $sumX += $coord->getX();
+            $sumY += $coord->getY();
+        }
+        return new Coordinate(
+            round($sumX/count($coords)),
+            round($sumY/count($coords))
+        );
+    }
 }

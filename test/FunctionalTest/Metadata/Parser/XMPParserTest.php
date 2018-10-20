@@ -19,7 +19,7 @@ class XMPParserTest extends TestCase
         $this->assertEquals(['f1', 'formula 1', 'formula one', 'gp', 'Portrait', 'Helmets', 'Finish'], $xmp->getKeywords());
         $this->assertEquals($xmp->getKeywords(), $xmpArray['keywords']);
 
-        $this->assertEquals(new \DateTime('2017-11-12 18:37:12'), $xmp->getCreationDateTime());
+        $this->assertEquals(new \DateTime('2017-11-12 18:37:12',new \DateTimeZone('Europe/Rome')), $xmp->getCreationDateTime());
         $this->assertEquals($xmp->getCreationDateTime(), $xmpArray['created_at']);
 
         $this->assertEquals(null, $xmp->getCreator());

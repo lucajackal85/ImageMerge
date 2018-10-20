@@ -13,7 +13,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class Distortion extends AbstractCommand
+class Distortion extends AbstractImageMagickCommand
 {
 
     /**
@@ -24,29 +24,6 @@ class Distortion extends AbstractCommand
     public function __construct(Image $image, MultiCoordinateCommandOption $options)
     {
         parent::__construct($image, $options);
-    }
-
-    /**
-     *
-     */
-    protected function getImageMagickBin()
-    {
-        $binFolders =[
-            '/usr/local/bin',
-            '/usr/bin'
-        ];
-
-        $finder = new Finder();
-        $finder->in($binFolders);
-
-        $finder->files()->name('convert');
-
-
-        if (!$finder->count()) {
-            throw new \RuntimeException(sprintf('Cannot find ImageMagick binaries [Looked into: %s]', implode(',', $binFolders)));
-        }
-
-        return $finder->getIterator()->current()->getPathName();
     }
 
 

@@ -29,12 +29,16 @@ use Jackal\ImageMerge\Command\ResizeCommand;
 use Jackal\ImageMerge\Command\RotateCommand;
 use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\Color;
+use Jackal\ImageMerge\Model\Font\Font;
+use Jackal\ImageMerge\Model\Format\ImageWriter;
+use Jackal\ImageMerge\Utils\GeometryUtils;
 use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Model\Text\Text;
 use Jackal\ImageMerge\ValueObject\Dimention;
+use PhpCsFixer\Utils;
 
 class ImageBuilder
 {
@@ -292,6 +296,8 @@ class ImageBuilder
 
         return $this;
     }
+
+
 
     /**
      * @return ImageBuilder

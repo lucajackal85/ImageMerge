@@ -25,8 +25,8 @@ class Coordinate
      */
     public function __construct($x, $y)
     {
-        $this->x = $x;
-        $this->y = $y;
+        $this->x = round($x);
+        $this->y = round($y);
     }
 
     /**
@@ -51,6 +51,11 @@ class Coordinate
             $this->getX(),
             $this->getY()
         ];
+    }
+
+    public function __toString()
+    {
+        return $this->getX().'X'.$this->getY();
     }
 
     public function match(Coordinate $coordinate){

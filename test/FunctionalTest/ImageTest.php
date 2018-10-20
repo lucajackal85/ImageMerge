@@ -35,6 +35,7 @@ class ImageTest extends FunctionalTest
 
         $builder->addCommand(new EffectBlurCentered($builder->getImage(), new DimensionCommandOption(new Dimention(200, 200))));
 
+        $builder->getImage()->toPNG(__DIR__.'/Resources/test2.png');
         $this->assertPNGSameImage($builder->getImage(), __DIR__.'/Resources/test.png');
     }
 
