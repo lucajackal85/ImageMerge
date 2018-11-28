@@ -4,6 +4,7 @@ namespace Jackal\ImageMerge\Command\Asset;
 
 use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\TextCommandOption;
+use Jackal\ImageMerge\Exception\ModuleNotFoundException;
 use Jackal\ImageMerge\Utils\ColorUtils;
 
 /**
@@ -26,6 +27,10 @@ class TextAssetCommand extends AbstractCommand
         );
 
         $fontPixel = round($options->getText()->getFontSize() * 0.75);
+
+        if(!function_exists('imagettftext')){
+            throw new ModuleNotFoundException('function imagettftext not installed');
+        }
 
         imagettftext($this->image->getResource(), $fontPixel, 0,
             $options->getCoordinate1()->getX(),
