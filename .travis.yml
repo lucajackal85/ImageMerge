@@ -3,12 +3,9 @@ language: php
 php:
   - 5.5
 
-dist: trusty
-
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y php5-gd
-  - sudo apt-get install -y php5-exif
 install:
   - composer install
 

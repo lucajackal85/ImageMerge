@@ -40,14 +40,7 @@ class ImageWriter
         imagepng($resource, null, 9);
         $content = ob_get_clean();
 
-        if ($filePathName) {
-            ImageWriter::checkPermissions($filePathName);
-            return file_put_contents($filePathName, $content)== true;
-        }
-
-        return new ImageResponse($content, 200, [
-            'content-type' => ['image/png']
-        ]);
+        return self::writeFile($content,$filePathName,'image/png');
     }
 
     /**
@@ -59,18 +52,10 @@ class ImageWriter
     public static function toJPG($resource, $filePathName=null)
     {
         ob_start();
-
         imagejpeg($resource, null, 100);
         $content = ob_get_clean();
 
-        if ($filePathName) {
-            ImageWriter::checkPermissions($filePathName);
-            return file_put_contents($filePathName, $content) == true;
-        }
-
-        return new ImageResponse($content, 200, [
-            'content-type' => ['image/jpg']
-        ]);
+        return self::writeFile($content,$filePathName,'image/jpg');
     }
 
     /**
@@ -85,13 +70,39 @@ class ImageWriter
         imagegif($resource);
         $content = ob_get_clean();
 
+        return self::writeFile($content,$filePathName,'image/gif');
+    }
+
+    /**
+     * @param $resource
+     * @param null $filePathName
+     * @return bool|ImageResponse
+     * @throws \Exception
+     */
+    public static function toWEBP($resource, $filePathName=null)
+    {
+        ob_start();
+        imagewebp($resource);
+        $content = ob_get_clean();
+
+        return self::writeFile($content,$filePathName,'image/webp');
+    }
+
+    /**
+     * @param $content
+     * @param $filePathName
+     * @param $contentType
+     * @return bool|ImageResponse
+     * @throws \Exception
+     */
+    private static function writeFile($content,$filePathName,$contentType){
         if ($filePathName) {
             ImageWriter::checkPermissions($filePathName);
             return file_put_contents($filePathName, $content) == true;
         }
 
         return new ImageResponse($content, 200, [
-            'content-type' => ['image/gif']
+            'content-type' => [$contentType]
         ]);
     }
 }

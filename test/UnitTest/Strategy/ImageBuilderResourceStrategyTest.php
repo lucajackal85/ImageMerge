@@ -7,8 +7,9 @@ namespace Jackal\ImageMerge\Test\UnitTest\Strategy;
 use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Strategy\ImageBuilderResourceStrategy;
+use PHPUnit\Framework\TestCase;
 
-class ImageBuilderResourceStrategyTest
+class ImageBuilderResourceStrategyTest extends TestCase
 {
     public function testSupportResource(){
 

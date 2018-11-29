@@ -9,15 +9,21 @@ use Jackal\ImageMerge\Model\File\FileObjectInterface;
  * Class ImageReader
  * @package Jackal\ImageMerge\Model\Format
  */
-class ImageReader
+final class ImageReader
 {
     const FORMAT_JPG = 'jpg';
     const FORMAT_PNG = 'png';
     const FORMAT_GIF = 'gif';
+    const FORMAT_WEBP = 'webp';
 
     private $resource;
 
     private $format;
+
+    private function __construct()
+    {
+        //make it private
+    }
 
     /**
      * @param FileObjectInterface $filename
@@ -27,9 +33,9 @@ class ImageReader
     public static function fromPathname(FileObjectInterface $filename)
     {
         $ir = new self();
-        $ir->resource = imagecreatefromstring($filename->getContents());
+        $ir->resource = @imagecreatefromstring($filename->getContents());
 
-        switch (exif_imagetype($filename->getPathname())) {
+        switch ($ir->getExifType($filename)) {
             case IMAGETYPE_PNG:{
                 $ir->format =  self::FORMAT_PNG;
                 break;
@@ -42,12 +48,37 @@ class ImageReader
                 $ir->format = self::FORMAT_GIF;
                 break;
             }
+            case IMAGETYPE_WEBP:{
+                $ir->format = self::FORMAT_WEBP;
+                break;
+            }
             default: {
-                throw new \Exception(sprintf('File is not a valid image type [%s]', exif_imagetype($filename->getPathname())));
+                throw new \Exception(sprintf('File is not a valid image type [extension: "%s"]',
+                    $ir->getExtension($filename))
+                );
+
             }
         }
 
         return $ir;
+    }
+
+    private function getExtension(FileObjectInterface $filename){
+        return strtolower(pathinfo($filename->getPathname(), PATHINFO_EXTENSION));
+    }
+
+    private function getExifType(FileObjectInterface $filename){
+        $imageType = exif_imagetype($filename->getPathname());
+
+        if(!$imageType){
+            //since IMAGETYPE_WEBP is available only from php 7.1, we guess the type base from the extension
+            if(version_compare(PHP_VERSION, '7.1.0', '<') and $this->getExtension($filename) == 'webp'){
+                return IMAGETYPE_WEBP;
+            }
+        }
+
+        return $imageType;
+
     }
 
     /**
