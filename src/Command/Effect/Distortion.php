@@ -54,7 +54,6 @@ class Distortion extends AbstractImageMagickCommand
         $width = $image->getWidth();
         $height = $image->getHeight();
 
-        // "%s %s -matte -virtual-pixel black -distort Perspective '%s,%s 0,0   %s,%s %s,0   %s,%s %s,%s  %s,%s 0,%s' %s",
 
         $cmd = sprintf(
             "%s %s -matte -virtual-pixel black -distort Perspective '%s,%s 0,0   %s,%s %s,0   %s,%s %s,%s  %s,%s 0,%s' %s",
