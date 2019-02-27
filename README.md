@@ -13,8 +13,8 @@ composer require jackal/image-merge
 ## Usage
 Minimal example
 ```
-$imageMerge = new ImageMerge('/path/to/my/file.png'); #or URL, or resource, or binary content
-$imageBuilder = $imageMerge->getBuilder();
+$imageMerge = new ImageMerge();
+$imageBuilder = $imageMerge->getBuilder('/path/to/my/file.png'); #or URL, or resource, or binary content
 
 $imageBuilder->resize(620,350)
 $imageBuilder->rotate(90);
