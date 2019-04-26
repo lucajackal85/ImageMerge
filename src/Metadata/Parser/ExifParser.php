@@ -2,6 +2,7 @@
 
 namespace Jackal\ImageMerge\Metadata\Parser;
 
+use Jackal\ImageMerge\Exception\ModuleNotFoundException;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
 
 /**
@@ -13,9 +14,13 @@ class ExifParser extends AbstractParser
     /**
      * ExifParser constructor.
      * @param FileObjectInterface $file
+     * @throws ModuleNotFoundException
      */
     public function __construct(FileObjectInterface $file)
     {
+        if(!function_exists('exif_read_data')){
+            throw new ModuleNotFoundException('function exif_read_data not installed');
+        }
         $this->data = @exif_read_data($file->getPathname());
     }
 
