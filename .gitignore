@@ -1,7 +1,3 @@
-/*
-!src/
-!test/
-!.gitignore
-!/composer.json
-!.travis.yml
-!docker
+composer.lock
+bin/php-cs-fixer
+bin/phpunit
