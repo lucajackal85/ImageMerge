@@ -10,7 +10,7 @@ class ExifParserTest extends TestCase
 {
     public function testExifData()
     {
-        $exif = new ExifParser(new FileObject(__DIR__ . '/../../Resources/0.jpg'));
+        $exif = new ExifParser(new FileObject(__DIR__ . '/../../Resources/ExifParserTest/01.jpg'));
         $exifArray = $exif->toArray();
 
         $this->assertEquals('Canon', $exif->getMake());

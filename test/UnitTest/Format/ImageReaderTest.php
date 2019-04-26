@@ -12,28 +12,28 @@ class ImageReaderTest extends TestCase
 {
     public function testReadJPG(){
 
-        $ir = ImageReader::fromPathname(new FileObject(__DIR__.'/../../FunctionalTest/Resources/0.jpg'));
+        $ir = ImageReader::fromPathname(new FileObject(__DIR__.'/../Resources/ImageReaderTest/01.jpg'));
 
         $this->assertEquals(ImageReader::FORMAT_JPG,$ir->getFormat());
     }
 
     public function testReadPNG(){
 
-        $ir = ImageReader::fromPathname(new FileObject(__DIR__.'/../../FunctionalTest/Resources/building_pers.png'));
+        $ir = ImageReader::fromPathname(new FileObject(__DIR__.'/../Resources/ImageReaderTest/02.png'));
 
         $this->assertEquals(ImageReader::FORMAT_PNG,$ir->getFormat());
     }
 
     public function testReadGIF(){
 
-        $ir = ImageReader::fromPathname(new FileObject(__DIR__.'/../../FunctionalTest/Resources/sample.gif'));
+        $ir = ImageReader::fromPathname(new FileObject(__DIR__.'/../Resources/ImageReaderTest/03.gif'));
 
         $this->assertEquals(ImageReader::FORMAT_GIF,$ir->getFormat());
     }
 
     public function testReadWEBP(){
 
-        $ir = ImageReader::fromPathname(new FileObject(__DIR__.'/../../FunctionalTest/Resources/200w.webp'));
+        $ir = ImageReader::fromPathname(new FileObject(__DIR__.'/../Resources/ImageReaderTest/04.webp'));
 
         $this->assertEquals(ImageReader::FORMAT_WEBP,$ir->getFormat());
     }

@@ -80,7 +80,7 @@ abstract class AbstractParser implements ParserInterface
     {
         $value = $this->getValue($key);
         if (is_array($value)) {
-            $value = array_shift($this->getValue($key));
+            $value = array_shift($value);
         }
         $value = preg_replace('/[\r\n]/', "\n", $value);
         return $value;

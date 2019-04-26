@@ -4,3 +4,4 @@
 !.gitignore
 !/composer.json
 !.travis.yml
+!docker

@@ -11,20 +11,20 @@ class FlipTest extends FunctionalTest
     public function testFlipHorizontal()
     {
         $imageMerge = new ImageMerge();
-        $builder = $imageMerge->getBuilder(new FileObject(__DIR__.'/Resources/image1.jpg'));
+        $builder = $imageMerge->getBuilder(new FileObject(__DIR__.'/Resources/FlipTest/01.png'));
 
         $builder->flipHorizontal();
 
-        $this->assertPNGSameImage($builder->getImage(), __DIR__.'/Resources/image1_flip_h.png');
+        $this->assertPNGSameImage($builder->getImage(), __DIR__.'/Resources/FlipTest/02.png');
     }
 
     public function testFlipVertical()
     {
         $imageMerge = new ImageMerge();
-        $builder = $imageMerge->getBuilder(new FileObject(__DIR__.'/Resources/image1.jpg'));
+        $builder = $imageMerge->getBuilder(new FileObject(__DIR__.'/Resources/FlipTest/01.png'));
 
         $builder->flipVertical();
 
-        $this->assertPNGSameImage($builder->getImage(), __DIR__.'/Resources/image1_flip_v.png');
+        $this->assertPNGSameImage($builder->getImage(), __DIR__.'/Resources/FlipTest/03.png');
     }
 }

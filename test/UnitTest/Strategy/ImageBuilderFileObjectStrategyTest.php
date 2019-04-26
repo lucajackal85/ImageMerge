@@ -15,7 +15,7 @@ class ImageBuilderFileObjectStrategyTest extends TestCase
 
         $strategy = new ImageBuilderFileObjectStrategy();
 
-        $fileObject = new FileObject(__DIR__.'/../../FunctionalTest/Resources/0.jpg');
+        $fileObject = new FileObject(__DIR__.'/../Resources/StrategyTest/01.jpg');
 
         $this->assertTrue($strategy->support($fileObject));
     }

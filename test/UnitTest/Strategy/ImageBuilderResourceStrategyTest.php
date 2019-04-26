@@ -15,7 +15,7 @@ class ImageBuilderResourceStrategyTest extends TestCase
 
         $strategy = new ImageBuilderResourceStrategy();
 
-        $filePath = __DIR__.'/../../FunctionalTest/Resources/0.jpg';
+        $filePath = __DIR__.'/../Resources/StrategyTest/01.jpg';
         $image = Image::fromFile(new FileObject($filePath));
 
         $this->assertTrue($strategy->support($image->getResource()));

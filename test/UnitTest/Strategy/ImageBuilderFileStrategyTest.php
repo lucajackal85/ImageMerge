@@ -13,7 +13,7 @@ class ImageBuilderFileStrategyTest extends TestCase
 
         $strategy = new ImageBuilderFileStrategy();
 
-        $filePath = __DIR__.'/../../FunctionalTest/Resources/0.jpg';
+        $filePath = __DIR__.'/../Resources/StrategyTest/01.jpg';
         $content = file_get_contents($filePath);
 
         $this->assertTrue($strategy->support($filePath));

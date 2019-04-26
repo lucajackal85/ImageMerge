@@ -10,7 +10,7 @@ class XMPParserTest extends TestCase
 {
     public function testXMPData()
     {
-        $xmp = new XMPParser(new FileObject(__DIR__ . '/../../Resources/0.jpg'));
+        $xmp = new XMPParser(new FileObject(__DIR__ . '/../../Resources/XMPParserTest/01.jpg'));
         $xmpArray = $xmp->toArray();
 
         $this->assertEquals(["LAT Images\nemail: sales@latimages.com"], $xmp->getCopyrights());

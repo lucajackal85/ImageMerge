@@ -14,7 +14,7 @@ class ImageMergeTest extends TestCase
 {
     public function testItShouldCreaeFromFileObject(){
 
-        $source = __DIR__ . '/../FunctionalTest/Resources/0.jpg';
+        $source = __DIR__ . '/../FunctionalTest/Resources/ImageMergeTest/01.jpg';
 
         $imageMerge = new ImageMerge();
         $file = new FileObject($source);
@@ -25,7 +25,7 @@ class ImageMergeTest extends TestCase
 
     public function testItShouldCreateFromImage(){
 
-        $source = __DIR__ . '/../FunctionalTest/Resources/0.jpg';
+        $source = __DIR__ . '/../FunctionalTest/Resources/ImageMergeTest/01.jpg';
 
         $imageMerge = new ImageMerge();
         $image = Image::fromFile(new FileObject($source));
@@ -35,7 +35,7 @@ class ImageMergeTest extends TestCase
     }
 
     public function testItShouldCreateFromContentString(){
-        $source = __DIR__ . '/../FunctionalTest/Resources/0.jpg';
+        $source = __DIR__ . '/../FunctionalTest/Resources/ImageMergeTest/01.jpg';
 
         $imageMerge = new ImageMerge();
         $content = file_get_contents($source);
@@ -46,7 +46,7 @@ class ImageMergeTest extends TestCase
 
     public function testItShouldCreateBuilderFromFilePathName(){
 
-        $source = __DIR__ . '/../FunctionalTest/Resources/0.jpg';
+        $source = __DIR__ . '/../FunctionalTest/Resources/ImageMergeTest/01.jpg';
 
         $imageMerge = new ImageMerge();
         $imageBuilder = $imageMerge->getBuilder($source);

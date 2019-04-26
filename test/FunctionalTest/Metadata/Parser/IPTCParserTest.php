@@ -10,7 +10,7 @@ class IPTCParserTest extends TestCase
 {
     public function testParseMetadata()
     {
-        $iptc = new IPTCParser(new FileObject(__DIR__.'/../../Resources/0.jpg'));
+        $iptc = new IPTCParser(new FileObject(__DIR__.'/../../Resources/IPTCParserTest/01.jpg'));
         $iptcArray = $iptc->toArray();
 
         $this->assertEquals('andrewhone@gmail.com', $iptc->getCreator());
