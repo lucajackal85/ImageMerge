@@ -22,7 +22,10 @@ final class ImageReader
 
     private function __construct()
     {
-        //make it private
+        //IMAGETYPE_WEBP is available only from php 7.1
+        if(!defined('IMAGETYPE_WEBP')){
+            define('IMAGETYPE_WEBP',18);
+        }
     }
 
     /**
