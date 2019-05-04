@@ -3,7 +3,6 @@
 
 namespace Jackal\ImageMerge\Command\Effect;
 
-
 use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Utils\ImageMagickUtils;
 use Symfony\Component\Finder\Finder;

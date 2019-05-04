@@ -3,13 +3,12 @@
 
 namespace Jackal\ImageMerge\Utils;
 
-
 use Symfony\Component\Finder\Finder;
 
 class ImageMagickUtils
 {
-    public static function getImageMagickBin(array $binFolders =['/usr/local/bin', '/usr/bin']){
-
+    public static function getImageMagickBin(array $binFolders =['/usr/local/bin', '/usr/bin'])
+    {
         $finder = new Finder();
         $finder->in($binFolders);
 

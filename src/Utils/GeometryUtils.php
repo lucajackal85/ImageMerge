@@ -18,8 +18,8 @@ class GeometryUtils
     {
         $coords = $multiCoordinateCommandOption->getCoordinates();
 
-        $mostTop = self::getTopCoord($coords,2);
-        $mostBottom = self::getBottomCoord($coords,2);
+        $mostTop = self::getTopCoord($coords, 2);
+        $mostBottom = self::getBottomCoord($coords, 2);
 
         $topLeft = self::getLeftCoord($mostTop)[0];
         $topRight = self::getRightCoord($mostTop)[0];
@@ -39,16 +39,17 @@ class GeometryUtils
      * @param int $limit
      * @return Coordinate[]
      */
-    public static function getLeftCoord($coords,$limit = 1){
+    public static function getLeftCoord($coords, $limit = 1)
+    {
         $c = $coords;
-        usort($c,function (Coordinate $coordA,Coordinate $coordB){
-            if($coordA->getX() == $coordB->getX()){
+        usort($c, function (Coordinate $coordA, Coordinate $coordB) {
+            if ($coordA->getX() == $coordB->getX()) {
                 return 0;
             }
             return ($coordA->getX() >= $coordB->getX()) ? 1 : -1;
         });
 
-        return array_slice($c,0,$limit);
+        return array_slice($c, 0, $limit);
     }
 
     /**
@@ -56,16 +57,17 @@ class GeometryUtils
      * @param int $limit
      * @return Coordinate[]
      */
-    public static function getTopCoord($coords,$limit = 1){
+    public static function getTopCoord($coords, $limit = 1)
+    {
         $c = $coords;
-        usort( $c,function (Coordinate $coordA,Coordinate $coordB){
-            if($coordA->getY() === $coordB->getY()){
+        usort($c, function (Coordinate $coordA, Coordinate $coordB) {
+            if ($coordA->getY() === $coordB->getY()) {
                 return 0;
             }
             return ($coordA->getY() >= $coordB->getY()) ? 1 : -1;
         });
 
-        return array_slice($c,0,$limit);
+        return array_slice($c, 0, $limit);
     }
 
     /**
@@ -73,16 +75,17 @@ class GeometryUtils
      * @param int $limit
      * @return Coordinate[]
      */
-    public static function getRightCoord($coords,$limit = 1){
+    public static function getRightCoord($coords, $limit = 1)
+    {
         $c = $coords;
-        usort( $c,function (Coordinate $coordA,Coordinate $coordB){
-            if($coordA->getX() === $coordB->getX()){
+        usort($c, function (Coordinate $coordA, Coordinate $coordB) {
+            if ($coordA->getX() === $coordB->getX()) {
                 return 0;
             }
             return ($coordA->getX() >= $coordB->getX()) ? -1 : 1;
         });
 
-        return array_slice($c,0,$limit);
+        return array_slice($c, 0, $limit);
     }
 
     /**
@@ -90,22 +93,24 @@ class GeometryUtils
      * @param int $limit
      * @return Coordinate[]
      */
-    public static function getBottomCoord($coords,$limit = 1){
+    public static function getBottomCoord($coords, $limit = 1)
+    {
         $c = $coords;
-        usort($c,function (Coordinate $coordA,Coordinate $coordB){
-            if($coordA->getY() === $coordB->getY()){
+        usort($c, function (Coordinate $coordA, Coordinate $coordB) {
+            if ($coordA->getY() === $coordB->getY()) {
                 return 0;
             }
             return ($coordA->getY() >= $coordB->getY()) ? -1 : 1;
         });
 
-        return array_slice($c,0,$limit);
+        return array_slice($c, 0, $limit);
     }
 
-    public static function calculateCenterCoord($coords){
+    public static function calculateCenterCoord($coords)
+    {
         $sumX = 0;
         $sumY = 0;
-        foreach($coords as $coord){
+        foreach ($coords as $coord) {
             $sumX += $coord->getX();
             $sumY += $coord->getY();
         }

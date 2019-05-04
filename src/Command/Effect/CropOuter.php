@@ -34,9 +34,9 @@ class CropOuter extends AbstractCommand
         $thumbAspect = $newWidth / $newHeight;
         $builder = new ImageBuilder($this->image);
         if ($this->image->getAspectRatio() >= $thumbAspect) {
-            $builder->resize($newWidth,null);
+            $builder->resize($newWidth, null);
         } else {
-            $builder->resize(null,$newHeight);
+            $builder->resize(null, $newHeight);
         }
 
         $posX = ($newWidth - $this->image->getWidth()) / 2;

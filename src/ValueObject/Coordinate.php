@@ -58,7 +58,8 @@ class Coordinate
         return $this->getX().'X'.$this->getY();
     }
 
-    public function match(Coordinate $coordinate){
+    public function match(Coordinate $coordinate)
+    {
         return ($this->getX() == $coordinate->getX()) and ($this->getY() == $coordinate->getY());
     }
 }

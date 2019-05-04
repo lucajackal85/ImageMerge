@@ -28,7 +28,7 @@ class TextAssetCommand extends AbstractCommand
 
         $fontPixel = round($options->getText()->getFontSize() * 0.75);
 
-        if(!function_exists('imagettftext')){
+        if (!function_exists('imagettftext')) {
             throw new ModuleNotFoundException('function imagettftext not installed');
         }
 

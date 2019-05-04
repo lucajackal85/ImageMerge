@@ -23,8 +23,8 @@ final class ImageReader
     private function __construct()
     {
         //IMAGETYPE_WEBP is available only from php 7.1
-        if(!defined('IMAGETYPE_WEBP')){
-            define('IMAGETYPE_WEBP',18);
+        if (!defined('IMAGETYPE_WEBP')) {
+            define('IMAGETYPE_WEBP', 18);
         }
     }
 
@@ -66,22 +66,23 @@ final class ImageReader
         return $ir;
     }
 
-    private function getExtension(FileObjectInterface $filename){
+    private function getExtension(FileObjectInterface $filename)
+    {
         return strtolower(pathinfo($filename->getPathname(), PATHINFO_EXTENSION));
     }
 
-    private function getExifType(FileObjectInterface $filename){
+    private function getExifType(FileObjectInterface $filename)
+    {
         $imageType = exif_imagetype($filename->getPathname());
 
-        if(!$imageType){
+        if (!$imageType) {
             //since IMAGETYPE_WEBP is available only from php 7.1, we guess the type base from the extension
-            if(version_compare(PHP_VERSION, '7.1.0', '<') and $this->getExtension($filename) == 'webp'){
+            if (version_compare(PHP_VERSION, '7.1.0', '<') and $this->getExtension($filename) == 'webp') {
                 return IMAGETYPE_WEBP;
             }
         }
 
         return $imageType;
-
     }
 
     /**

@@ -33,7 +33,7 @@ class ImageBuilderFileStrategy implements ImageBuilderStrategyInterface
     public function getImageBuilder($source)
     {
         $image = Image::fromFile(new FileObject($source));
-        $image->addMetadata(new Metadata(FileTempObject::fromString($source)));
+        $image->addMetadata(new Metadata(new FileObject($source)));
 
         return new ImageBuilder($image);
     }

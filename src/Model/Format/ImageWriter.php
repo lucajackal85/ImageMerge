@@ -40,7 +40,7 @@ class ImageWriter
         imagepng($resource, null, 9);
         $content = ob_get_clean();
 
-        return self::writeFile($content,$filePathName,'image/png');
+        return self::writeFile($content, $filePathName, 'image/png');
     }
 
     /**
@@ -55,7 +55,7 @@ class ImageWriter
         imagejpeg($resource, null, 100);
         $content = ob_get_clean();
 
-        return self::writeFile($content,$filePathName,'image/jpg');
+        return self::writeFile($content, $filePathName, 'image/jpg');
     }
 
     /**
@@ -70,7 +70,7 @@ class ImageWriter
         imagegif($resource);
         $content = ob_get_clean();
 
-        return self::writeFile($content,$filePathName,'image/gif');
+        return self::writeFile($content, $filePathName, 'image/gif');
     }
 
     /**
@@ -85,7 +85,7 @@ class ImageWriter
         imagewebp($resource);
         $content = ob_get_clean();
 
-        return self::writeFile($content,$filePathName,'image/webp');
+        return self::writeFile($content, $filePathName, 'image/webp');
     }
 
     /**
@@ -95,7 +95,8 @@ class ImageWriter
      * @return bool|ImageResponse
      * @throws \Exception
      */
-    private static function writeFile($content,$filePathName,$contentType){
+    private static function writeFile($content, $filePathName, $contentType)
+    {
         if ($filePathName) {
             ImageWriter::checkPermissions($filePathName);
             return file_put_contents($filePathName, $content) == true;

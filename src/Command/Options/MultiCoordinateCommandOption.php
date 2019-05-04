@@ -72,7 +72,6 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
      */
     public function toArray()
     {
-
         $points = [];
         /** @var Coordinate $arg */
         foreach ($this->args as $arg) {

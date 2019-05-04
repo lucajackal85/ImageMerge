@@ -156,8 +156,8 @@ class Image
         return $this->resource;
     }
 
-    public function getResourceClone() {
-
+    public function getResourceClone()
+    {
         $original = $this->resource;
         $copy = imagecreatetruecolor($this->width, $this->height);
 
