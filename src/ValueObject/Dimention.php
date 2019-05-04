@@ -3,6 +3,8 @@
 
 namespace Jackal\ImageMerge\ValueObject;
 
+use InvalidArgumentException;
+
 class Dimention
 {
     /**
@@ -31,7 +33,7 @@ class Dimention
         }
 
         if (is_null($width) and is_null($height)) {
-            throw new \InvalidArgumentException('Both width and height are empty values');
+            throw new InvalidArgumentException('Both width and height are empty values');
         }
 
         $this->width = $width;

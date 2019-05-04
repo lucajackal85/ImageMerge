@@ -14,29 +14,29 @@ class PixelCommand extends AbstractCommand
 
     /**
      * PixelCommand constructor.
-     * @param Image $image
      * @param LevelCommandOption $options
      */
-    public function __construct(Image $image, LevelCommandOption $options)
+    public function __construct(LevelCommandOption $options)
     {
-        parent::__construct($image, $options);
+        parent::__construct($options);
     }
 
     /**
+     * @param Image $image
      * @return Image
      */
-    public function execute()
+    public function execute(Image $image)
     {
         $level = $this->options->getLevel();
         if (!$level) {
-            return $this->image;
+            return $image;
         }
 
-        $resource = $this->image->getResource();
+        $resource = $image->getResource();
 
         // start from the top-left pixel and keep looping until we have the desired effect
-        for ($y = 0;$y < $this->image->getHeight();$y += $level+1) {
-            for ($x = 0;$x < $this->image->getWidth();$x += $level+1) {
+        for ($y = 0;$y < $image->getHeight();$y += $level+1) {
+            for ($x = 0;$x < $image->getWidth();$x += $level+1) {
                 // get the color for current pixel
                 $rgb = imagecolorsforindex($resource, imagecolorat($resource, $x, $y));
 
@@ -46,6 +46,6 @@ class PixelCommand extends AbstractCommand
             }
         }
 
-        return $this->image;
+        return $image;
     }
 }

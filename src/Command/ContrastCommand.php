@@ -10,21 +10,21 @@ class ContrastCommand extends AbstractCommand
 
     /**
      * ContrastCommand constructor.
-     * @param Image $image
      * @param LevelCommandOption $options
      */
-    public function __construct(Image $image, LevelCommandOption $options)
+    public function __construct(LevelCommandOption $options)
     {
-        parent::__construct($image, $options);
+        parent::__construct($options);
     }
 
     /**
+     * @param Image $image
      * @return Image
      */
-    public function execute()
+    public function execute(Image $image)
     {
-        imagefilter($this->image->getResource(), IMG_FILTER_CONTRAST, $this->options->getLevel());
+        imagefilter($image->getResource(), IMG_FILTER_CONTRAST, $this->options->getLevel());
 
-        return $this->image;
+        return $image;
     }
 }

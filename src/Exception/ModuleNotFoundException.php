@@ -3,6 +3,8 @@
 
 namespace Jackal\ImageMerge\Exception;
 
-class ModuleNotFoundException extends \Exception
+use Exception;
+
+class ModuleNotFoundException extends Exception
 {
 }

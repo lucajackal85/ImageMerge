@@ -2,6 +2,7 @@
 
 namespace Jackal\ImageMerge\Model\Format;
 
+use Exception;
 use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
 
@@ -31,7 +32,7 @@ final class ImageReader
     /**
      * @param FileObjectInterface $filename
      * @return ImageReader
-     * @throws \Exception
+     * @throws Exception
      */
     public static function fromPathname(FileObjectInterface $filename)
     {
@@ -56,7 +57,7 @@ final class ImageReader
                 break;
             }
             default: {
-                throw new \Exception(sprintf('File is not a valid image type [extension: "%s"]',
+                throw new Exception(sprintf('File is not a valid image type [extension: "%s"]',
                     $ir->getExtension($filename))
                 );
 
@@ -88,7 +89,7 @@ final class ImageReader
     /**
      * @param $string
      * @return ImageReader
-     * @throws \Exception
+     * @throws Exception
      */
     public static function fromString($string)
     {

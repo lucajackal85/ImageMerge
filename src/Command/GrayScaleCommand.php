@@ -13,19 +13,19 @@ class GrayScaleCommand extends AbstractCommand
 
     /**
      * GrayScaleCommand constructor.
-     * @param Image $image
      */
-    public function __construct(Image $image)
+    public function __construct()
     {
-        parent::__construct($image, null);
+        parent::__construct(null);
     }
 
     /**
+     * @param Image $image
      * @return Image
      */
-    public function execute()
+    public function execute(Image $image)
     {
-        imagefilter($this->image->getResource(), IMG_FILTER_GRAYSCALE);
-        return $this->image;
+        imagefilter($image->getResource(), IMG_FILTER_GRAYSCALE);
+        return $image;
     }
 }

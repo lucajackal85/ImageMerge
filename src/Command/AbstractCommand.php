@@ -3,7 +3,6 @@
 namespace Jackal\ImageMerge\Command;
 
 use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
-use Jackal\ImageMerge\Model\Image;
 
 /**
  * Class AbstractCommand
@@ -12,23 +11,16 @@ use Jackal\ImageMerge\Model\Image;
 abstract class AbstractCommand implements CommandInterface
 {
     /**
-     * @var Image
-     */
-    protected $image;
-
-    /**
      * @var CommandOptionInterface
      */
     protected $options;
 
     /**
      * AbstractCommand constructor.
-     * @param Image $image
      * @param CommandOptionInterface|null $options
      */
-    public function __construct(Image $image, CommandOptionInterface $options = null)
+    public function __construct(CommandOptionInterface $options = null)
     {
-        $this->image = $image;
         $this->options = $options;
     }
 }

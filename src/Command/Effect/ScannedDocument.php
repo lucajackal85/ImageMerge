@@ -16,27 +16,26 @@ class ScannedDocument extends AbstractCommand
 
     /**
      * ScannedDocument constructor.
-     * @param Image $image
      * @param LevelCommandOption|null $contrast
      */
-    public function __construct(Image $image, LevelCommandOption $contrast = null)
+    public function __construct(LevelCommandOption $contrast = null)
     {
         if ($contrast == null) {
             $this->contrast = new LevelCommandOption(-60);
         }
 
-        parent::__construct($image, $this->contrast);
+        parent::__construct($this->contrast);
     }
 
     /**
+     * @param Image $image
      * @return Image
-     * @throws \Exception
      */
-    public function execute()
+    public function execute(Image $image)
     {
-        $builder = new ImageBuilder($this->image);
+        $builder = new ImageBuilder($image);
 
-        if ($this->image->getWidth() > $this->image->getHeight()) {
+        if ($image->getWidth() > $image->getHeight()) {
             $builder->rotate(-90);
         }
 

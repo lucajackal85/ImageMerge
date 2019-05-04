@@ -3,10 +3,9 @@
 
 namespace Jackal\ImageMerge;
 
+use Exception;
 use Jackal\ImageMerge\Builder\ImageBuilder;
-use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\File\FileObject;
-use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Strategy\ImageBuilderContentStrategy;
 use Jackal\ImageMerge\Strategy\ImageBuilderFileObjectStrategy;
@@ -30,18 +29,19 @@ class ImageMerge
     /**
      * @param Image|FileObject|string $source
      * @return ImageBuilder
-     * @throws \Exception
+     * @throws Exception
      */
     public function getBuilder($source)
     {
         foreach ($this->strategies as $strategyClass) {
+            /** @var ImageBuilderStrategyInterface $strategy */
             $strategy = new $strategyClass;
             if ($strategy->support($source)) {
                 return $strategy->getImageBuilder($source);
             }
         }
 
-        throw new \Exception('No strategy found, cannot create ImageBuilder');
+        throw new Exception('No strategy found, cannot create ImageBuilder');
     }
 
     public function registerImageBuilderStrategy(ImageBuilderStrategyInterface $strategy)

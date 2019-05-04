@@ -3,6 +3,7 @@
 
 namespace Jackal\ImageMerge\Utils;
 
+use RuntimeException;
 use Symfony\Component\Finder\Finder;
 
 class ImageMagickUtils
@@ -16,7 +17,7 @@ class ImageMagickUtils
 
 
         if (!$finder->count()) {
-            throw new \RuntimeException(sprintf('Cannot find ImageMagick binaries [Looked into: %s]', implode(',', $binFolders)));
+            throw new RuntimeException(sprintf('Cannot find ImageMagick binaries [Looked into: %s]', implode(',', $binFolders)));
         }
 
         return $finder->getIterator()->current()->getPathName();

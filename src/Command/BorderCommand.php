@@ -17,64 +17,63 @@ class BorderCommand extends AbstractCommand
 {
     /**
      * BorderCommand constructor.
-     * @param Image $image
      * @param BorderCommandOption $options
      */
-    public function __construct(Image $image, BorderCommandOption $options)
+    public function __construct(BorderCommandOption $options)
     {
-        parent::__construct($image, $options);
+        parent::__construct($options);
     }
 
     /**
+     * @param Image $image
      * @return Image
-     * @throws \Exception
      */
-    public function execute()
+    public function execute(Image $image)
     {
         /** @var BorderCommandOption $options */
         $options = $this->options;
 
         for ($i=0;$i<$options->getStroke();$i++) {
-            $builder = new ImageBuilder($this->image);
+            $builder = new ImageBuilder($image);
 
             $builder->addCommand(
-                new LineAssetCommand($this->image,
+                new LineAssetCommand(
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate(0, $i),
-                        new Coordinate($this->image->getWidth(), $i),
+                        new Coordinate($image->getWidth(), $i),
                         $options->getColor()
                     )
             ));
             //bottom
             $builder->addCommand(
-                new LineAssetCommand($this->image,
+                new LineAssetCommand(
                     new DoubleCoordinateColorCommandOption(
-                        new Coordinate(0, $this->image->getHeight() - $i - 1),
-                        new Coordinate($this->image->getWidth(), $this->image->getHeight() - $i - 1),
+                        new Coordinate(0, $image->getHeight() - $i - 1),
+                        new Coordinate($image->getWidth(), $image->getHeight() - $i - 1),
                         $options->getColor()
                 )
             ));
             //right
             $builder->addCommand(
-                new LineAssetCommand($this->image,
+                new LineAssetCommand(
                     new DoubleCoordinateColorCommandOption(
-                        new Coordinate($this->image->getWidth() - $i -1, 0),
-                        new Coordinate($this->image->getWidth() - $i -1, $this->image->getHeight()),
+                        new Coordinate($image->getWidth() - $i -1, 0),
+                        new Coordinate($image->getWidth() - $i -1, $image->getHeight()),
                         $options->getColor()
                 )
             ));
             //left
             $builder->addCommand(
-                new LineAssetCommand($this->image,
+                new LineAssetCommand(
                     new DoubleCoordinateColorCommandOption(
                         new Coordinate($i, 0),
-                        new Coordinate($i, $this->image->getHeight()),
+                        new Coordinate($i, $image->getHeight()),
                         $options->getColor()
                     )
             ));
         }
 
 
-        return $this->image;
+        return $image;
     }
 }

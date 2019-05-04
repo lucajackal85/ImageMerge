@@ -2,11 +2,13 @@
 
 namespace Jackal\ImageMerge\Model;
 
+use Exception;
 use Jackal\ImageMerge\Builder\ImageBuilder;
 
 
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
+use Jackal\ImageMerge\Exception\InvalidColorException;
 use Jackal\ImageMerge\Http\Response\ImageResponse;
 use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
@@ -47,7 +49,7 @@ class Image
      * @param $width
      * @param $height
      * @param bool $transparent
-     * @throws \Jackal\ImageMerge\Exception\InvalidColorException
+     * @throws InvalidColorException
      */
     public function __construct($width, $height, $transparent = true)
     {
@@ -69,7 +71,7 @@ class Image
     /**
      * @param FileObjectInterface $filePathName
      * @return Image
-     * @throws \Exception
+     * @throws Exception
      */
     public static function fromFile(FileObjectInterface $filePathName)
     {
@@ -77,15 +79,15 @@ class Image
         $imageResource = $resource->getResource();
 
         $image = new self(imagesx($imageResource), imagesy($imageResource));
-        $command = new ImageAssetCommand($image, new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
-        $command->execute();
+        $command = new ImageAssetCommand(new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
+        $command->execute($image);
         return $image;
     }
 
     /**
      * @param $contentString
      * @return Image
-     * @throws \Exception
+     * @throws Exception
      */
     public static function fromString($contentString)
     {
@@ -93,8 +95,8 @@ class Image
         $resource = ImageReader::fromPathname($file);
 
         $image = new self(imagesx($resource->getResource()), imagesy($resource->getResource()));
-        $command = new ImageAssetCommand($image, new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
-        $command->execute();
+        $command = new ImageAssetCommand(new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
+        $command->execute($image);
 
         return $image;
     }
@@ -115,7 +117,7 @@ class Image
      * @param null $width
      * @param null $height
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function isDark($fromX = null, $fromY = null, $width =null, $height = null)
     {
@@ -169,7 +171,7 @@ class Image
     /**
      * @param null $filePathName
      * @return bool|ImageResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function toPNG($filePathName = null)
     {
@@ -179,7 +181,7 @@ class Image
     /**
      * @param null $filePathName
      * @return bool|ImageResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function toJPG($filePathName = null)
     {
@@ -189,7 +191,7 @@ class Image
     /**
      * @param null $filePathName
      * @return bool|ImageResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function toGIF($filePathName = null)
     {

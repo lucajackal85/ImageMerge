@@ -5,7 +5,6 @@ namespace Jackal\ImageMerge\Utils;
 
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
 use Jackal\ImageMerge\ValueObject\Coordinate;
-use Jackal\ImageMerge\ValueObject\Dimention;
 
 class GeometryUtils
 {

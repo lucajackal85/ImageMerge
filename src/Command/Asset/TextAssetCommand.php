@@ -5,6 +5,7 @@ namespace Jackal\ImageMerge\Command\Asset;
 use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\TextCommandOption;
 use Jackal\ImageMerge\Exception\ModuleNotFoundException;
+use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Utils\ColorUtils;
 
 /**
@@ -15,14 +16,16 @@ class TextAssetCommand extends AbstractCommand
 {
 
     /**
-     * @return \Jackal\ImageMerge\Model\Image
+     * @param Image $image
+     * @return mixed
+     * @throws ModuleNotFoundException
      */
-    public function execute()
+    public function execute(Image $image)
     {
         /** @var TextCommandOption $options */
         $options = $this->options;
 
-        $color = ColorUtils::colorIdentifier($this->image->getResource(),
+        $color = ColorUtils::colorIdentifier($image->getResource(),
             $options->getColor()
         );
 
@@ -32,10 +35,10 @@ class TextAssetCommand extends AbstractCommand
             throw new ModuleNotFoundException('function imagettftext not installed');
         }
 
-        imagettftext($this->image->getResource(), $fontPixel, 0,
+        imagettftext($image->getResource(), $fontPixel, 0,
             $options->getCoordinate1()->getX(),
             $options->getCoordinate1()->getY() + $fontPixel,
             $color, $options->getText()->getFont(), $options->getText()->getText());
-        return $this->image;
+        return $image;
     }
 }

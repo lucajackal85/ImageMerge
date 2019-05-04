@@ -13,24 +13,24 @@ class BlurCommand extends AbstractCommand
 {
     /**
      * BlurCommand constructor.
-     * @param Image $image
      * @param LevelCommandOption $options
      */
-    public function __construct(Image $image, LevelCommandOption $options)
+    public function __construct(LevelCommandOption $options)
     {
-        parent::__construct($image, $options);
+        parent::__construct($options);
     }
 
     /**
+     * @param Image $image
      * @return Image
      */
-    public function execute()
+    public function execute(Image $image)
     {
         if ($this->options->get('level')) {
             for ($i = 0; $i < $this->options->get('level'); $i++) {
-                imagefilter($this->image->getResource(), IMG_FILTER_GAUSSIAN_BLUR);
+                imagefilter($image->getResource(), IMG_FILTER_GAUSSIAN_BLUR);
             }
         }
-        return $this->image;
+        return $image;
     }
 }

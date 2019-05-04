@@ -2,8 +2,8 @@
 
 namespace Jackal\ImageMerge\Model\Format;
 
+use Exception;
 use Jackal\ImageMerge\Http\Response\ImageResponse;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class ImageWriter
@@ -13,18 +13,18 @@ class ImageWriter
 {
     /**
      * @param $filePathName
-     * @throws \Exception
+     * @throws Exception
      */
     private static function checkPermissions($filePathName)
     {
         $directory = dirname($filePathName);
         if (!is_dir($directory)) {
             if (!mkdir(dirname($filePathName), 0777, true)) {
-                throw new \Exception(sprintf('Cannot create folder %s', $directory));
+                throw new Exception(sprintf('Cannot create folder %s', $directory));
             }
         }
         if (!is_writable($directory)) {
-            throw new \Exception(sprintf('Cannot write into directory: %s', $directory));
+            throw new Exception(sprintf('Cannot write into directory: %s', $directory));
         }
     }
 
@@ -32,7 +32,7 @@ class ImageWriter
      * @param $resource
      * @param null $filePathName
      * @return bool|ImageResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public static function toPNG($resource, $filePathName = null)
     {
@@ -47,7 +47,7 @@ class ImageWriter
      * @param $resource
      * @param null $filePathName
      * @return bool|ImageResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public static function toJPG($resource, $filePathName=null)
     {
@@ -62,7 +62,7 @@ class ImageWriter
      * @param $resource
      * @param null $filePathName
      * @return bool|ImageResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public static function toGIF($resource, $filePathName=null)
     {
@@ -77,7 +77,7 @@ class ImageWriter
      * @param $resource
      * @param null $filePathName
      * @return bool|ImageResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public static function toWEBP($resource, $filePathName=null)
     {
@@ -93,7 +93,7 @@ class ImageWriter
      * @param $filePathName
      * @param $contentType
      * @return bool|ImageResponse
-     * @throws \Exception
+     * @throws Exception
      */
     private static function writeFile($content, $filePathName, $contentType)
     {

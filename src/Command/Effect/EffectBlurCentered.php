@@ -2,9 +2,11 @@
 
 namespace Jackal\ImageMerge\Command\Effect;
 
+use Exception;
 use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Command\AbstractCommand;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
+use Jackal\ImageMerge\Exception\InvalidColorException;
 use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
@@ -18,42 +20,41 @@ class EffectBlurCentered extends AbstractCommand
 
     /**
      * EffectBlurCentered constructor.
-     * @param Image $image
      * @param DimensionCommandOption $options
      */
-    public function __construct(Image $image, DimensionCommandOption $options)
+    public function __construct(DimensionCommandOption $options)
     {
-        parent::__construct($image, $options);
+        parent::__construct($options);
     }
 
     /**
+     * @param Image $image
      * @return Image
-     * @throws \Exception
-     * @throws \Jackal\ImageMerge\Exception\InvalidColorException
+     * @throws InvalidColorException
      */
-    public function execute()
+    public function execute(Image $image)
     {
         /** @var DimensionCommandOption $options */
         $options = $this->options;
 
-        $builder = new ImageBuilder($this->image);
+        $builder = new ImageBuilder($image);
 
-        $originalWidth = $this->image->getWidth();
-        $originalHeight = $this->image->getHeight();
+        $originalWidth = $image->getWidth();
+        $originalHeight = $image->getHeight();
 
         if ($originalHeight > $options->getDimention()->getHeight()) {
             $builder->thumbnail(null, $options->getDimention()->getHeight() - 4);
-            $originalWidth = $this->image->getWidth();
-            $originalHeight = $this->image->getHeight();
+            $originalWidth = $image->getWidth();
+            $originalHeight = $image->getHeight();
         }
 
         if ($originalWidth > $options->getDimention()->getWidth()) {
             $builder->thumbnail($options->getDimention()->getWidth() - 4, null);
-            $originalWidth = $this->image->getWidth();
-            $originalHeight = $this->image->getHeight();
+            $originalWidth = $image->getWidth();
+            $originalHeight = $image->getHeight();
         }
 
-        $originalImg = $this->saveImage($this->image);
+        $originalImg = $this->saveImage($image);
 
         $builder->resize($options->getDimention()->getWidth(), $options->getDimention()->getHeight());
         $builder->blur(40);
@@ -74,7 +75,7 @@ class EffectBlurCentered extends AbstractCommand
     /**
      * @param Image $image
      * @return FileTempObject
-     * @throws \Exception
+     * @throws Exception
      */
     private function saveImage(Image $image)
     {

@@ -2,6 +2,8 @@
 
 namespace Jackal\ImageMerge\Metadata\Parser;
 
+use DateTime;
+use Exception;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
 
 /**
@@ -61,13 +63,14 @@ class IPTCParser extends AbstractParser
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
+     * @throws Exception
      */
     public function getCreationDateTime()
     {
         if ($this->getSingleValue(self::CREATION_DATE)) {
             $dt = trim($this->getSingleValue(self::CREATION_DATE) . ' ' . $this->getSingleValue(self::CREATION_TIME));
-            return new \DateTime($dt);
+            return new DateTime($dt);
         }
         return null;
     }
@@ -111,6 +114,7 @@ class IPTCParser extends AbstractParser
 
     /**
      * @return array
+     * @throws Exception
      */
     public function toArray()
     {

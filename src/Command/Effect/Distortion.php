@@ -2,14 +2,14 @@
 
 namespace Jackal\ImageMerge\Command\Effect;
 
-use Jackal\ImageMerge\Command\AbstractCommand;
+use Exception;
+use InvalidArgumentException;
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
 use Jackal\ImageMerge\Utils\GeometryUtils;
 use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\File\Filename;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -18,32 +18,32 @@ class Distortion extends AbstractImageMagickCommand
 
     /**
      * Distortion constructor.
-     * @param Image $image
      * @param MultiCoordinateCommandOption $options
      */
-    public function __construct(Image $image, MultiCoordinateCommandOption $options)
+    public function __construct(MultiCoordinateCommandOption $options)
     {
-        parent::__construct($image, $options);
+        parent::__construct($options);
     }
 
 
     /**
+     * @param Image $image
      * @return Image
-     * @throws \Exception
+     * @throws Exception
      */
-    public function execute()
+    public function execute(Image $image)
     {
-        $image = $this->image;
+        $originImage = $image;
 
         $outputFilepathname = Filename::createTempFilename();
 
-        $inputFile = FileTempObject::fromString($image->toPNG()->getContent());
+        $inputFile = FileTempObject::fromString($originImage->toPNG()->getContent());
 
         /** @var MultiCoordinateCommandOption $options */
         $options = $this->options;
 
         if (!$options->isQuadrilateral()) {
-            throw new \InvalidArgumentException('Coordinates must represent a quadrilateral shape');
+            throw new InvalidArgumentException('Coordinates must represent a quadrilateral shape');
         }
 
         $options = GeometryUtils::getClockwiseOrder($options);
@@ -51,8 +51,8 @@ class Distortion extends AbstractImageMagickCommand
         /** @var Coordinate[] $coordinates */
         $coordinates = $options->toArray();
 
-        $width = $image->getWidth();
-        $height = $image->getHeight();
+        $width = $originImage->getWidth();
+        $height = $originImage->getHeight();
 
 
         $cmd = sprintf(

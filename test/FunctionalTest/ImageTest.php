@@ -35,7 +35,7 @@ class ImageTest extends FunctionalTest
             ->rotate(90)
             ->border(1);
 
-        $builder->addCommand(new EffectBlurCentered($builder->getImage(), new DimensionCommandOption(new Dimention(200, 200))));
+        $builder->addCommand(new EffectBlurCentered(new DimensionCommandOption(new Dimention(200, 200))));
 
         $builder->getImage()->toPNG(__DIR__.'/Resources/00.png');
         $this->assertPNGSameImage($builder->getImage(), __DIR__.'/Resources/ImageTest/02.png');

@@ -14,24 +14,24 @@ class RotateCommand extends AbstractCommand
 
     /**
      * RotateCommand constructor.
-     * @param Image $image
      * @param LevelCommandOption $options
      */
-    public function __construct(Image $image, LevelCommandOption $options)
+    public function __construct(LevelCommandOption $options)
     {
-        parent::__construct($image, $options);
+        parent::__construct($options);
     }
 
     /**
+     * @param Image $image
      * @return Image
      */
-    public function execute()
+    public function execute(Image $image)
     {
         $degree = $this->options->getLevel();
-        $resource = $this->image->getResource();
+        $resource = $image->getResource();
         if ($degree and ($degree % 360)) {
             $resource = imagerotate($resource, $degree, 0);
         }
-        return $this->image->assignResource($resource);
+        return $image->assignResource($resource);
     }
 }

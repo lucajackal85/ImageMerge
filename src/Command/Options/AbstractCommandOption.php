@@ -2,6 +2,8 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
+use InvalidArgumentException;
+
 /**
  * Class AbstractCommandOption
  * @package Jackal\ImageMerge\Command\Options
@@ -29,7 +31,7 @@ abstract class AbstractCommandOption implements CommandOptionInterface
     public function get($key)
     {
         if (!array_key_exists($key, $this->options)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Key %s is not valid, available options are: %s',
                     $key,
                     implode(',', array_keys($this->options)

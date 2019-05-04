@@ -2,6 +2,7 @@
 
 namespace Jackal\ImageMerge\Metadata;
 
+use Jackal\ImageMerge\Exception\ModuleNotFoundException;
 use Jackal\ImageMerge\Metadata\Parser\ExifParser;
 use Jackal\ImageMerge\Metadata\Parser\IPTCParser;
 use Jackal\ImageMerge\Metadata\Parser\XMPParser;
@@ -31,6 +32,7 @@ class Metadata
     /**
      * Metadata constructor.
      * @param FileObjectInterface $file
+     * @throws ModuleNotFoundException
      */
     public function __construct(FileObjectInterface $file)
     {

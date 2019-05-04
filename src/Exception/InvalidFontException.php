@@ -2,11 +2,13 @@
 
 namespace Jackal\ImageMerge\Exception;
 
+use Exception;
+
 /**
  * Class InvalidFontException
  * @package Jackal\ImageMerge\Exception
  */
-class InvalidFontException extends \Exception
+class InvalidFontException extends Exception
 {
     /**
      * InvalidFontException constructor.

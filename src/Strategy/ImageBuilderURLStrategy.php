@@ -3,9 +3,9 @@
 
 namespace Jackal\ImageMerge\Strategy;
 
+use Exception;
 use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\Metadata\Metadata;
-use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
 
@@ -24,7 +24,7 @@ class ImageBuilderURLStrategy implements ImageBuilderStrategyInterface
     /**
      * @param $source
      * @return ImageBuilder
-     * @throws \Exception
+     * @throws Exception
      */
     public function getImageBuilder($source)
     {

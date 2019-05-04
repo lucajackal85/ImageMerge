@@ -2,6 +2,8 @@
 
 namespace Jackal\ImageMerge\Metadata\Parser;
 
+use DateTime;
+use Exception;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
 
 /**
@@ -96,7 +98,7 @@ class XMPParser extends AbstractParser
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getDescription()
     {
@@ -104,11 +106,12 @@ class XMPParser extends AbstractParser
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
+     * @throws Exception
      */
     public function getCreationDateTime()
     {
-        return new \DateTime($this->getSingleValue('created_at'));
+        return new DateTime($this->getSingleValue('created_at'));
     }
 
     /**
@@ -144,6 +147,7 @@ class XMPParser extends AbstractParser
 
     /**
      * @return array
+     * @throws Exception
      */
     public function toArray()
     {

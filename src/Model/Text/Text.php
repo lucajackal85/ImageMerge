@@ -2,6 +2,7 @@
 
 namespace Jackal\ImageMerge\Model\Text;
 
+use Exception;
 use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\Font\Font;
 
@@ -50,12 +51,12 @@ class Text
      * @param null $boxWidth
      * @param null $boxHeight
      * @return Text
-     * @throws \Exception
+     * @throws Exception
      */
     public function fitToBox($boxWidth = null, $boxHeight = null)
     {
         if (is_null($boxWidth) and is_null($boxHeight)) {
-            throw new \Exception('At least one dimension must be defined');
+            throw new Exception('At least one dimension must be defined');
         }
 
         $finalSize = 1;

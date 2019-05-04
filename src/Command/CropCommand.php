@@ -2,6 +2,7 @@
 
 namespace Jackal\ImageMerge\Command;
 
+use InvalidArgumentException;
 use Jackal\ImageMerge\Command\Options\CropCommandOption;
 use Jackal\ImageMerge\Model\Image;
 
@@ -14,36 +15,36 @@ class CropCommand extends AbstractCommand
 
     /**
      * CropCommand constructor.
-     * @param Image $image
      * @param CropCommandOption $options
      */
-    public function __construct(Image $image, CropCommandOption $options)
+    public function __construct(CropCommandOption $options)
     {
-        parent::__construct($image, $options);
+        parent::__construct($options);
     }
 
     /**
+     * @param Image $image
      * @return Image
      */
-    public function execute()
+    public function execute(Image $image)
     {
-        if ($this->image->getWidth() == $this->options->getDimention()->getWidth() and $this->image->getHeight() == $this->options->getDimention()->getHeight()) {
-            return $this->image;
+        if ($image->getWidth() == $this->options->getDimention()->getWidth() and $image->getHeight() == $this->options->getDimention()->getHeight()) {
+            return $image;
         }
 
-        if ($this->options->getDimention()->getWidth() > $this->image->getWidth() || $this->options->getDimention()->getHeight() > $this->image->getHeight()) {
-            throw new \InvalidArgumentException(sprintf('Crop area exceed, max dimensions are: %s X %s', $this->image->getWidth(), $this->image->getHeight()));
+        if ($this->options->getDimention()->getWidth() > $image->getWidth() || $this->options->getDimention()->getHeight() > $image->getHeight()) {
+            throw new InvalidArgumentException(sprintf('Crop area exceed, max dimensions are: %s X %s', $image->getWidth(), $image->getHeight()));
         }
 
         /** @var CropCommandOption $options */
         $options = $this->options;
-        $newImage = imagecrop($this->image->getResource(), [
+        $newImage = imagecrop($image->getResource(), [
             'x' => $options->getCoordinate1()->getX(),
             'y' => $options->getCoordinate1()->getY(),
             'width' => $options->getDimention()->getWidth(),
             'height' => $options->getDimention()->getHeight()
         ]);
 
-        return $this->image->assignResource($newImage);
+        return $image->assignResource($newImage);
     }
 }

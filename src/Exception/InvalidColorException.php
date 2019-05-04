@@ -2,6 +2,8 @@
 
 namespace Jackal\ImageMerge\Exception;
 
-class InvalidColorException extends \Exception
+use Exception;
+
+class InvalidColorException extends Exception
 {
 }

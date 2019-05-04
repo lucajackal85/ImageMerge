@@ -176,9 +176,9 @@ class ExifParser extends AbstractParser
          */
 
         $GPSLatitudeRef = $this->getValue('GPSLatitudeRef');
-        $GPSLatitude    = $this->getValue('GPSLatitude');
+        $GPSLatitude    = $this->getValue('GPSLatitude') ? $this->getValue('GPSLatitude') : [];
         $GPSLongitudeRef= $this->getValue('GPSLongitudeRef');
-        $GPSLongitude   = $this->getValue('GPSLongitude');
+        $GPSLongitude   = $this->getValue('GPSLongitude') ? $this->getValue('GPSLongitude') : [];
 
         $lat_degrees = count($GPSLatitude) > 0 ? $this->gps2Num($GPSLatitude[0]) : 0;
         $lat_minutes = count($GPSLatitude) > 1 ? $this->gps2Num($GPSLatitude[1]) : 0;
