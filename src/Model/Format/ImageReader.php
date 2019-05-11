@@ -3,7 +3,6 @@
 namespace Jackal\ImageMerge\Model\Format;
 
 use Exception;
-use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
 
 /**
@@ -84,16 +83,6 @@ final class ImageReader
         }
 
         return $imageType;
-    }
-
-    /**
-     * @param $string
-     * @return ImageReader
-     * @throws Exception
-     */
-    public static function fromString($string)
-    {
-        return self::fromPathname(FileObject::fromString($string));
     }
 
     /**
