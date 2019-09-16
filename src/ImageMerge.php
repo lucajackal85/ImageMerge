@@ -12,6 +12,7 @@ use Jackal\ImageMerge\Strategy\ImageBuilderFileObjectStrategy;
 use Jackal\ImageMerge\Strategy\ImageBuilderFileStrategy;
 use Jackal\ImageMerge\Strategy\ImageBuilderImageStrategy;
 use Jackal\ImageMerge\Strategy\ImageBuilderResourceStrategy;
+use Jackal\ImageMerge\Strategy\ImageBuilderSplFileObjectStrategy;
 use Jackal\ImageMerge\Strategy\ImageBuilderStrategyInterface;
 use Jackal\ImageMerge\Strategy\ImageBuilderURLStrategy;
 
@@ -23,7 +24,8 @@ class ImageMerge
         ImageBuilderFileObjectStrategy::class,
         ImageBuilderImageStrategy::class,
         ImageBuilderURLStrategy::class,
-        ImageBuilderResourceStrategy::class
+        ImageBuilderResourceStrategy::class,
+        ImageBuilderSplFileObjectStrategy::class
     ];
 
     /**
