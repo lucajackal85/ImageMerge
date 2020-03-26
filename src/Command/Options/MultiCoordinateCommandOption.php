@@ -33,6 +33,7 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
                 $arr[] = $point;
             }
         }
+
         return $arr;
     }
 
@@ -44,6 +45,7 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
                 $arr[] = $point;
             }
         }
+
         return $arr;
     }
 
@@ -56,10 +58,10 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
         $points = $this->toArray();
         foreach ($points as $k => $coordinateCommandOption) {
             if ($k == 0) {
-                $coords[] = new Coordinate($coordinateCommandOption, $points[$k+1]);
+                $coords[] = new Coordinate($coordinateCommandOption, $points[$k + 1]);
             } else {
                 if (($k % 2) == 0) {
-                    $coords[] = new Coordinate($coordinateCommandOption, $points[$k+1]);
+                    $coords[] = new Coordinate($coordinateCommandOption, $points[$k + 1]);
                 }
             }
         }
@@ -78,7 +80,6 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
             $points[] = $arg->getX();
             $points[] = $arg->getY();
         }
-
 
         return $points;
     }
@@ -130,7 +131,6 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
     {
         return new Dimention($this->getMaxX() - $this->getMinX(), $this->getMaxY() - $this->getMinY());
     }
-
 
     public function isQuadrilateral()
     {

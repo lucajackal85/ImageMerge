@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\ImageMerge;
 
 use Exception;
@@ -25,7 +24,7 @@ class ImageMerge
         ImageBuilderImageStrategy::class,
         ImageBuilderURLStrategy::class,
         ImageBuilderResourceStrategy::class,
-        ImageBuilderSplFileObjectStrategy::class
+        ImageBuilderSplFileObjectStrategy::class,
     ];
 
     /**

@@ -33,7 +33,7 @@ class BorderCommand extends AbstractCommand
         /** @var BorderCommandOption $options */
         $options = $this->options;
 
-        for ($i=0;$i<$options->getStroke();$i++) {
+        for ($i = 0;$i < $options->getStroke();$i++) {
             $builder = new ImageBuilder($image);
 
             $builder->addCommand(
@@ -57,8 +57,8 @@ class BorderCommand extends AbstractCommand
             $builder->addCommand(
                 new LineAssetCommand(
                     new DoubleCoordinateColorCommandOption(
-                        new Coordinate($image->getWidth() - $i -1, 0),
-                        new Coordinate($image->getWidth() - $i -1, $image->getHeight()),
+                        new Coordinate($image->getWidth() - $i - 1, 0),
+                        new Coordinate($image->getWidth() - $i - 1, $image->getHeight()),
                         $options->getColor()
                 )
             ));
@@ -72,7 +72,6 @@ class BorderCommand extends AbstractCommand
                     )
             ));
         }
-
 
         return $image;
     }

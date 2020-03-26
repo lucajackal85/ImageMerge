@@ -1,7 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
-
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $output = new Symfony\Component\Console\Output\ConsoleOutput();
 
@@ -57,7 +56,5 @@ try{
 }catch (RuntimeException $e){
     warning();
 }
-
-
 
 $output->writeln('');

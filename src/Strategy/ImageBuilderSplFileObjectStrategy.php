@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\ImageMerge\Strategy;
 
 use Jackal\ImageMerge\Builder\ImageBuilder;
@@ -10,7 +9,6 @@ use Jackal\ImageMerge\Model\Image;
 
 class ImageBuilderSplFileObjectStrategy implements ImageBuilderStrategyInterface
 {
-
     /**
      * @param $source
      * @return bool

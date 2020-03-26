@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\ImageMerge\Strategy;
 
 use Exception;
@@ -11,7 +10,6 @@ use Jackal\ImageMerge\Model\Image;
 
 class ImageBuilderFileObjectStrategy implements ImageBuilderStrategyInterface
 {
-
     /**
      * @param $source
      * @return bool

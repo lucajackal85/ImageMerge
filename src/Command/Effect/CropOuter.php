@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\ImageMerge\Command\Effect;
 
 use Jackal\ImageMerge\Builder\ImageBuilder;
@@ -10,7 +9,6 @@ use Jackal\ImageMerge\Model\Image;
 
 class CropOuter extends AbstractCommand
 {
-
     /**
      * CropOuter constructor.
      * @param DimensionCommandOption $options

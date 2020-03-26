@@ -45,12 +45,12 @@ class IPTCParser extends AbstractParser
      */
     public function __construct(FileObjectInterface $file)
     {
-        @iptcembed("", $file->getPathname(), 0);
+        @iptcembed('', $file->getPathname(), 0);
         $info = null;
         getimagesize($file->getPathname(), $info);
 
         if (isset($info['APP13'])) {
-            $this->data = iptcparse($info["APP13"]);
+            $this->data = iptcparse($info['APP13']);
         }
     }
 
@@ -70,8 +70,10 @@ class IPTCParser extends AbstractParser
     {
         if ($this->getSingleValue(self::CREATION_DATE)) {
             $dt = trim($this->getSingleValue(self::CREATION_DATE) . ' ' . $this->getSingleValue(self::CREATION_TIME));
+
             return new DateTime($dt);
         }
+
         return null;
     }
 

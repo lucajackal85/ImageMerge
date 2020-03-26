@@ -14,7 +14,6 @@ use Jackal\ImageMerge\Utils\ColorUtils;
  */
 class TextAssetCommand extends AbstractCommand
 {
-
     /**
      * @param Image $image
      * @return mixed
@@ -39,6 +38,7 @@ class TextAssetCommand extends AbstractCommand
             $options->getCoordinate1()->getX(),
             $options->getCoordinate1()->getY() + $fontPixel,
             $color, $options->getText()->getFont(), $options->getText()->getText());
+
         return $image;
     }
 }

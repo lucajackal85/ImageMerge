@@ -7,7 +7,6 @@ use Jackal\ImageMerge\Model\Image;
 
 class ContrastCommand extends AbstractCommand
 {
-
     /**
      * ContrastCommand constructor.
      * @param LevelCommandOption $options

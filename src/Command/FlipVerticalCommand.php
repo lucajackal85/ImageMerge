@@ -10,7 +10,6 @@ use Jackal\ImageMerge\Model\Image;
  */
 class FlipVerticalCommand extends AbstractCommand
 {
-
     /**
      * @param Image $image
      * @return Image

@@ -14,7 +14,6 @@ use Jackal\ImageMerge\Model\Image;
  */
 class ImageAssetCommand extends AbstractCommand
 {
-
     /**
      * ImageAssetCommand constructor.
      * @param SingleCoordinateFileObjectCommandOption $options
@@ -31,6 +30,7 @@ class ImageAssetCommand extends AbstractCommand
     protected function getResourceToApply()
     {
         $res = ImageReader::fromPathname($this->options->getFile());
+
         return $res->getResource();
     }
 

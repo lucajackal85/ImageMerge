@@ -49,13 +49,13 @@ class Coordinate
     {
         return [
             $this->getX(),
-            $this->getY()
+            $this->getY(),
         ];
     }
 
     public function __toString()
     {
-        return $this->getX().'X'.$this->getY();
+        return $this->getX() . 'X' . $this->getY();
     }
 
     public function match(Coordinate $coordinate)

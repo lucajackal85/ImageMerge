@@ -13,7 +13,6 @@ use Jackal\ImageMerge\Utils\ColorUtils;
  */
 class LineAssetCommand extends AbstractCommand
 {
-
     /**
      * @param Image $image
      * @return Image

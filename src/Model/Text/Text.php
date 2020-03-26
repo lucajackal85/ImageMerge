@@ -60,8 +60,8 @@ class Text
         }
 
         $finalSize = 1;
-        for ($i=1;$i<=1000;$i=$i+0.5) {
-            $textbox = imageftbbox(round($this->fontToPixel($i)), 0, (string)$this->getFont(), $this->getText());
+        for ($i = 1;$i <= 1000;$i = $i + 0.5) {
+            $textbox = imageftbbox(round($this->fontToPixel($i)), 0, (string) $this->getFont(), $this->getText());
 
             $height = $textbox[1] + abs($textbox[7]);
             $width = abs($textbox[2]) + $textbox[0];
@@ -69,9 +69,11 @@ class Text
                 continue;
             }
             $finalSize = $i;
+
             break;
         }
         $this->size = $finalSize;
+
         return $this;
     }
 
@@ -96,10 +98,11 @@ class Text
      */
     private function getBoundBox()
     {
-        $textbox = imageftbbox($this->fontToPixel($this->size), 0, (string)$this->getFont(), $this->getText());
+        $textbox = imageftbbox($this->fontToPixel($this->size), 0, (string) $this->getFont(), $this->getText());
+
         return [
             'width' => abs($textbox[2]) + $textbox[0],
-            'height' => $textbox[1] + abs($textbox[7])
+            'height' => $textbox[1] + abs($textbox[7]),
         ];
     }
 

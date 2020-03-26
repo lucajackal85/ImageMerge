@@ -39,6 +39,7 @@ abstract class AbstractCommandOption implements CommandOptionInterface
                 )
             );
         }
+
         return $this->options[$key];
     }
 

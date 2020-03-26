@@ -8,7 +8,6 @@ use Jackal\ImageMerge\ValueObject\Dimention;
 
 class ResizeCommand extends AbstractCommand
 {
-
     /**
      * ResizeCommand constructor.
      * @param DimensionCommandOption $options
@@ -45,6 +44,7 @@ class ResizeCommand extends AbstractCommand
 
             return $image->assignResource($resourceResized);
         }
+
         return $image;
     }
 }

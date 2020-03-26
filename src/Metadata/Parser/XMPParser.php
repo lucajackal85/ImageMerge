@@ -32,30 +32,30 @@ class XMPParser extends AbstractParser
         $xmp_arr = [];
         foreach ([
                      'creator_email' => '<Iptc4xmpCore:CreatorContactInfo[^>]+?CiEmailWork="([^"]*)"',
-                     'owner'    => '<rdf:Description[^>]+?aux:OwnerName="([^"]*)"',
+                     'owner' => '<rdf:Description[^>]+?aux:OwnerName="([^"]*)"',
                      'created_at' => '<rdf:Description[^>]+?xmp:CreateDate="([^"]*)"',
-                     'modified_at'     => '<rdf:Description[^>]+?xmp:ModifyDate="([^"]*)"',
-                     'label'         => '<rdf:Description[^>]+?xmp:Label="([^"]*)"',
-                     'credit'        => '<rdf:Description[^>]+?photoshop:Credit="([^"]*)"',
-                     'source'        => '<rdf:Description[^>]+?photoshop:Source="([^"]*)"',
-                     'caption_writer'=> '<rdf:Description[^>]+?photoshop:CaptionWriter="([^"]*)"',
+                     'modified_at' => '<rdf:Description[^>]+?xmp:ModifyDate="([^"]*)"',
+                     'label' => '<rdf:Description[^>]+?xmp:Label="([^"]*)"',
+                     'credit' => '<rdf:Description[^>]+?photoshop:Credit="([^"]*)"',
+                     'source' => '<rdf:Description[^>]+?photoshop:Source="([^"]*)"',
+                     'caption_writer' => '<rdf:Description[^>]+?photoshop:CaptionWriter="([^"]*)"',
 
-                     'photomechanic_prefs'=> '<rdf:Description[^>]+?photomechanic:Prefs="([^"]*)"',
-                     'photomechanic_pm_version'=> '<rdf:Description[^>]+?photomechanic:PMVersion="([^"]*)"',
-                     'photomechanic_tagged'=> '<rdf:Description[^>]+?photomechanic:Tagged="([^"]*)"',
-                     'photomechanic_color_class'=> '<rdf:Description[^>]+?photomechanic:ColorClass="([^"]*)"',
+                     'photomechanic_prefs' => '<rdf:Description[^>]+?photomechanic:Prefs="([^"]*)"',
+                     'photomechanic_pm_version' => '<rdf:Description[^>]+?photomechanic:PMVersion="([^"]*)"',
+                     'photomechanic_tagged' => '<rdf:Description[^>]+?photomechanic:Tagged="([^"]*)"',
+                     'photomechanic_color_class' => '<rdf:Description[^>]+?photomechanic:ColorClass="([^"]*)"',
 
-                     'headline'      => '<rdf:Description[^>]+?photoshop:Headline="([^"]*)"',
-                     'city'          => '<rdf:Description[^>]+?photoshop:City="([^"]*)"',
-                     'state'         => '<rdf:Description[^>]+?photoshop:State="([^"]*)"',
-                     'country'       => '<rdf:Description[^>]+?photoshop:Country="([^"]*)"',
-                     'country_code'  => '<rdf:Description[^>]+?Iptc4xmpCore:CountryCode="([^"]*)"',
-                     'location'      => '<rdf:Description[^>]+?Iptc4xmpCore:Location="([^"]*)"',
-                     'title'         => '<dc:title>\s*<rdf:Alt>\s*(.*?)\s*<\/rdf:Alt>\s*<\/dc:title>',
-                     'description'   => '<dc:description>\s*<rdf:Alt>\s*(.*?)\s*<\/rdf:Alt>\s*<\/dc:description>',
-                     'creator'       => '<dc:creator>\s*<rdf:Seq>\s*(.*?)\s*<\/rdf:Seq>\s*<\/dc:creator>',
-                     'keywords'      => '<dc:subject>\s*<rdf:Bag>\s*(.*?)\s*<\/rdf:Bag>\s*<\/dc:subject>',
-                     'rights'      => '<dc:Rights>\s*(.*?)\s*<\/dc:Rights>',
+                     'headline' => '<rdf:Description[^>]+?photoshop:Headline="([^"]*)"',
+                     'city' => '<rdf:Description[^>]+?photoshop:City="([^"]*)"',
+                     'state' => '<rdf:Description[^>]+?photoshop:State="([^"]*)"',
+                     'country' => '<rdf:Description[^>]+?photoshop:Country="([^"]*)"',
+                     'country_code' => '<rdf:Description[^>]+?Iptc4xmpCore:CountryCode="([^"]*)"',
+                     'location' => '<rdf:Description[^>]+?Iptc4xmpCore:Location="([^"]*)"',
+                     'title' => '<dc:title>\s*<rdf:Alt>\s*(.*?)\s*<\/rdf:Alt>\s*<\/dc:title>',
+                     'description' => '<dc:description>\s*<rdf:Alt>\s*(.*?)\s*<\/rdf:Alt>\s*<\/dc:description>',
+                     'creator' => '<dc:creator>\s*<rdf:Seq>\s*(.*?)\s*<\/rdf:Seq>\s*<\/dc:creator>',
+                     'keywords' => '<dc:subject>\s*<rdf:Bag>\s*(.*?)\s*<\/rdf:Bag>\s*<\/dc:subject>',
+                     'rights' => '<dc:Rights>\s*(.*?)\s*<\/dc:Rights>',
                  ] as $key => $regex) {
 
             // get a single text string
@@ -77,7 +77,7 @@ class XMPParser extends AbstractParser
             'prefs' => $this->getSingleValue('photomechanic_prefs'),
             'pm_version' => $this->getSingleValue('photomechanic_pm_version'),
             'tagged' => $this->getBooleanValue('photomechanic_tagged'),
-            'color_class' => $this->getSingleValue('photomechanic_color_class')
+            'color_class' => $this->getSingleValue('photomechanic_color_class'),
         ];
     }
 

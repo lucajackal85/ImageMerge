@@ -31,6 +31,7 @@ class BlurCommand extends AbstractCommand
                 imagefilter($image->getResource(), IMG_FILTER_GAUSSIAN_BLUR);
             }
         }
+
         return $image;
     }
 }

@@ -40,19 +40,23 @@ final class ImageReader
 
         switch ($ir->getExifType($filename)) {
             case IMAGETYPE_PNG:{
-                $ir->format =  self::FORMAT_PNG;
+                $ir->format = self::FORMAT_PNG;
+
                 break;
             }
             case IMAGETYPE_JPEG:{
                 $ir->format = self::FORMAT_JPG;
+
                 break;
             }
             case IMAGETYPE_GIF:{
                 $ir->format = self::FORMAT_GIF;
+
                 break;
             }
             case IMAGETYPE_WEBP:{
                 $ir->format = self::FORMAT_WEBP;
+
                 break;
             }
             default: {

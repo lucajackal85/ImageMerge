@@ -20,7 +20,6 @@ class BrightnessCommand extends AbstractCommand
         parent::__construct($options);
     }
 
-
     /**
      * @param Image $image
      * @return Image

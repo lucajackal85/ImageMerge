@@ -56,7 +56,7 @@ class Color
             $c1 = str_repeat(substr($colorHex, 0, 1), 2);
             $c2 = str_repeat(substr($colorHex, 1, 1), 2);
             $c3 = str_repeat(substr($colorHex, 2, 1), 2);
-            $colorHex = $c1.$c2.$c3;
+            $colorHex = $c1 . $c2 . $c3;
         }
 
         $this->colorHex = $colorHex;
@@ -92,7 +92,7 @@ class Color
 
     public function rgb()
     {
-        return $this->red().$this->green().$this->blue();
+        return $this->red() . $this->green() . $this->blue();
     }
 
     public function getHex()

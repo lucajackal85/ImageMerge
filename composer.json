@@ -8,26 +8,35 @@
         }
     ],
     "minimum-stability": "stable",
+    "extra": {
+        "hooks": {
+            "pre-commit": [
+                "echo Committing as $(git config user.name) [$(git config user.email)]",
+                "vendor/bin/php-cs-fixer fix . --config=.php-cs"
+            ],
+            "pre-push": [
+                "vendor/bin/phpunit tests/"
+            ]
+        }
+    },
     "require": {
-        "php": "^5.6|^7.0",
+        "php": ">=5.6",
         "ext-gd": "*",
         "ext-exif":  "*",
         "symfony/http-foundation": ">=3.4",
-        "symfony/process": ">=3.4",
-        "symfony/finder": ">=3.4"
+        "symfony/finder": ">=3.4",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "jackal/bin-locator": "^0.4.0"
     },
     "autoload": {
         "psr-4": {
             "Jackal\\ImageMerge\\": "src/",
-            "Jackal\\ImageMerge\\Test\\": "test/"
+            "Jackal\\ImageMerge\\Test\\": "tests/"
         }
     },
-    "config": {
-        "bin-dir": "bin"
-    },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.2",
         "phpunit/phpunit": "^4.8",
-        "vajiral/php-image-compare": "^1.0"
+        "vajiral/php-image-compare": "^1.0",
+        "brainmaestro/composer-git-hooks": "^2.8"
     }
 }

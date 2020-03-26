@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\ImageMerge\Strategy;
 
 use Jackal\ImageMerge\Builder\ImageBuilder;

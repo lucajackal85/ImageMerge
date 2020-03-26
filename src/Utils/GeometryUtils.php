@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\ImageMerge\Utils;
 
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
@@ -45,6 +44,7 @@ class GeometryUtils
             if ($coordA->getX() == $coordB->getX()) {
                 return 0;
             }
+
             return ($coordA->getX() >= $coordB->getX()) ? 1 : -1;
         });
 
@@ -63,6 +63,7 @@ class GeometryUtils
             if ($coordA->getY() === $coordB->getY()) {
                 return 0;
             }
+
             return ($coordA->getY() >= $coordB->getY()) ? 1 : -1;
         });
 
@@ -81,6 +82,7 @@ class GeometryUtils
             if ($coordA->getX() === $coordB->getX()) {
                 return 0;
             }
+
             return ($coordA->getX() >= $coordB->getX()) ? -1 : 1;
         });
 
@@ -99,6 +101,7 @@ class GeometryUtils
             if ($coordA->getY() === $coordB->getY()) {
                 return 0;
             }
+
             return ($coordA->getY() >= $coordB->getY()) ? -1 : 1;
         });
 
@@ -113,9 +116,10 @@ class GeometryUtils
             $sumX += $coord->getX();
             $sumY += $coord->getY();
         }
+
         return new Coordinate(
-            round($sumX/count($coords)),
-            round($sumY/count($coords))
+            round($sumX / count($coords)),
+            round($sumY / count($coords))
         );
     }
 }

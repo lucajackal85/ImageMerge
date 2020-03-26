@@ -174,11 +174,10 @@ class ExifParser extends AbstractParser
         /**
          * Taken from https://www.codexworld.com/get-geolocation-latitude-longitude-from-image-php/
          */
-
         $GPSLatitudeRef = $this->getValue('GPSLatitudeRef');
-        $GPSLatitude    = $this->getValue('GPSLatitude') ? $this->getValue('GPSLatitude') : [];
-        $GPSLongitudeRef= $this->getValue('GPSLongitudeRef');
-        $GPSLongitude   = $this->getValue('GPSLongitude') ? $this->getValue('GPSLongitude') : [];
+        $GPSLatitude = $this->getValue('GPSLatitude') ? $this->getValue('GPSLatitude') : [];
+        $GPSLongitudeRef = $this->getValue('GPSLongitudeRef');
+        $GPSLongitude = $this->getValue('GPSLongitude') ? $this->getValue('GPSLongitude') : [];
 
         $lat_degrees = count($GPSLatitude) > 0 ? $this->gps2Num($GPSLatitude[0]) : 0;
         $lat_minutes = count($GPSLatitude) > 1 ? $this->gps2Num($GPSLatitude[1]) : 0;
@@ -201,7 +200,7 @@ class ExifParser extends AbstractParser
             'lat' => $latitude,
             'lon' => $longitude,
             'lat_deg' => $latitude_deg,
-            'lon_deg' => $longitude_deg
+            'lon_deg' => $longitude_deg,
         ];
     }
 
@@ -214,9 +213,9 @@ class ExifParser extends AbstractParser
         if (count($parts) == 1) {
             return $parts[0];
         }
+
         return floatval($parts[0]) / floatval($parts[1]);
     }
-
 
     /**
      * @return array

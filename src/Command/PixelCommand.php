@@ -11,7 +11,6 @@ use Jackal\ImageMerge\Model\Image;
  */
 class PixelCommand extends AbstractCommand
 {
-
     /**
      * PixelCommand constructor.
      * @param LevelCommandOption $options
@@ -35,14 +34,14 @@ class PixelCommand extends AbstractCommand
         $resource = $image->getResource();
 
         // start from the top-left pixel and keep looping until we have the desired effect
-        for ($y = 0;$y < $image->getHeight();$y += $level+1) {
-            for ($x = 0;$x < $image->getWidth();$x += $level+1) {
+        for ($y = 0;$y < $image->getHeight();$y += $level + 1) {
+            for ($x = 0;$x < $image->getWidth();$x += $level + 1) {
                 // get the color for current pixel
                 $rgb = imagecolorsforindex($resource, imagecolorat($resource, $x, $y));
 
                 // get the closest color from palette
                 $color = imagecolorclosest($resource, $rgb['red'], $rgb['green'], $rgb['blue']);
-                imagefilledrectangle($resource, $x, $y, $x+$level, $y+$level, $color);
+                imagefilledrectangle($resource, $x, $y, $x + $level, $y + $level, $color);
             }
         }
 

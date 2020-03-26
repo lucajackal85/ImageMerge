@@ -49,7 +49,7 @@ class ImageWriter
      * @return bool|ImageResponse
      * @throws Exception
      */
-    public static function toJPG($resource, $filePathName=null)
+    public static function toJPG($resource, $filePathName = null)
     {
         ob_start();
         imagejpeg($resource, null, 100);
@@ -64,7 +64,7 @@ class ImageWriter
      * @return bool|ImageResponse
      * @throws Exception
      */
-    public static function toGIF($resource, $filePathName=null)
+    public static function toGIF($resource, $filePathName = null)
     {
         ob_start();
         imagegif($resource);
@@ -79,7 +79,7 @@ class ImageWriter
      * @return bool|ImageResponse
      * @throws Exception
      */
-    public static function toWEBP($resource, $filePathName=null)
+    public static function toWEBP($resource, $filePathName = null)
     {
         ob_start();
         imagewebp($resource);
@@ -99,11 +99,12 @@ class ImageWriter
     {
         if ($filePathName) {
             ImageWriter::checkPermissions($filePathName);
+
             return file_put_contents($filePathName, $content) == true;
         }
 
         return new ImageResponse($content, 200, [
-            'content-type' => [$contentType]
+            'content-type' => [$contentType],
         ]);
     }
 }

@@ -59,6 +59,7 @@ class ImageBuilder
     public function addCommand(CommandInterface $command)
     {
         $this->image = $command->execute($this->image);
+
         return $this;
     }
 
@@ -184,7 +185,7 @@ class ImageBuilder
         $width = $this->image->getWidth();
         $height = $this->image->getHeight();
 
-        $x = round(($width- $newWidth) / 2);
+        $x = round(($width - $newWidth) / 2);
         $y = round(($height - $newHeight) / 2);
 
         return $this->crop($x, $y, $newWidth, $newHeight);
@@ -233,7 +234,7 @@ class ImageBuilder
         $coords = [];
 
         foreach ($points as $k => $point) {
-            if ($k == 0 or ($k %2) == 0) {
+            if ($k == 0 or ($k % 2) == 0) {
                 if (isset($points[$k + 1])) {
                     $x = $point;
                     $y = $points[$k + 1];
@@ -282,7 +283,6 @@ class ImageBuilder
 
         return $this;
     }
-
 
     /**
      * @return ImageBuilder

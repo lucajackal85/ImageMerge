@@ -22,9 +22,10 @@ class Font
      */
     private static function getFonts()
     {
-        $directory = dirname(__FILE__).'/../../Resources/Fonts/';
+        $directory = dirname(__FILE__) . '/../../Resources/Fonts/';
+
         return [
-            self::FONT_ARIAL => $directory.'arial.ttf'
+            self::FONT_ARIAL => $directory . 'arial.ttf',
         ];
     }
 
@@ -36,9 +37,9 @@ class Font
     public function __construct($fontPathname)
     {
         if (!is_file($fontPathname)) {
-            throw new InvalidFontException('Font file not found at path '.$fontPathname);
+            throw new InvalidFontException('Font file not found at path ' . $fontPathname);
         }
-        $this->fontPathname =  $fontPathname;
+        $this->fontPathname = $fontPathname;
     }
 
     /**
@@ -48,6 +49,7 @@ class Font
     public static function arial()
     {
         $fonts = Font::getFonts();
+
         return new Font($fonts[Font::FONT_ARIAL]);
     }
 

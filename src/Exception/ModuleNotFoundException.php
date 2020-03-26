@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\ImageMerge\Exception;
 
 use Exception;

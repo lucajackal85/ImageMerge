@@ -16,6 +16,6 @@ class InvalidFontException extends Exception
      */
     public function __construct($fontPath)
     {
-        parent::__construct($fontPath.' is not a valid font pathname');
+        parent::__construct($fontPath . ' is not a valid font pathname');
     }
 }

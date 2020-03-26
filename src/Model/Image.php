@@ -5,7 +5,6 @@ namespace Jackal\ImageMerge\Model;
 use Exception;
 use Jackal\ImageMerge\Builder\ImageBuilder;
 
-
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
 use Jackal\ImageMerge\Exception\InvalidColorException;
@@ -65,7 +64,7 @@ class Image
             imagefill($resource, 0, 0, $color);
         }
 
-        $this->resource= $resource;
+        $this->resource = $resource;
     }
 
     /**
@@ -81,6 +80,7 @@ class Image
         $image = new self(imagesx($imageResource), imagesy($imageResource));
         $command = new ImageAssetCommand(new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
         $command->execute($image);
+
         return $image;
     }
 
@@ -108,6 +108,7 @@ class Image
     public function assignResource($resource)
     {
         $this->resource = $resource;
+
         return $this;
     }
 
@@ -119,7 +120,7 @@ class Image
      * @return bool
      * @throws Exception
      */
-    public function isDark($fromX = null, $fromY = null, $width =null, $height = null)
+    public function isDark($fromX = null, $fromY = null, $width = null, $height = null)
     {
         $samples = 10;
         $threshold = 60;
@@ -133,8 +134,8 @@ class Image
         }
 
         $luminance = 0;
-        for ($x=1;$x<=$samples;$x++) {
-            for ($y=1;$y<=$samples;$y++) {
+        for ($x = 1;$x <= $samples;$x++) {
+            for ($y = 1;$y <= $samples;$y++) {
                 $coordX = round($portion->getWidth() / $samples * $x) - ($portion->getWidth() / $samples / 2);
                 $cooordY = round($portion->getHeight() / $samples * $y) - ($portion->getHeight() / $samples / 2);
                 $rgb = imagecolorat($portion->getResource(), $coordX, $cooordY);
@@ -144,9 +145,10 @@ class Image
 
                 // choose a simple luminance formula from here
                 // http://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
-                $luminance += ($r+$r+$b+$g+$g+$g)/6;
+                $luminance += ($r + $r + $b + $g + $g + $g) / 6;
             }
         }
+
         return $luminance / ($samples * $samples) <= $threshold;
     }
 

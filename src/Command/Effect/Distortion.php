@@ -4,6 +4,7 @@ namespace Jackal\ImageMerge\Command\Effect;
 
 use Exception;
 use InvalidArgumentException;
+use Jackal\BinLocator\BinLocator;
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
 use Jackal\ImageMerge\Utils\GeometryUtils;
 use Jackal\ImageMerge\ValueObject\Coordinate;
@@ -15,7 +16,6 @@ use Symfony\Component\Process\Process;
 
 class Distortion extends AbstractImageMagickCommand
 {
-
     /**
      * Distortion constructor.
      * @param MultiCoordinateCommandOption $options
@@ -24,7 +24,6 @@ class Distortion extends AbstractImageMagickCommand
     {
         parent::__construct($options);
     }
-
 
     /**
      * @param Image $image
@@ -54,27 +53,29 @@ class Distortion extends AbstractImageMagickCommand
         $width = $originImage->getWidth();
         $height = $originImage->getHeight();
 
+        $locator = new BinLocator('convert');
 
-        $cmd = sprintf(
-            "%s %s -matte -virtual-pixel black -distort Perspective '%s,%s 0,0   %s,%s %s,0   %s,%s %s,%s  %s,%s 0,%s' %s",
-            $this->getImageMagickBin(),
+        $process = $locator->getProcess([
             $inputFile->getPathname(),
-            $coordinates[0],
-            $coordinates[1],
-            $coordinates[2],
-            $coordinates[3],
-            $width,
-            $coordinates[4],
-            $coordinates[5],
-            $width,
-            $height,
-            $coordinates[6],
-            $coordinates[7],
-            $height,
-            $outputFilepathname
-        );
+            '-matte -virtual-pixel black -distort Perspective',
+            sprintf(
+                "'%s,%s 0,0   %s,%s %s,0   %s,%s %s,%s  %s,%s 0,%s' %s",
+                $coordinates[0],
+                $coordinates[1],
+                $coordinates[2],
+                $coordinates[3],
+                $width,
+                $coordinates[4],
+                $coordinates[5],
+                $width,
+                $height,
+                $coordinates[6],
+                $coordinates[7],
+                $height,
+                $outputFilepathname
+            ),
+        ]);
 
-        $process = new Process($cmd);
         $process->run();
 
         if (!$process->isSuccessful()) {

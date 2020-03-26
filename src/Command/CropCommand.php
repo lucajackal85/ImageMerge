@@ -12,7 +12,6 @@ use Jackal\ImageMerge\Model\Image;
  */
 class CropCommand extends AbstractCommand
 {
-
     /**
      * CropCommand constructor.
      * @param CropCommandOption $options
@@ -42,7 +41,7 @@ class CropCommand extends AbstractCommand
             'x' => $options->getCoordinate1()->getX(),
             'y' => $options->getCoordinate1()->getY(),
             'width' => $options->getDimention()->getWidth(),
-            'height' => $options->getDimention()->getHeight()
+            'height' => $options->getDimention()->getHeight(),
         ]);
 
         return $image->assignResource($newImage);

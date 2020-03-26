@@ -17,7 +17,6 @@ use Jackal\ImageMerge\Model\Image;
  */
 class EffectBlurCentered extends AbstractCommand
 {
-
     /**
      * EffectBlurCentered constructor.
      * @param DimensionCommandOption $options

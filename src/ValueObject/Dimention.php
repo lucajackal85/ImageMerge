@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jackal\ImageMerge\ValueObject;
 
 use InvalidArgumentException;

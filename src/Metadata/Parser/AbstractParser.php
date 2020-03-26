@@ -30,6 +30,7 @@ abstract class AbstractParser implements ParserInterface
         if (isset($this->data[$key])) {
             return $this->data[$key];
         }
+
         return null;
     }
 
@@ -41,10 +42,11 @@ abstract class AbstractParser implements ParserInterface
     {
         $value = $this->getValue($key);
         if (strpos($value, '/1') !== false) {
-            return (int)str_replace('/1', '', $value);
-        } else {
-            return $value;
+            return (int) str_replace('/1', '', $value);
         }
+  
+            return $value;
+
     }
 
     /**
@@ -57,6 +59,7 @@ abstract class AbstractParser implements ParserInterface
         if (is_null($value)) {
             return $value;
         }
+
         return $value == true and strtolower($value) != 'false';
     }
 
@@ -69,6 +72,7 @@ abstract class AbstractParser implements ParserInterface
         if (is_string($data) and $data == '') {
             return null;
         }
+
         return $data;
     }
 
@@ -83,6 +87,7 @@ abstract class AbstractParser implements ParserInterface
             $value = array_shift($value);
         }
         $value = preg_replace('/[\r\n]/', "\n", $value);
+
         return $value;
     }
 }

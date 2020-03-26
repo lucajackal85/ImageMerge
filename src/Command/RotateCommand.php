@@ -11,7 +11,6 @@ use Jackal\ImageMerge\Model\Image;
  */
 class RotateCommand extends AbstractCommand
 {
-
     /**
      * RotateCommand constructor.
      * @param LevelCommandOption $options
@@ -32,6 +31,7 @@ class RotateCommand extends AbstractCommand
         if ($degree and ($degree % 360)) {
             $resource = imagerotate($resource, $degree, 0);
         }
+
         return $image->assignResource($resource);
     }
 }
