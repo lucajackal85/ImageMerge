@@ -7,9 +7,20 @@ php:
   - 7.2
   - 7.3
   - 7.4
-  -
+
 install:
   - composer install
 
 script:
   - vendor/bin/phpunit tests/
+
+branches:
+  only:
+    - master
+
+jobs:
+  include:
+    - stage: deploy
+      php: 7.4
+      script:
+        - curl -s https://lucajackal85.github.io/travis-auto-tag.txt | bash
