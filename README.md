@@ -1,6 +1,12 @@
 # Image Merge
 A simple PHP libraty to manipulate images, it support GIF, PNG and JPG
-[![Build Status](https://travis-ci.org/lucajackal85/ImageMerge.svg?branch=master)](https://travis-ci.org/lucajackal85/ImageMerge) [![Latest Stable Version](https://poser.pugx.org/jackal/image-merge/v/stable)](https://packagist.org/packages/jackal/image-merge) [![Total Downloads](https://poser.pugx.org/jackal/image-merge/downloads)](https://packagist.org/packages/jackal/image-merge) [![License](https://poser.pugx.org/jackal/image-merge/license)](https://packagist.org/packages/jackal/image-merge)
+
+[![Latest Stable Version](https://poser.pugx.org/jackal/image-merge/v/stable)](https://packagist.org/packages/jackal/image-merge)
+[![Total Downloads](https://poser.pugx.org/jackal/image-merge/downloads)](https://packagist.org/packages/jackal/image-merge)
+[![Latest Unstable Version](https://poser.pugx.org/jackal/image-merge/v/unstable)](https://packagist.org/packages/jackal/image-merge)
+[![License](https://poser.pugx.org/jackal/image-merge/license)](https://packagist.org/packages/jackal/image-merge)
+[![Build Status](https://travis-ci.org/lucajackal85/BinLocator.svg?branch=master)](https://travis-ci.org/lucajackal85/BinLocator)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lucajackal85/ImageMerge/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lucajackal85/ImageMerge/?branch=master)
 
 ### Requirement
 PHP >= **5.6** with GD support
@@ -9,7 +15,7 @@ PHP >= **5.6** with GD support
 ## Getting Started
 Install library with composer
 ```
-composer require jackal/image-merge:^0.4
+composer require jackal/image-merge
 ```
 ## Usage
 ### Minimal example
