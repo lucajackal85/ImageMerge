@@ -44,7 +44,7 @@ abstract class AbstractParser implements ParserInterface
         if (strpos($value, '/1') !== false) {
             return (int) str_replace('/1', '', $value);
         }
-  
+
             return $value;
 
     }

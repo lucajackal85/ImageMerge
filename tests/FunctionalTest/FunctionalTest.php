@@ -28,6 +28,14 @@ abstract class FunctionalTest extends TestCase
         if($result != 0) {
             $this->fail('Images are different. saving to: ' . $expectedContentFile . ', ' . $actualContentFile);
         }
+
+        if(is_file($expectedContentFile)){
+            unlink($expectedContentFile);
+        }
+
+        if(is_file($actualContentFile)){
+            unlink($actualContentFile);
+        }
     }
 
     protected function assertJPGSameImage(Image $image, $imagePathnameToCompare)
@@ -47,6 +55,42 @@ abstract class FunctionalTest extends TestCase
 
         if($result != 0) {
             $this->fail('Images are different. saving to: ' . $expectedContentFile . ', ' . $actualContentFile);
+        }
+
+        if(is_file($expectedContentFile)){
+            unlink($expectedContentFile);
+        }
+
+        if(is_file($actualContentFile)){
+            unlink($actualContentFile);
+        }
+    }
+
+    protected function assertWebPSameImage(Image $image, $imagePathnameToCompare)
+    {
+        $expectedContent = file_get_contents($imagePathnameToCompare);
+        $actualContent = $image->toWebP()->getContent();
+
+        $uid = uniqid();
+        $expectedContentFile = sys_get_temp_dir() . '/' . $uid . '_expected.webp';
+        $actualContentFile = sys_get_temp_dir() . '/' . $uid . '_actual.webp';
+
+        file_put_contents($expectedContentFile, $expectedContent);
+        file_put_contents($actualContentFile, $actualContent);
+
+        $ic = new ImageCompare();
+        $result = $ic->compare($expectedContentFile, $actualContentFile);
+
+        if($result != 0) {
+            $this->fail('Images are different. saving to: ' . $expectedContentFile . ', ' . $actualContentFile);
+        }
+
+        if(is_file($expectedContentFile)){
+            unlink($expectedContentFile);
+        }
+
+        if(is_file($actualContentFile)){
+            unlink($actualContentFile);
         }
     }
 }

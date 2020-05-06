@@ -201,6 +201,15 @@ class Image
     }
 
     /**
+     * @param null $filePathName
+     * @return bool|ImageResponse
+     * @throws Exception
+     */
+    public function toWebP($filePathName = null){
+        return ImageWriter::toWebP($this->getResource(), $filePathName);
+    }
+
+    /**
      * @return mixed
      */
     public function getWidth()
