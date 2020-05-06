@@ -79,7 +79,7 @@ class ImageWriter
      * @return bool|ImageResponse
      * @throws Exception
      */
-    public static function toWEBP($resource, $filePathName = null)
+    public static function toWebP($resource, $filePathName = null)
     {
         ob_start();
         imagewebp($resource);
