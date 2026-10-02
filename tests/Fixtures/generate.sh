@@ -1,11 +1,29 @@
 #!/bin/sh
-# Regenerates tests/Fixtures/photo-with-metadata.jpg: a synthetic image (no third-party
-# content) carrying fictional EXIF, IPTC and XMP metadata for the parser tests.
-# Needs PHP with GD and exiftool, e.g. inside the docker/ image:
+# Regenerates every test image (see README.md). All of them are synthetic (no third-party content)
+# and all metadata is fictional.
+# Needs PHP with GD, ImageMagick 7 and exiftool, plus `composer install`; e.g. in the docker/ image:
 #   apt-get install -y libimage-exiftool-perl && sh tests/Fixtures/generate.sh
 set -e
 DIR=$(cd "$(dirname "$0")" && pwd)
 OUT="$DIR/photo-with-metadata.jpg"
+FUNCTIONAL="$DIR/../FunctionalTest/Resources"
+UNIT="$DIR/../UnitTest/Resources"
+TMP=$(php -r 'echo sys_get_temp_dir();')
+
+echo "Input images (GD):"
+php "$DIR/generate-images.php" inputs
+
+echo "Flip expectations and animated WebP (ImageMagick):"
+magick "$FUNCTIONAL/FlipTest/01.png" -flop -strip -define png:exclude-chunks=date,time "$FUNCTIONAL/FlipTest/02.png"
+magick "$FUNCTIONAL/FlipTest/01.png" -flip -strip -define png:exclude-chunks=date,time "$FUNCTIONAL/FlipTest/03.png"
+magick -delay 20 "$TMP/imagemerge-frame-0.png" "$TMP/imagemerge-frame-1.png" "$TMP/imagemerge-frame-2.png" \
+    -loop 0 "$UNIT/ImageReaderTest/05-animated.webp"
+rm "$TMP"/imagemerge-frame-*.png
+
+echo "Expected outputs (library snapshots):"
+php "$DIR/generate-images.php" expected
+
+echo "Metadata fixture (GD + exiftool):"
 
 php -r '
 $w = 600; $h = 400;
