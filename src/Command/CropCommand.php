@@ -5,6 +5,7 @@ namespace Jackal\ImageMerge\Command;
 use InvalidArgumentException;
 use Jackal\ImageMerge\Command\Options\CropCommandOption;
 use Jackal\ImageMerge\Model\Image;
+use RuntimeException;
 
 /**
  * Class CropCommand
@@ -27,22 +28,33 @@ class CropCommand extends AbstractCommand
      */
     public function execute(Image $image)
     {
-        if ($image->getWidth() == $this->options->getDimention()->getWidth() and $image->getHeight() == $this->options->getDimention()->getHeight()) {
+        /** @var CropCommandOption $options */
+        $options = $this->options;
+        $x = (int) $options->getCoordinate1()->getX();
+        $y = (int) $options->getCoordinate1()->getY();
+        $width = (int) $options->getDimention()->getWidth();
+        $height = (int) $options->getDimention()->getHeight();
+
+        if ($x < 0 || $y < 0 || $width < 1 || $height < 1 || $x + $width > $image->getWidth() || $y + $height > $image->getHeight()) {
+            throw new InvalidArgumentException(sprintf(
+                'Crop area %dx%d at %d,%d exceeds the image dimensions %dx%d',
+                $width,
+                $height,
+                $x,
+                $y,
+                $image->getWidth(),
+                $image->getHeight()
+            ));
+        }
+
+        if ($x === 0 && $y === 0 && $width === $image->getWidth() && $height === $image->getHeight()) {
             return $image;
         }
 
-        if ($this->options->getDimention()->getWidth() > $image->getWidth() || $this->options->getDimention()->getHeight() > $image->getHeight()) {
-            throw new InvalidArgumentException(sprintf('Crop area exceed, max dimensions are: %s X %s', $image->getWidth(), $image->getHeight()));
+        $newImage = imagecrop($image->getResource(), ['x' => $x, 'y' => $y, 'width' => $width, 'height' => $height]);
+        if ($newImage === false) {
+            throw new RuntimeException('Unable to crop image');
         }
-
-        /** @var CropCommandOption $options */
-        $options = $this->options;
-        $newImage = imagecrop($image->getResource(), [
-            'x' => $options->getCoordinate1()->getX(),
-            'y' => $options->getCoordinate1()->getY(),
-            'width' => $options->getDimention()->getWidth(),
-            'height' => $options->getDimention()->getHeight(),
-        ]);
 
         return $image->assignResource($newImage);
     }

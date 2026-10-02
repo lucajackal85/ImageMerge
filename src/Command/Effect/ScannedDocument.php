@@ -20,9 +20,7 @@ class ScannedDocument extends AbstractCommand
      */
     public function __construct(LevelCommandOption $contrast = null)
     {
-        if ($contrast == null) {
-            $this->contrast = new LevelCommandOption(-60);
-        }
+        $this->contrast = $contrast ?? new LevelCommandOption(-60);
 
         parent::__construct($this->contrast);
     }

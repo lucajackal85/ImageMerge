@@ -53,7 +53,13 @@ class ExifParser extends AbstractParser
      */
     public function getFlash()
     {
-        return $this->getBooleanValue('Flash');
+        $value = $this->getSingleValue('Flash');
+        if (is_null($value)) {
+            return null;
+        }
+
+        // EXIF Flash is a bit field: bit 0 tells whether the flash fired
+        return ((int) $value & 1) === 1;
     }
 
     /**

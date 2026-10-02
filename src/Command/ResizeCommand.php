@@ -5,7 +5,6 @@ namespace Jackal\ImageMerge\Command;
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
 use Jackal\ImageMerge\Limits;
 use Jackal\ImageMerge\Model\Image;
-use Jackal\ImageMerge\ValueObject\Dimention;
 
 class ResizeCommand extends AbstractCommand
 {
@@ -24,16 +23,16 @@ class ResizeCommand extends AbstractCommand
      */
     public function execute(Image $image)
     {
-        if (!$this->options->getDimention()->getWidth()) {
-            $this->options->add('dimention', new Dimention(round($image->getAspectRatio() * $this->options->getDimention()->getHeight()), $this->options->getDimention()->getHeight()));
-        }
-
-        if (!$this->options->getDimention()->getHeight()) {
-            $this->options->add('dimention', new Dimention($this->options->getDimention()->getWidth(), round($this->options->getDimention()->getWidth() / $image->getAspectRatio())));
-        }
-
         $width = $this->options->getDimention()->getWidth();
         $height = $this->options->getDimention()->getHeight();
+
+        if (!$width) {
+            $width = (int) round($image->getAspectRatio() * $height);
+        }
+
+        if (!$height) {
+            $height = (int) round($width / $image->getAspectRatio());
+        }
 
         Limits::default()->assertDimensions((int) $width, (int) $height);
 

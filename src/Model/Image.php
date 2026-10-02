@@ -3,10 +3,9 @@
 namespace Jackal\ImageMerge\Model;
 
 use Exception;
+use GdImage;
 use Jackal\ImageMerge\Builder\ImageBuilder;
 
-use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
-use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Exception\InvalidColorException;
 use Jackal\ImageMerge\Http\Response\ImageResponse;
 use Jackal\ImageMerge\Limits;
@@ -16,7 +15,6 @@ use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
 use Jackal\ImageMerge\Utils\ColorUtils;
-use Jackal\ImageMerge\ValueObject\Coordinate;
 
 /**
  * Class Image
@@ -24,16 +22,6 @@ use Jackal\ImageMerge\ValueObject\Coordinate;
  */
 class Image
 {
-    /**
-     * @var integer
-     */
-    private $width;
-
-    /**
-     * @var integer
-     */
-    private $height;
-
     /**
      * @var resource
      */
@@ -55,10 +43,7 @@ class Image
     {
         Limits::default()->assertDimensions((int) $width, (int) $height);
 
-        $this->width = $width;
-        $this->height = $height;
-
-        $resource = imagecreatetruecolor($this->width, $this->height);
+        $resource = imagecreatetruecolor($width, $height);
         imagecolortransparent($resource);
 
         if ($transparent) {
@@ -77,14 +62,7 @@ class Image
      */
     public static function fromFile(FileObjectInterface $filePathName)
     {
-        $resource = ImageReader::fromPathname($filePathName);
-        $imageResource = $resource->getResource();
-
-        $image = new self(imagesx($imageResource), imagesy($imageResource));
-        $command = new ImageAssetCommand(new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
-        $command->execute($image);
-
-        return $image;
+        return self::fromDecoded(ImageReader::fromPathname($filePathName)->getResource());
     }
 
     /**
@@ -94,12 +72,16 @@ class Image
      */
     public static function fromString($contentString)
     {
-        $file = FileTempObject::fromString($contentString);
-        $resource = ImageReader::fromPathname($file);
+        return self::fromFile(FileTempObject::fromString($contentString));
+    }
 
-        $image = new self(imagesx($resource->getResource()), imagesy($resource->getResource()));
-        $command = new ImageAssetCommand(new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
-        $command->execute($image);
+    /**
+     * Copies a decoded image onto a new truecolor canvas with alpha support.
+     */
+    private static function fromDecoded(GdImage $decoded): self
+    {
+        $image = new self(imagesx($decoded), imagesy($decoded));
+        imagecopyresampled($image->getResource(), $decoded, 0, 0, 0, 0, imagesx($decoded), imagesy($decoded), imagesx($decoded), imagesy($decoded));
 
         return $image;
     }
@@ -128,7 +110,7 @@ class Image
         $samples = 10;
         $threshold = 60;
 
-        if (!is_null($fromY) and !is_null($fromY) and !is_null($width) and !is_null($height)) {
+        if (!is_null($fromX) and !is_null($fromY) and !is_null($width) and !is_null($height)) {
             $builder = new ImageBuilder(clone $this);
             $builder->crop($fromX, $fromY, $width, $height);
             $portion = $builder->getImage();
@@ -139,9 +121,9 @@ class Image
         $luminance = 0;
         for ($x = 1;$x <= $samples;$x++) {
             for ($y = 1;$y <= $samples;$y++) {
-                $coordX = round($portion->getWidth() / $samples * $x) - ($portion->getWidth() / $samples / 2);
-                $cooordY = round($portion->getHeight() / $samples * $y) - ($portion->getHeight() / $samples / 2);
-                $rgb = imagecolorat($portion->getResource(), $coordX, $cooordY);
+                $coordX = min($portion->getWidth() - 1, (int) round($portion->getWidth() / $samples * ($x - 0.5)));
+                $coordY = min($portion->getHeight() - 1, (int) round($portion->getHeight() / $samples * ($y - 0.5)));
+                $rgb = imagecolorat($portion->getResource(), $coordX, $coordY);
                 $r = ($rgb >> 16) & 0xFF;
                 $g = ($rgb >> 8) & 0xFF;
                 $b = $rgb & 0xFF;
@@ -163,14 +145,26 @@ class Image
         return $this->resource;
     }
 
+    /**
+     * @return GdImage a copy of the current image, alpha channel included
+     */
     public function getResourceClone()
     {
-        $original = $this->resource;
-        $copy = imagecreatetruecolor($this->width, $this->height);
-
-        imagecopy($copy, $original, 0, 0, 0, 0, $this->width, $this->height);
+        $copy = imagecreatetruecolor($this->getWidth(), $this->getHeight());
+        imagealphablending($copy, false);
+        imagesavealpha($copy, true);
+        imagecopy($copy, $this->resource, 0, 0, 0, 0, $this->getWidth(), $this->getHeight());
 
         return $copy;
+    }
+
+    /**
+     * Clones must not share the underlying GD image, otherwise in-place
+     * commands (blur, filters, drawing) would alter both.
+     */
+    public function __clone()
+    {
+        $this->resource = $this->getResourceClone();
     }
 
     /**

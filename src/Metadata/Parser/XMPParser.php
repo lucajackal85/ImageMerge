@@ -24,7 +24,7 @@ class XMPParser extends AbstractParser
         $xmp_data_end = strpos($content, '</x:xmpmeta>');
 
         $xmp_data = '';
-        if ($xmp_data_start !== false) {
+        if ($xmp_data_start !== false && $xmp_data_end !== false && $xmp_data_end > $xmp_data_start) {
             $xmp_length = $xmp_data_end - $xmp_data_start;
             $xmp_data = substr($content, $xmp_data_start, $xmp_length + 12);
         }
@@ -106,12 +106,14 @@ class XMPParser extends AbstractParser
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      * @throws Exception
      */
     public function getCreationDateTime()
     {
-        return new DateTime($this->getSingleValue('created_at'));
+        $createdAt = $this->getSingleValue('created_at');
+
+        return $createdAt ? new DateTime($createdAt) : null;
     }
 
     /**

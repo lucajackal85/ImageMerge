@@ -16,7 +16,6 @@ class ImageTest extends ImageTestCase
 {
     public function testAddEffects()
     {
-        $this->markTestSkipped('imagettftext not installed on Travis');
 
         $builder = ImageMerge::fromPath(__DIR__ . '/Resources/ImageTest/01.jpg');
         $builder
@@ -35,7 +34,6 @@ class ImageTest extends ImageTestCase
 
         $builder->addCommand(new EffectBlurCentered(new DimensionCommandOption(new Dimention(200, 200))));
 
-        $builder->getImage()->toPNG(__DIR__ . '/Resources/00.png');
         $this->assertPNGSameImage($builder->getImage(), __DIR__ . '/Resources/ImageTest/02.png');
     }
 
@@ -46,14 +44,6 @@ class ImageTest extends ImageTestCase
         $builder->crop(0, 0, 200, 200);
 
         $this->assertPNGSameImage($builder->getImage(), __DIR__ . '/Resources/ImageTest/05.png');
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        if (is_file(__DIR__ . '/Resources/00.png')) {
-            unlink(__DIR__ . '/Resources/00.png');
-        }
     }
 
 }

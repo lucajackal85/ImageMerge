@@ -256,16 +256,17 @@ class ImageBuilder
      */
     public function thumbnail($width = null, $height = null)
     {
-        /** @var DimensionCommandOption $options */
-        $options = new DimensionCommandOption(new Dimention($width, $height));
+        $dimention = new Dimention($width, $height);
 
-        if (!$options->getDimention()->getWidth()) {
-            $options->add('width', round($this->image->getAspectRatio() * $options->getDimention()->getHeight()));
+        if (!$dimention->getWidth()) {
+            $dimention = new Dimention((int) round($this->image->getAspectRatio() * $dimention->getHeight()), $dimention->getHeight());
         }
 
-        if (!$options->getDimention()->getHeight()) {
-            $options->add('height', round($options->getDimention()->getWidth() / $this->image->getAspectRatio()));
+        if (!$dimention->getHeight()) {
+            $dimention = new Dimention($dimention->getWidth(), (int) round($dimention->getWidth() / $this->image->getAspectRatio()));
         }
+
+        $options = new DimensionCommandOption($dimention);
 
         $thumbAspect = $options->getDimention()->getWidth() / $options->getDimention()->getHeight();
 

@@ -14,6 +14,8 @@ use Jackal\ImageMerge\Model\Image;
  */
 class ImageAssetCommand extends AbstractCommand
 {
+    private ?\GdImage $resource = null;
+
     /**
      * ImageAssetCommand constructor.
      * @param SingleCoordinateFileObjectCommandOption $options
@@ -29,9 +31,7 @@ class ImageAssetCommand extends AbstractCommand
      */
     protected function getResourceToApply()
     {
-        $res = ImageReader::fromPathname($this->options->getFile());
-
-        return $res->getResource();
+        return $this->resource ??= ImageReader::fromPathname($this->options->getFile())->getResource();
     }
 
     /**

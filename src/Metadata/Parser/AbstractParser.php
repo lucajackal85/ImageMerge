@@ -41,11 +41,17 @@ abstract class AbstractParser implements ParserInterface
     protected function getDivisionValue($key)
     {
         $value = $this->getValue($key);
-        if (strpos($value, '/1') !== false) {
-            return (int) str_replace('/1', '', $value);
+        if (!is_string($value) || !preg_match('#^(-?\d+)/(\d+)$#', $value, $matches)) {
+            return $value;
         }
 
-        return $value;
+        if ((int) $matches[2] === 0) {
+            return null;
+        }
+
+        $result = (int) $matches[1] / (int) $matches[2];
+
+        return floor($result) == $result ? (int) $result : $result;
 
     }
 

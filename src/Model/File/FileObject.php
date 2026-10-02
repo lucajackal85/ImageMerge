@@ -8,8 +8,9 @@ class FileObject extends SplFileObject implements FileObjectInterface
 {
     public function getContents()
     {
-        $this->seek(0);
+        $this->rewind();
+        $size = $this->getSize();
 
-        return $this->fread($this->getSize());
+        return $size > 0 ? $this->fread($size) : '';
     }
 }

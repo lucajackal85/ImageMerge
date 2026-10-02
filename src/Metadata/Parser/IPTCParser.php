@@ -45,7 +45,6 @@ class IPTCParser extends AbstractParser
      */
     public function __construct(FileObjectInterface $file)
     {
-        @iptcembed('', $file->getPathname(), 0);
         $info = null;
         getimagesize($file->getPathname(), $info);
 
