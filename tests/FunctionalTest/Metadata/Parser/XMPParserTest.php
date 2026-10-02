@@ -10,13 +10,13 @@ class XMPParserTest extends TestCase
 {
     public function testXMPData(): void
     {
-        $xmp = new XMPParser(new FileObject(__DIR__ . '/../../Resources/XMPParserTest/01.jpg'));
+        $xmp = new XMPParser(new FileObject(__DIR__ . '/../../../Fixtures/photo-with-metadata.jpg'));
         $xmpArray = $xmp->toArray();
 
-        $this->assertEquals(["LAT Images\nemail: sales@latimages.com"], $xmp->getCopyrights());
+        $this->assertEquals(["Example Studio\nemail: photos@example.com"], $xmp->getCopyrights());
         $this->assertEquals($xmp->getCopyrights(), $xmpArray['copyrights']);
 
-        $this->assertEquals(['f1', 'formula 1', 'formula one', 'gp', 'Portrait', 'Helmets', 'Finish'], $xmp->getKeywords());
+        $this->assertEquals(['sample', 'test image', 'gradient', 'shapes', 'Portrait', 'Circle', 'Square'], $xmp->getKeywords());
         $this->assertEquals($xmp->getKeywords(), $xmpArray['keywords']);
 
         $this->assertEquals(new \DateTime('2017-11-12 18:37:12', new \DateTimeZone('Europe/Rome')), $xmp->getCreationDateTime());
@@ -25,22 +25,21 @@ class XMPParserTest extends TestCase
         $this->assertEquals(null, $xmp->getCreator());
         $this->assertEquals($xmp->getCreator(), $xmpArray['created_by']);
 
-        $this->assertEquals('andrewhone@gmail.com', $xmp->getCaptionWriter());
+        $this->assertEquals('writer@example.com', $xmp->getCaptionWriter());
         $this->assertEquals($xmp->getCaptionWriter(), $xmpArray['caption']);
 
         $this->assertEquals([
-            'prefs' => '0:0:0:009367',
+            'prefs' => '0:0:0:001234',
             'pm_version' => 'PM5',
             'tagged' => false,
             'color_class' => 0,
         ], $xmp->getPhotoMechanic());
         $this->assertEquals($xmp->getPhotoMechanic(), $xmpArray['photomechanic']);
 
-        $this->assertEquals('Interlagos, Sao Paulo, Brazil.
+        $this->assertEquals('Test City, Example Region.
 Sunday 12 November 2017.
-Sebastian Vettel, Ferrari SF70H, 1st Position, arrives in Parc Ferme.
-World Copyright: Andy Hone/LAT Images 
-ref: Digital Image _ONY9367', $xmp->getDescription());
+A yellow circle and a green square on a gradient background.
+ref: Synthetic Image 001234', $xmp->getDescription());
         $this->assertEquals($xmp->getDescription(), $xmpArray['description']);
 
         $this->assertFalse($xmp->isEmpty());

@@ -11,7 +11,7 @@ class ImageReaderTest extends TestCase
     public function testReadJPG(): void
     {
 
-        $ir = ImageReader::fromPathname(new FileObject(__DIR__ . '/../Resources/ImageReaderTest/01.jpg'));
+        $ir = ImageReader::fromPathname(new FileObject(__DIR__ . '/../../Fixtures/photo-with-metadata.jpg'));
 
         $this->assertEquals(ImageReader::FORMAT_JPG, $ir->getFormat());
     }

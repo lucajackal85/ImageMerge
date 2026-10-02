@@ -10,26 +10,25 @@ class IPTCParserTest extends TestCase
 {
     public function testParseMetadata(): void
     {
-        $iptc = new IPTCParser(new FileObject(__DIR__ . '/../../Resources/IPTCParserTest/01.jpg'));
+        $iptc = new IPTCParser(new FileObject(__DIR__ . '/../../../Fixtures/photo-with-metadata.jpg'));
         $iptcArray = $iptc->toArray();
 
-        $this->assertEquals('andrewhone@gmail.com', $iptc->getCreator());
+        $this->assertEquals('writer@example.com', $iptc->getCreator());
         $this->assertEquals($iptc->getCreator(), $iptcArray['created_by']);
 
         $this->assertEquals(new \DateTime('2017-11-12T18:37:12+01:00'), $iptc->getCreationDateTime());
         $this->assertEquals($iptc->getCreationDateTime(), $iptcArray['created_at']);
 
-        $this->assertEquals(['f1', 'formula 1', 'formula one', 'gp', 'Portrait', 'Helmets', 'Finish'], $iptc->getKeywords());
+        $this->assertEquals(['sample', 'test image', 'gradient', 'shapes', 'Portrait', 'Circle', 'Square'], $iptc->getKeywords());
         $this->assertEquals($iptc->getKeywords(), $iptcArray['keywords']);
 
-        $this->assertEquals("LAT Images\nemail: sales@latimages.com", $iptc->getCopyrights());
+        $this->assertEquals("Example Studio\nemail: photos@example.com", $iptc->getCopyrights());
         $this->assertEquals($iptc->getCopyrights(), $iptcArray['copyrights']);
 
-        $this->assertEquals('Interlagos, Sao Paulo, Brazil.
+        $this->assertEquals('Test City, Example Region.
 Sunday 12 November 2017.
-Sebastian Vettel, Ferrari SF70H, 1st Position, arrives in Parc Ferme.
-World Copyright: Andy Hone/LAT Images 
-ref: Digital Image _ONY9367', $iptc->getDescription());
+A yellow circle and a green square on a gradient background.
+ref: Synthetic Image 001234', $iptc->getDescription());
         $this->assertEquals($iptc->getDescription(), $iptcArray['description']);
 
         $this->assertTrue($iptc->isUTF8());

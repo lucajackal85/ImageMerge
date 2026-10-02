@@ -13,7 +13,7 @@ use SplFileObject;
 
 class ImageMergeTest extends TestCase
 {
-    private const SOURCE = __DIR__ . '/Resources/ImageMergeTest/01.jpg';
+    private const SOURCE = __DIR__ . '/../Fixtures/photo-with-metadata.jpg';
 
     public function testItShouldCreateFromPath(): void
     {
