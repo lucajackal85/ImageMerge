@@ -30,10 +30,10 @@ use Jackal\ImageMerge\Command\ResizeCommand;
 use Jackal\ImageMerge\Command\RotateCommand;
 use Jackal\ImageMerge\Exception\InvalidColorException;
 use Jackal\ImageMerge\Model\Color;
-use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Model\Text\Text;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\ValueObject\Dimention;
 
 class ImageBuilder
@@ -133,7 +133,8 @@ class ImageBuilder
             new DoubleCoordinateColorCommandOption(
                 new Coordinate($x1, $y1),
                 new Coordinate($x2, $y2),
-                new Color($colorHex))
+                new Color($colorHex)
+            )
         ));
     }
 

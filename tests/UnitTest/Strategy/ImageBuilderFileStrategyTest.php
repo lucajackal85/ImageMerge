@@ -7,7 +7,8 @@ use PHPUnit\Framework\TestCase;
 
 class ImageBuilderFileStrategyTest extends TestCase
 {
-    public function testSupportFilePath(){
+    public function testSupportFilePath()
+    {
 
         $strategy = new ImageBuilderFileStrategy();
 

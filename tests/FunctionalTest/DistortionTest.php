@@ -5,10 +5,10 @@ namespace Jackal\ImageMerge\Test\FunctionalTest;
 use Jackal\ImageMerge\Command\Effect\Distortion;
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
 use Jackal\ImageMerge\ImageMerge;
-use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\File\FileObject;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 
-class DistortionTest extends FunctionalTest
+class DistortionTest extends ImageTestCase
 {
     public function testDistortion()
     {

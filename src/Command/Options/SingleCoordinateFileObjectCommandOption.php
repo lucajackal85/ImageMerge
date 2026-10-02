@@ -2,8 +2,8 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
-use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 
 /**
  * Class SingleCoordinateFileObjectCommandOption

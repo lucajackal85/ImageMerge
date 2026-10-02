@@ -2,7 +2,7 @@
 
 namespace Jackal\ImageMerge\Model\File;
 
-use \SplFileObject;
+use SplFileObject;
 
 class FileObject extends SplFileObject implements FileObjectInterface
 {

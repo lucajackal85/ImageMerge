@@ -36,7 +36,8 @@ class MultiCoordinateCommandOptionTest extends TestCase
         $this->assertEquals(100, $object->getMaxY());
     }
 
-    public function testIsQuadrilateral(){
+    public function testIsQuadrilateral()
+    {
 
         $object = new MultiCoordinateCommandOption([
             new Coordinate(10, 20),
@@ -48,7 +49,8 @@ class MultiCoordinateCommandOptionTest extends TestCase
         $this->assertTrue($object->isQuadrilateral());
     }
 
-    public function testIsNotQuadrilateral(){
+    public function testIsNotQuadrilateral()
+    {
 
         $object = new MultiCoordinateCommandOption([
             new Coordinate(10, 20),
@@ -59,7 +61,8 @@ class MultiCoordinateCommandOptionTest extends TestCase
         $this->assertFalse($object->isQuadrilateral());
     }
 
-    public function testToArray(){
+    public function testToArray()
+    {
 
         $object = new MultiCoordinateCommandOption([
             new Coordinate(10, 20),
@@ -73,7 +76,8 @@ class MultiCoordinateCommandOptionTest extends TestCase
         ], $object->toArray());
     }
 
-    public function testGetDimention(){
+    public function testGetDimention()
+    {
 
         $object = new MultiCoordinateCommandOption([
             new Coordinate(10, 20),

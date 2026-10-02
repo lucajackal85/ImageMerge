@@ -5,7 +5,7 @@ namespace Jackal\ImageMerge\Test\FunctionalTest;
 use Jackal\ImageMerge\ImageMerge;
 use Jackal\ImageMerge\Model\File\FileObject;
 
-class FlipTest extends FunctionalTest
+class FlipTest extends ImageTestCase
 {
     public function testFlipHorizontal()
     {

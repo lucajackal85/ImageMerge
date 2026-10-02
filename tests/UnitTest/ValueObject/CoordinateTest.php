@@ -15,7 +15,8 @@ class CoordinateTest extends TestCase
         $this->assertEquals($coord->getY(), 20);
     }
 
-    public function testCoordinateToArray(){
+    public function testCoordinateToArray()
+    {
 
         $coord = new Coordinate(10, 20);
 

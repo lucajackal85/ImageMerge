@@ -10,8 +10,8 @@ use Jackal\ImageMerge\Exception\InvalidColorException;
  */
 class Color
 {
-    const BLACK = '000000';
-    const WHITE = 'FFFFFF';
+    public const BLACK = '000000';
+    public const WHITE = 'FFFFFF';
 
     /**
      * @var string

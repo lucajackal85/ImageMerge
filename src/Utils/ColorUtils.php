@@ -22,7 +22,7 @@ class ColorUtils
             return imagecolorallocate($resource, $color->red(), $color->green(), $color->blue());
         }
 
-            return imagecolorallocatealpha($resource, $color->red(), $color->green(), $color->blue(), 127);
+        return imagecolorallocatealpha($resource, $color->red(), $color->green(), $color->blue(), 127);
 
     }
 }

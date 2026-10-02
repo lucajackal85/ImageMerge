@@ -9,7 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 class GeometryUtilsTest extends TestCase
 {
-    public function testCockwiseCoordsQuadtrato(){
+    public function testCockwiseCoordsQuadtrato()
+    {
 
         $coords = GeometryUtils::getClockwiseOrder(new MultiCoordinateCommandOption([
             new Coordinate(0, 0),
@@ -33,7 +34,8 @@ class GeometryUtilsTest extends TestCase
         $this->assertEquals(10, $array[3]->getY());
     }
 
-    public function testCockwiseCoordsQuadtrilatero1(){
+    public function testCockwiseCoordsQuadtrilatero1()
+    {
 
         $coords = GeometryUtils::getClockwiseOrder(new MultiCoordinateCommandOption([
             new Coordinate(0, 1),
@@ -60,7 +62,8 @@ class GeometryUtilsTest extends TestCase
         $this->assertEquals(9, $coordsArr[3]->getY());
     }
 
-    public function testCloclWiseCoordsBug(){
+    public function testCloclWiseCoordsBug()
+    {
         //94,66,136,67,167,559,89,556,
         $coords = GeometryUtils::getClockwiseOrder(new MultiCoordinateCommandOption([
             new Coordinate(94, 66),
@@ -73,7 +76,8 @@ class GeometryUtilsTest extends TestCase
         $this->assertCount(8, $coords->toArray());
     }
 
-    public function testCloclWiseCoordsBug2(){
+    public function testCloclWiseCoordsBug2()
+    {
         //94,66,136,67,167,559,89,556,
         $coords = GeometryUtils::getClockwiseOrder(new MultiCoordinateCommandOption([
             new Coordinate(1, 0),
@@ -99,7 +103,8 @@ class GeometryUtilsTest extends TestCase
 
     }
 
-    public function testCloclWiseCoordsBug3(){
+    public function testCloclWiseCoordsBug3()
+    {
         //94,66,136,67,167,559,89,556,
         $coords = GeometryUtils::getClockwiseOrder(new MultiCoordinateCommandOption([
             new Coordinate(2, 0),
@@ -135,7 +140,8 @@ class GeometryUtilsTest extends TestCase
         $this->assertEquals(3, $array[7]);
     }
 
-    public function testCloclWiseCoordsBug4(){
+    public function testCloclWiseCoordsBug4()
+    {
         //94,66,136,67,167,559,89,556,
         $coords = GeometryUtils::getClockwiseOrder(new MultiCoordinateCommandOption([
             new Coordinate(0, 3),
@@ -169,7 +175,8 @@ class GeometryUtilsTest extends TestCase
         $this->assertEquals(3, $array[7]);
     }
 
-    public function testItShoulReturnTop(){
+    public function testItShoulReturnTop()
+    {
         $coords = GeometryUtils::getTopCoord([
             new Coordinate(10, 67),
             new Coordinate(20, 66),
@@ -179,7 +186,8 @@ class GeometryUtilsTest extends TestCase
         $this->assertEquals(66, $coords[0]->getY());
     }
 
-    public function testItShoulReturnBottom(){
+    public function testItShoulReturnBottom()
+    {
         $coords = GeometryUtils::getBottomCoord([
             new Coordinate(10, 67),
             new Coordinate(20, 66),
@@ -189,7 +197,8 @@ class GeometryUtilsTest extends TestCase
         $this->assertEquals(67, $coords[0]->getY());
     }
 
-    public function testItShoulReturnLeft(){
+    public function testItShoulReturnLeft()
+    {
         $coords = GeometryUtils::getLeftCoord([
             new Coordinate(10, 67),
             new Coordinate(20, 66),
@@ -199,7 +208,8 @@ class GeometryUtilsTest extends TestCase
         $this->assertEquals(67, $coords[0]->getY());
     }
 
-    public function testItShoulReturnRight(){
+    public function testItShoulReturnRight()
+    {
 
         $coords = GeometryUtils::getRightCoord([
             new Coordinate(20, 66),
@@ -210,7 +220,8 @@ class GeometryUtilsTest extends TestCase
         $this->assertEquals(66, $coords[0]->getY());
     }
 
-    public function testItMatch(){
+    public function testItMatch()
+    {
         $a = new Coordinate(10, 67);
         $b = new Coordinate(10, 67);
 

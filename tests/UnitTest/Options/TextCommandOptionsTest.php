@@ -4,9 +4,9 @@ namespace Jackal\ImageMerge\Test\Options;
 
 use Jackal\ImageMerge\Command\Options\TextCommandOption;
 use Jackal\ImageMerge\Model\Color;
-use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\Font\Font;
 use Jackal\ImageMerge\Model\Text\Text;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 use PHPUnit\Framework\TestCase;
 
 class TextCommandOptionsTest extends TestCase

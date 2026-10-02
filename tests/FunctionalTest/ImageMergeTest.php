@@ -10,7 +10,8 @@ use PHPUnit\Framework\TestCase;
 
 class ImageMergeTest extends TestCase
 {
-    public function testItShouldCreaeFromFileObject(){
+    public function testItShouldCreaeFromFileObject()
+    {
 
         $source = __DIR__ . '/../FunctionalTest/Resources/ImageMergeTest/01.jpg';
 
@@ -21,7 +22,8 @@ class ImageMergeTest extends TestCase
         $this->assertInstanceOf(ImageBuilder::class, $imageBuilder);
     }
 
-    public function testItShouldCreateFromImage(){
+    public function testItShouldCreateFromImage()
+    {
 
         $source = __DIR__ . '/../FunctionalTest/Resources/ImageMergeTest/01.jpg';
 
@@ -32,7 +34,8 @@ class ImageMergeTest extends TestCase
         $this->assertInstanceOf(ImageBuilder::class, $imageBuilder);
     }
 
-    public function testItShouldCreateFromContentString(){
+    public function testItShouldCreateFromContentString()
+    {
         $source = __DIR__ . '/../FunctionalTest/Resources/ImageMergeTest/01.jpg';
 
         $imageMerge = new ImageMerge();
@@ -42,7 +45,8 @@ class ImageMergeTest extends TestCase
         $this->assertInstanceOf(ImageBuilder::class, $imageBuilder);
     }
 
-    public function testItShouldCreateBuilderFromFilePathName(){
+    public function testItShouldCreateBuilderFromFilePathName()
+    {
 
         $source = __DIR__ . '/../FunctionalTest/Resources/ImageMergeTest/01.jpg';
 
@@ -53,7 +57,8 @@ class ImageMergeTest extends TestCase
 
     }
 
-    public function testItShouldCreateBuilderFromURL(){
+    public function testItShouldCreateBuilderFromURL()
+    {
 
         $source = 'https://www.gstatic.com/webp/gallery3/1.sm.png';
 

@@ -3,11 +3,11 @@
 namespace Jackal\ImageMerge\Command;
 
 use Jackal\ImageMerge\Builder\ImageBuilder;
+use Jackal\ImageMerge\Command\Asset\LineAssetCommand;
 use Jackal\ImageMerge\Command\Options\BorderCommandOption;
 use Jackal\ImageMerge\Command\Options\DoubleCoordinateColorCommandOption;
-use Jackal\ImageMerge\Command\Asset\LineAssetCommand;
-use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\Image;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 
 /**
  * Class BorderCommand
@@ -43,7 +43,8 @@ class BorderCommand extends AbstractCommand
                         new Coordinate($image->getWidth(), $i),
                         $options->getColor()
                     )
-            ));
+                )
+            );
             //bottom
             $builder->addCommand(
                 new LineAssetCommand(
@@ -51,8 +52,9 @@ class BorderCommand extends AbstractCommand
                         new Coordinate(0, $image->getHeight() - $i - 1),
                         new Coordinate($image->getWidth(), $image->getHeight() - $i - 1),
                         $options->getColor()
+                    )
                 )
-            ));
+            );
             //right
             $builder->addCommand(
                 new LineAssetCommand(
@@ -60,8 +62,9 @@ class BorderCommand extends AbstractCommand
                         new Coordinate($image->getWidth() - $i - 1, 0),
                         new Coordinate($image->getWidth() - $i - 1, $image->getHeight()),
                         $options->getColor()
+                    )
                 )
-            ));
+            );
             //left
             $builder->addCommand(
                 new LineAssetCommand(
@@ -70,7 +73,8 @@ class BorderCommand extends AbstractCommand
                         new Coordinate($i, $image->getHeight()),
                         $options->getColor()
                     )
-            ));
+                )
+            );
         }
 
         return $image;

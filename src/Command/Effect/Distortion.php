@@ -4,14 +4,15 @@ namespace Jackal\ImageMerge\Command\Effect;
 
 use Exception;
 use InvalidArgumentException;
-use Jackal\BinLocator\BinLocator;
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
-use Jackal\ImageMerge\Utils\GeometryUtils;
-use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\File\Filename;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
+use Jackal\ImageMerge\Utils\GeometryUtils;
+use Jackal\ImageMerge\ValueObject\Coordinate;
+use RuntimeException;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 
 class Distortion extends AbstractImageMagickCommand
@@ -53,13 +54,13 @@ class Distortion extends AbstractImageMagickCommand
         $width = $originImage->getWidth();
         $height = $originImage->getHeight();
 
-        $locator = new BinLocator('convert');
-
-        $process = $locator->getProcess([
+        $process = new Process(array_merge(self::getImageMagickCommand(), [
             $inputFile->getPathname(),
-            '-matte -virtual-pixel black -distort Perspective',
+            '-alpha', 'set',
+            '-virtual-pixel', 'black',
+            '-distort', 'Perspective',
             sprintf(
-                "'%s,%s 0,0   %s,%s %s,0   %s,%s %s,%s  %s,%s 0,%s' %s",
+                '%s,%s 0,0 %s,%s %s,0 %s,%s %s,%s %s,%s 0,%s',
                 $coordinates[0],
                 $coordinates[1],
                 $coordinates[2],
@@ -71,10 +72,10 @@ class Distortion extends AbstractImageMagickCommand
                 $height,
                 $coordinates[6],
                 $coordinates[7],
-                $height,
-                $outputFilepathname
+                $height
             ),
-        ]);
+            'png:' . $outputFilepathname,
+        ]));
 
         $process->run();
 
@@ -86,5 +87,25 @@ class Distortion extends AbstractImageMagickCommand
         $tempfile = new FileTempObject($outputFilepathname);
 
         return Image::fromFile($tempfile);
+    }
+
+    /**
+     * ImageMagick 7 ships "magick", ImageMagick 6 only "convert".
+     *
+     * @return string[]
+     */
+    private static function getImageMagickCommand(): array
+    {
+        $finder = new ExecutableFinder();
+
+        if ($magick = $finder->find('magick')) {
+            return [$magick];
+        }
+
+        if ($convert = $finder->find('convert')) {
+            return [$convert];
+        }
+
+        throw new RuntimeException('ImageMagick not found: install it to use the Distortion effect');
     }
 }

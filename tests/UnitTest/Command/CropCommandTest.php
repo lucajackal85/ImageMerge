@@ -6,7 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 class CropCommandTest extends TestCase
 {
-    public function testItShouldRaiseExceptionOnInvalidDimentions(){
+    public function testItShouldRaiseExceptionOnInvalidDimentions()
+    {
         $this->markTestIncomplete();
     }
 

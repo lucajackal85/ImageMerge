@@ -57,10 +57,16 @@ class CropPolygonCommand extends AbstractCommand
         $destImage = ImageCreateTrueColor($image->getWidth(), $image->getHeight());
         imagesavealpha($destImage, true);
         imagealphablending($destImage, true);
-        imagecopy($destImage, $mergeImage,
-            0, 0,
-            0, 0,
-            $image->getWidth(), $image->getHeight());
+        imagecopy(
+            $destImage,
+            $mergeImage,
+            0,
+            0,
+            0,
+            0,
+            $image->getWidth(),
+            $image->getHeight()
+        );
 
         // Make the the border transparent (we're assuming there's a 2px buffer on all sides)
 

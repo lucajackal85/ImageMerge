@@ -36,7 +36,7 @@ class ImageMerge
     {
         foreach ($this->strategies as $strategyClass) {
             /** @var ImageBuilderStrategyInterface $strategy */
-            $strategy = new $strategyClass;
+            $strategy = new $strategyClass();
             if ($strategy->support($source)) {
                 return $strategy->getImageBuilder($source);
             }

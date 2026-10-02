@@ -15,7 +15,8 @@ class LevelCommandOptionTest extends TestCase
 
     public function testRaiseExceptionOnInvalidGetter()
     {
-        $this->setExpectedException('\InvalidArgumentException', 'Key INVALID-KEY is not valid, available options are: level');
+        $this->expectException('\InvalidArgumentException');
+        $this->expectExceptionMessage('Key INVALID-KEY is not valid, available options are: level');
         $object = new LevelCommandOption(10);
 
         $object->get('INVALID-KEY');

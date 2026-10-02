@@ -8,37 +8,43 @@ use PHPUnit\Framework\TestCase;
 
 class ImageReaderTest extends TestCase
 {
-    public function testReadJPG(){
+    public function testReadJPG()
+    {
 
         $ir = ImageReader::fromPathname(new FileObject(__DIR__ . '/../Resources/ImageReaderTest/01.jpg'));
 
         $this->assertEquals(ImageReader::FORMAT_JPG, $ir->getFormat());
     }
 
-    public function testReadPNG(){
+    public function testReadPNG()
+    {
 
         $ir = ImageReader::fromPathname(new FileObject(__DIR__ . '/../Resources/ImageReaderTest/02.png'));
 
         $this->assertEquals(ImageReader::FORMAT_PNG, $ir->getFormat());
     }
 
-    public function testReadGIF(){
+    public function testReadGIF()
+    {
 
         $ir = ImageReader::fromPathname(new FileObject(__DIR__ . '/../Resources/ImageReaderTest/03.gif'));
 
         $this->assertEquals(ImageReader::FORMAT_GIF, $ir->getFormat());
     }
 
-    public function testReadWEBP(){
+    public function testReadWEBP()
+    {
 
         $ir = ImageReader::fromPathname(new FileObject(__DIR__ . '/../Resources/ImageReaderTest/04.webp'));
 
         $this->assertEquals(ImageReader::FORMAT_WEBP, $ir->getFormat());
     }
 
-    public function expectExceptionOnInvalidFile(){
+    public function testRaiseExceptionOnInvalidFile()
+    {
 
-        $this->setExpectedException('\Exception', 'File is not a valid image type [extension: "php", returned: ""]');
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('File is not a valid image type [extension: "php"]');
         $ir = ImageReader::fromPathname(new FileObject(__FILE__));
     }
 }

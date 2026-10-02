@@ -10,7 +10,7 @@ use Jackal\ImageMerge\Exception\InvalidFontException;
  */
 class Font
 {
-    const FONT_ARIAL = 'arial';
+    public const FONT_ARIAL = 'arial';
 
     /**
      * @var string

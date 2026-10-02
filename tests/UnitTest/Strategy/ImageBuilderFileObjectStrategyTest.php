@@ -8,7 +8,8 @@ use PHPUnit\Framework\TestCase;
 
 class ImageBuilderFileObjectStrategyTest extends TestCase
 {
-    public function testSupportFileObject(){
+    public function testSupportFileObject()
+    {
 
         $strategy = new ImageBuilderFileObjectStrategy();
 

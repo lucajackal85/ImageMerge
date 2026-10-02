@@ -12,7 +12,7 @@ use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Model\Text\Text;
 use Jackal\ImageMerge\ValueObject\Dimention;
 
-class ImageTest extends FunctionalTest
+class ImageTest extends ImageTestCase
 {
     public function testAddEffects()
     {
@@ -51,10 +51,10 @@ class ImageTest extends FunctionalTest
         $this->assertPNGSameImage($builder->getImage(), __DIR__ . '/Resources/ImageTest/05.png');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
-        if(is_file(__DIR__ . '/Resources/00.png')){
+        if (is_file(__DIR__ . '/Resources/00.png')) {
             unlink(__DIR__ . '/Resources/00.png');
         }
     }

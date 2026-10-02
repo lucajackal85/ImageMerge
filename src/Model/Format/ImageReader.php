@@ -11,10 +11,10 @@ use Jackal\ImageMerge\Model\File\FileObjectInterface;
  */
 final class ImageReader
 {
-    const FORMAT_JPG = 'jpg';
-    const FORMAT_PNG = 'png';
-    const FORMAT_GIF = 'gif';
-    const FORMAT_WEBP = 'webp';
+    public const FORMAT_JPG = 'jpg';
+    public const FORMAT_PNG = 'png';
+    public const FORMAT_GIF = 'gif';
+    public const FORMAT_WEBP = 'webp';
 
     private $resource;
 
@@ -60,8 +60,11 @@ final class ImageReader
                 break;
             }
             default: {
-                throw new Exception(sprintf('File is not a valid image type [extension: "%s"]',
-                    $ir->getExtension($filename))
+                throw new Exception(
+                    sprintf(
+                        'File is not a valid image type [extension: "%s"]',
+                        $ir->getExtension($filename)
+                    )
                 );
 
             }

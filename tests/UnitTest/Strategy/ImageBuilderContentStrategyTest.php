@@ -7,7 +7,8 @@ use PHPUnit\Framework\TestCase;
 
 class ImageBuilderContentStrategyTest extends TestCase
 {
-    public function testSupportContentString(){
+    public function testSupportContentString()
+    {
 
         $filePath = __DIR__ . '/../Resources/StrategyTest/01.jpg';
         $content = file_get_contents($filePath);

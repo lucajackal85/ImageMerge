@@ -2,8 +2,8 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
-use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\Text\Text;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 
 /**
  * Class TextCommandOption

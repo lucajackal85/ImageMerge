@@ -1,6 +1,6 @@
 {
     "name": "jackal/image-merge",
-    "description": "A simple PHP libraty to manipulate images",
+    "description": "A simple PHP library to manipulate images",
     "license": "MIT",
     "authors": [
         {
@@ -9,34 +9,33 @@
         }
     ],
     "minimum-stability": "stable",
-    "extra": {
-        "hooks": {
-            "pre-commit": [
-                "echo Committing as $(git config user.name) [$(git config user.email)]",
-                "vendor/bin/php-cs-fixer fix . --config=.php-cs"
-            ],
-            "pre-push": [
-                "vendor/bin/phpunit tests/"
-            ]
-        }
-    },
     "require": {
-        "php": ">=5.6",
+        "php": "^8.2",
         "ext-gd": "*",
-        "ext-exif":  "*",
-        "symfony/http-foundation": ">=3.4",
-        "jackal/bin-locator": "^0.5"
+        "ext-exif": "*",
+        "symfony/http-foundation": "^6.4 || ^7.0",
+        "symfony/process": "^6.4 || ^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5",
+        "friendsofphp/php-cs-fixer": "^3.64"
     },
     "autoload": {
         "psr-4": {
-            "Jackal\\ImageMerge\\": "src/",
+            "Jackal\\ImageMerge\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Jackal\\ImageMerge\\Test\\": "tests/"
         }
     },
-    "require-dev": {
-        "phpunit/phpunit": "^4.8",
-        "vajiral/php-image-compare": "^1.0",
-        "brainmaestro/composer-git-hooks": "^2.8",
-        "friendsofphp/php-cs-fixer": "^2.16"
+    "scripts": {
+        "test": "phpunit",
+        "cs": "php-cs-fixer fix --dry-run --diff",
+        "cs-fix": "php-cs-fixer fix"
+    },
+    "config": {
+        "sort-packages": true
     }
 }

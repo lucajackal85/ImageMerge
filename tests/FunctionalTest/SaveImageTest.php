@@ -5,11 +5,12 @@ namespace Jackal\ImageMerge\Test\FunctionalTest;
 use Jackal\ImageMerge\ImageMerge;
 use Jackal\ImageMerge\Model\File\FileObject;
 
-class SaveImageTest extends FunctionalTest
+class SaveImageTest extends ImageTestCase
 {
-    public function testWebPImage(){
+    public function testWebPImage()
+    {
 
-        if(!function_exists('imagewebp')){
+        if (!function_exists('imagewebp')) {
             $this->markTestSkipped('imagewebp not supported');
         }
 

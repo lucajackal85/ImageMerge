@@ -45,7 +45,7 @@ abstract class AbstractParser implements ParserInterface
             return (int) str_replace('/1', '', $value);
         }
 
-            return $value;
+        return $value;
 
     }
 
@@ -86,8 +86,10 @@ abstract class AbstractParser implements ParserInterface
         if (is_array($value)) {
             $value = array_shift($value);
         }
-        $value = preg_replace('/[\r\n]/', "\n", $value);
+        if (is_null($value)) {
+            return null;
+        }
 
-        return $value;
+        return preg_replace('/\r\n|\r/', "\n", (string) $value);
     }
 }

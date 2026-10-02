@@ -5,8 +5,8 @@ namespace Jackal\ImageMerge\Model;
 use Exception;
 use Jackal\ImageMerge\Builder\ImageBuilder;
 
-use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
+use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Exception\InvalidColorException;
 use Jackal\ImageMerge\Http\Response\ImageResponse;
 use Jackal\ImageMerge\Metadata\Metadata;
@@ -205,7 +205,8 @@ class Image
      * @return bool|ImageResponse
      * @throws Exception
      */
-    public function toWebP($filePathName = null){
+    public function toWebP($filePathName = null)
+    {
         return ImageWriter::toWebP($this->getResource(), $filePathName);
     }
 

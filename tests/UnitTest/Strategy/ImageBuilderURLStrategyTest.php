@@ -7,7 +7,8 @@ use PHPUnit\Framework\TestCase;
 
 class ImageBuilderURLStrategyTest extends TestCase
 {
-    public function testSupportHTTPPath(){
+    public function testSupportHTTPPath()
+    {
 
         $strategy = new ImageBuilderURLStrategy();
 

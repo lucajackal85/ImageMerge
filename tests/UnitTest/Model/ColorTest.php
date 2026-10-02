@@ -31,22 +31,16 @@ class ColorTest extends TestCase
 
     public function testRaiseExceptionOnInvalidColorFormat()
     {
-        $this->setExpectedException(InvalidColorException::class);
-
-        $this->setExpectedException(
-            InvalidColorException::class,
-            'Color "invalid" is invalid'
-        );
+        $this->expectException(InvalidColorException::class);
+        $this->expectExceptionMessage('Color "invalid" is invalid');
 
         new Color('invalid');
     }
 
     public function testRaiseExceptionOnPartialInvalidColorFormat()
     {
-        $this->setExpectedException(
-            InvalidColorException::class,
-            'Color "AABBCX" is invalid'
-        );
+        $this->expectException(InvalidColorException::class);
+        $this->expectExceptionMessage('Color "AABBCX" is invalid');
 
         new Color('AABBCX');
     }

@@ -193,8 +193,8 @@ class ExifParser extends AbstractParser
         $latitude = $lat_direction * ($lat_degrees + ($lat_minutes / 60) + ($lat_seconds / (60 * 60)));
         $longitude = $lon_direction * ($lon_degrees + ($lon_minutes / 60) + ($lon_seconds / (60 * 60)));
 
-        $latitude_deg = sprintf('%s°%s\'%s" %s', $lat_degrees, $lat_minutes, $lat_seconds, $lat_direction == 1 ? 'N':'S');
-        $longitude_deg = sprintf('%s°%s\'%s" %s', $lon_degrees, $lon_minutes, $lon_seconds, $lon_direction == 1 ? 'E':'W');
+        $latitude_deg = sprintf('%s°%s\'%s" %s', $lat_degrees, $lat_minutes, $lat_seconds, $lat_direction == 1 ? 'N' : 'S');
+        $longitude_deg = sprintf('%s°%s\'%s" %s', $lon_degrees, $lon_minutes, $lon_seconds, $lon_direction == 1 ? 'E' : 'W');
 
         return [
             'lat' => $latitude,

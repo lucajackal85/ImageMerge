@@ -9,7 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 class ImageBuilderImageStrategyTest extends TestCase
 {
-    public function testSupportImage(){
+    public function testSupportImage()
+    {
 
         $strategy = new ImageBuilderImageStrategy();
 

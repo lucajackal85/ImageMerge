@@ -7,10 +7,10 @@ use Jackal\ImageMerge\ValueObject\Coordinate;
 
 class GeometryUtils
 {
-    const TOP_LEFT = 0;
-    const TOP_RIGHT = 1;
-    const BOTTOM_RIGHT = 2;
-    const BOTTOM_LEFT = 3;
+    public const TOP_LEFT = 0;
+    public const TOP_RIGHT = 1;
+    public const BOTTOM_RIGHT = 2;
+    public const BOTTOM_LEFT = 3;
 
     public static function getClockwiseOrder(MultiCoordinateCommandOption $multiCoordinateCommandOption)
     {
