@@ -25,7 +25,7 @@ class PixelCommand extends AbstractCommand
      * @param Image $image
      * @return Image
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         $level = (int) $this->options->getLevel();
         if ($level < 0) {

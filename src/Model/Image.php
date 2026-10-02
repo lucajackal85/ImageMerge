@@ -23,14 +23,14 @@ use Jackal\ImageMerge\Utils\ColorUtils;
 class Image
 {
     /**
-     * @var resource
+     * @var GdImage
      */
-    private $resource;
+    private GdImage $resource;
 
     /**
      * @var Metadata
      */
-    private $metadata;
+    private ?Metadata $metadata = null;
 
     /**
      * Image constructor.
@@ -39,7 +39,7 @@ class Image
      * @param bool $transparent
      * @throws InvalidColorException
      */
-    public function __construct($width, $height, $transparent = true)
+    public function __construct(int $width, int $height, bool $transparent = true)
     {
         Limits::default()->assertDimensions((int) $width, (int) $height);
 
@@ -60,7 +60,7 @@ class Image
      * @return Image
      * @throws Exception
      */
-    public static function fromFile(FileObjectInterface $filePathName)
+    public static function fromFile(FileObjectInterface $filePathName): self
     {
         return self::fromDecoded(ImageReader::fromPathname($filePathName)->getResource());
     }
@@ -70,7 +70,7 @@ class Image
      * @return Image
      * @throws Exception
      */
-    public static function fromString($contentString)
+    public static function fromString(string $contentString): self
     {
         return self::fromFile(FileTempObject::fromString($contentString));
     }
@@ -90,7 +90,7 @@ class Image
      * @param $resource
      * @return Image
      */
-    public function assignResource($resource)
+    public function assignResource(GdImage $resource): self
     {
         $this->resource = $resource;
 
@@ -105,7 +105,7 @@ class Image
      * @return bool
      * @throws Exception
      */
-    public function isDark($fromX = null, $fromY = null, $width = null, $height = null)
+    public function isDark(?int $fromX = null, ?int $fromY = null, ?int $width = null, ?int $height = null): bool
     {
         $samples = 10;
         $threshold = 60;
@@ -138,9 +138,9 @@ class Image
     }
 
     /**
-     * @return resource
+     * @return GdImage
      */
-    public function getResource()
+    public function getResource(): GdImage
     {
         return $this->resource;
     }
@@ -148,7 +148,7 @@ class Image
     /**
      * @return GdImage a copy of the current image, alpha channel included
      */
-    public function getResourceClone()
+    public function getResourceClone(): GdImage
     {
         $copy = imagecreatetruecolor($this->getWidth(), $this->getHeight());
         imagealphablending($copy, false);
@@ -172,7 +172,7 @@ class Image
      * @return bool|ImageResponse
      * @throws Exception
      */
-    public function toPNG($filePathName = null)
+    public function toPNG(?string $filePathName = null): bool|ImageResponse
     {
         return ImageWriter::toPNG($this->getResource(), $filePathName);
     }
@@ -182,7 +182,7 @@ class Image
      * @return bool|ImageResponse
      * @throws Exception
      */
-    public function toJPG($filePathName = null)
+    public function toJPG(?string $filePathName = null): bool|ImageResponse
     {
         return ImageWriter::toJPG($this->getResource(), $filePathName);
     }
@@ -192,7 +192,7 @@ class Image
      * @return bool|ImageResponse
      * @throws Exception
      */
-    public function toGIF($filePathName = null)
+    public function toGIF(?string $filePathName = null): bool|ImageResponse
     {
         return ImageWriter::toGIF($this->getResource(), $filePathName);
     }
@@ -202,7 +202,7 @@ class Image
      * @return bool|ImageResponse
      * @throws Exception
      */
-    public function toWebP($filePathName = null)
+    public function toWebP(?string $filePathName = null): bool|ImageResponse
     {
         return ImageWriter::toWebP($this->getResource(), $filePathName);
     }
@@ -210,7 +210,7 @@ class Image
     /**
      * @return mixed
      */
-    public function getWidth()
+    public function getWidth(): int
     {
         return imagesx($this->getResource());
     }
@@ -218,7 +218,7 @@ class Image
     /**
      * @return mixed
      */
-    public function getHeight()
+    public function getHeight(): int
     {
         return imagesy($this->getResource());
     }
@@ -226,7 +226,7 @@ class Image
     /**
      * @return float
      */
-    public function getAspectRatio()
+    public function getAspectRatio(): float
     {
         return $this->getWidth() / $this->getHeight();
     }
@@ -234,7 +234,7 @@ class Image
     /**
      * @return bool
      */
-    public function isVertical()
+    public function isVertical(): bool
     {
         return $this->getAspectRatio() < 1;
     }
@@ -242,7 +242,7 @@ class Image
     /**
      * @return bool
      */
-    public function isHorizontal()
+    public function isHorizontal(): bool
     {
         return $this->getAspectRatio() > 1;
     }
@@ -250,12 +250,12 @@ class Image
     /**
      * @return bool
      */
-    public function isSquare()
+    public function isSquare(): bool
     {
         return $this->getAspectRatio() == 1;
     }
 
-    public function addMetadata(Metadata $metadata)
+    public function addMetadata(Metadata $metadata): void
     {
         $this->metadata = $metadata;
     }
@@ -263,7 +263,7 @@ class Image
     /**
      * @return Metadata
      */
-    public function getMetadata()
+    public function getMetadata(): ?Metadata
     {
         return $this->metadata;
     }

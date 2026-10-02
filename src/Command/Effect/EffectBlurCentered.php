@@ -31,7 +31,7 @@ class EffectBlurCentered extends AbstractCommand
      * @return Image
      * @throws InvalidColorException
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         /** @var DimensionCommandOption $options */
         $options = $this->options;
@@ -41,26 +41,26 @@ class EffectBlurCentered extends AbstractCommand
         $originalWidth = $image->getWidth();
         $originalHeight = $image->getHeight();
 
-        if ($originalHeight > $options->getDimention()->getHeight()) {
-            $builder->thumbnail(null, $options->getDimention()->getHeight() - 4);
+        if ($originalHeight > $options->getDimension()->getHeight()) {
+            $builder->thumbnail(null, $options->getDimension()->getHeight() - 4);
             $originalWidth = $image->getWidth();
             $originalHeight = $image->getHeight();
         }
 
-        if ($originalWidth > $options->getDimention()->getWidth()) {
-            $builder->thumbnail($options->getDimention()->getWidth() - 4, null);
+        if ($originalWidth > $options->getDimension()->getWidth()) {
+            $builder->thumbnail($options->getDimension()->getWidth() - 4, null);
             $originalWidth = $image->getWidth();
             $originalHeight = $image->getHeight();
         }
 
         $originalImg = $this->saveImage($image);
 
-        $builder->resize($options->getDimention()->getWidth(), $options->getDimention()->getHeight());
+        $builder->resize($options->getDimension()->getWidth(), $options->getDimension()->getHeight());
         $builder->blur(40);
         $builder->brightness(-70);
 
-        $x = round(($options->getDimention()->getWidth() - $originalWidth) / 2);
-        $y = round(($options->getDimention()->getHeight() - $originalHeight) / 2);
+        $x = round(($options->getDimension()->getWidth() - $originalWidth) / 2);
+        $y = round(($options->getDimension()->getHeight() - $originalHeight) / 2);
 
         $borderColor = Color::WHITE;
 

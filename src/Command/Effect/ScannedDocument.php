@@ -18,7 +18,7 @@ class ScannedDocument extends AbstractCommand
      * ScannedDocument constructor.
      * @param LevelCommandOption|null $contrast
      */
-    public function __construct(LevelCommandOption $contrast = null)
+    public function __construct(?LevelCommandOption $contrast = null)
     {
         $this->contrast = $contrast ?? new LevelCommandOption(-60);
 
@@ -29,7 +29,7 @@ class ScannedDocument extends AbstractCommand
      * @param Image $image
      * @return Image
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         $builder = new ImageBuilder($image);
 

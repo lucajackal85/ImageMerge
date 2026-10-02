@@ -31,7 +31,7 @@ class Distortion extends AbstractImageMagickCommand
      * @return Image
      * @throws Exception
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         $originImage = $image;
 

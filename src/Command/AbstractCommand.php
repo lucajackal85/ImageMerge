@@ -19,7 +19,7 @@ abstract class AbstractCommand implements CommandInterface
      * AbstractCommand constructor.
      * @param CommandOptionInterface|null $options
      */
-    public function __construct(CommandOptionInterface $options = null)
+    public function __construct(?CommandOptionInterface $options = null)
     {
         $this->options = $options;
     }

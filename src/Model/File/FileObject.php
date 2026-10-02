@@ -9,7 +9,8 @@ class FileObject extends SplFileObject implements FileObjectInterface
     public function getContents()
     {
         $this->rewind();
-        $size = $this->getSize();
+        // fstat() reads the open handle; getSize() may return a stale cached size right after a write
+        $size = $this->fstat()['size'];
 
         return $size > 0 ? $this->fread($size) : '';
     }

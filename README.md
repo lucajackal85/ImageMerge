@@ -1,127 +1,187 @@
 # Image Merge
-A simple PHP libraty to manipulate images, it support GIF, PNG and JPG
+A simple PHP library to manipulate images. It supports JPEG, PNG, GIF and WebP.
 
 [![Latest Stable Version](https://poser.pugx.org/jackal/image-merge/v/stable)](https://packagist.org/packages/jackal/image-merge)
 [![Total Downloads](https://poser.pugx.org/jackal/image-merge/downloads)](https://packagist.org/packages/jackal/image-merge)
-[![Latest Unstable Version](https://poser.pugx.org/jackal/image-merge/v/unstable)](https://packagist.org/packages/jackal/image-merge)
 [![License](https://poser.pugx.org/jackal/image-merge/license)](https://packagist.org/packages/jackal/image-merge)
-[![Build Status](https://travis-ci.org/lucajackal85/BinLocator.svg?branch=master)](https://travis-ci.org/lucajackal85/BinLocator)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lucajackal85/ImageMerge/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lucajackal85/ImageMerge/?branch=master)
+[![CI](https://github.com/lucajackal85/ImageMerge/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/lucajackal85/ImageMerge/actions/workflows/ci.yml)
 
-### Requirement
-PHP >= **5.6** with GD support
-*For some additional features (for example image distortion) ImageMagick binaries are required.
+> **Upgrading from 0.4.x?** Version 1.0 has a new, safer API. See [UPGRADE-1.0.md](UPGRADE-1.0.md).
+
+### Requirements
+- PHP >= **8.2** with the `gd` (JPEG/PNG/WebP/FreeType support) and `exif` extensions
+- [ImageMagick](https://imagemagick.org/) (`magick` or `convert`) only for the `Distortion` effect
 
 ## Getting Started
-Install library with composer
+Install the library with composer
 ```
 composer require jackal/image-merge
 ```
+
 ## Usage
+### Loading an image
+Pick the factory that matches your source:
+```php
+use Jackal\ImageMerge\ImageMerge;
+
+$builder = ImageMerge::fromPath('/path/to/my/file.png');   // local file
+$builder = ImageMerge::fromContent($binaryString);         // raw image bytes, e.g. an upload
+$builder = ImageMerge::fromUrl('https://example.com/a.jpg'); // remote http(s) file
+$builder = ImageMerge::fromStream($resource);              // open stream
+$builder = ImageMerge::fromSplFileObject($splFileObject);
+$builder = ImageMerge::fromImage($image);                  // an existing Jackal\ImageMerge\Model\Image
+```
+
 ### Minimal example
+```php
+$builder = ImageMerge::fromPath('/path/to/my/file.png')
+    ->resize(620, 350)
+    ->rotate(90);
 ```
-
-$imageMerge = new ImageMerge();
-$imageBuilder = $imageMerge->getBuilder('/path/to/my/file.png'); #or URL, or resource, or binary content
-
-$imageBuilder->resize(620,350)
-$imageBuilder->rotate(90);
+Get the image content
+```php
+echo $builder->getImage()->toPNG()->getContent();
 ```
-Get the image content directly to the output     
-```
-[...]
-echo $imageBuilder->getImage()->toPNG()->getContent();  
-```
-Save image to path
-```
-[...]
+Save the image to a path
+```php
 $builder->getImage()->toPNG('/path/to/the/image.png');
 ```
-Get image Response object (Compatible with Symgony projects)
+Get a Response object (compatible with Symfony projects)
+```php
+return $builder->getImage()->toPNG();
 ```
-[...]
-return $imageBuilder->getImage()->toPNG()
-```
+`toJPG()`, `toGIF()` and `toWebP()` work the same way.
 
+### Operations
 #### `resize`
-At least one parameter is required
-In case just one parameter is passed, it will resize maintaining the aspect ratio of the image
+At least one parameter is required.
+If only one is passed, the aspect ratio of the image is kept
+```php
+$builder->resize(620, null);
+// or
+$builder->resize(null, 200);
 ```
-$imageBuilder->resize(620,null);
-#or
-$imageBuilder->resize(null,200);
-```
-If both parameters are passed, it could stretch the image
-```
-$imageBuilder->resize(400,200);
+If both are passed, the image may be stretched
+```php
+$builder->resize(400, 200);
 ```
 #### `thumbnail`
-Similar to `Resize` but in case the aspect ratio is not respected, it will crop the image (using `cropCenter`)
-```
-$imageBuilder->thumbnail(400,400);
+Like `resize`, but if the aspect ratio doesn't match it crops the image (using `cropCenter`)
+```php
+$builder->thumbnail(400, 400);
+$builder->thumbnail(400, null); // keeps the aspect ratio
 ```
 #### `rotate`
 Rotate the image (**counterclockwise**)
+```php
+$builder->rotate(180);
 ```
-$imageBuilder->rotate(180);
+*For angles that aren't multiples of 90, the empty areas are filled with transparent pixels.
+#### `flipHorizontal` and `flipVertical`
+```php
+$builder->flipHorizontal();
+$builder->flipVertical();
 ```
-*In case of particular angle (30, 45, etc..) it will create blank area to fill the empty spaces
-#### `grayscale`
-Add a graysclae filter to the image
+#### `grayScale`
+Add a grayscale filter to the image
+```php
+$builder->grayScale();
 ```
-$imageBuilder->grayScale();
-```
-#### `brightness`
-Adjusts the brightness of the image
-```
-$imageBuilder->brightness(10);
+#### `brightness` and `contrast`
+```php
+$builder->brightness(10);
+$builder->contrast(-20);
 ```
 #### `blur`
-Adds blur effect on the image
-```
-$imageBuilder->blur(20);
+Add a blur effect to the image
+```php
+$builder->blur(20);
 ```
 #### `pixelate`
-Adds "Pixel" effect on the image
-```
-$imageBuilder->pixelate(20);
+Add a "pixel" effect to the image
+```php
+$builder->pixelate(20);
 ```
 #### `crop` and `cropCenter`
-**Crop** 
-Crop the image according to the *x* and *y* coords and the output dimention passed
-```
-$point_x = 10,
-$point_y = 15;
-$width = 50,
+Crop the image starting from the *x* and *y* coords, with the given output size.
+The area must be inside the image, otherwise an `InvalidArgumentException` is thrown
+```php
+$x = 10;
+$y = 15;
+$width = 50;
 $height = 50;
-$imageBuilder->crop($point_x,$point_y,$width,$height);
+$builder->crop($x, $y, $width, $height);
 ```
-Crop at the center of the image according to the width and height of the output image
+Crop at the center of the image, with the given output size
+```php
+$builder->cropCenter(50, 50);
 ```
-$width = 50,
-$height = 50;
-$imageBuilder->cropCenter($point_x,$point_y,$width,$height);
+#### `cropPolygon`
+Keep only the area inside the polygon (at least three x,y points), making the rest transparent
+```php
+$builder->cropPolygon(10, 10, 200, 20, 100, 200);
 ```
 #### `border`
-It adds border to the image (fill inside the rect)
+Add a border to the image (drawn inside the image)
+```php
+$builder->border(20, '3399ff');
 ```
-$stroke = 20;
-$colorHex = '3399ff';
-$builder->border($stroke,$colorHex);
+#### `merge`
+Draw another image on top, at the given position
+```php
+$builder->merge(ImageMerge::fromPath('/path/to/logo.png')->getImage(), 10, 10);
 ```
 ### Experimental features that will likely change in the future
 #### `addText`
-It adds text inside the image
-```
-$text = new Jackal\ImageMerge\Model\Text\Text('this is the text', Font::arial(), 12, new Color('ABCDEF'));
+Add text to the image
+```php
+use Jackal\ImageMerge\Model\Color;
+use Jackal\ImageMerge\Model\Font\Font;
+use Jackal\ImageMerge\Model\Text\Text;
+
+$text = new Text('this is the text', Font::arial(), 12, new Color('ABCDEF'));
 $builder->addText($text, 10, 20);
 ```
 #### `addSquare`
-It adds a square (color-filled) on the image
-```
+Add a color-filled square to the image
+```php
 $builder->addSquare(10, 10, 20, 20, 'ABCDEF');
 ```
-===========================================================================
+
+## Security
+The library is designed to be safe with untrusted input, within these limits:
+
+- **Remote files**: `fromUrl()` accepts only `http` and `https`, refuses private, loopback,
+  link-local and reserved addresses, doesn't follow redirects, and enforces a timeout and a
+  maximum size. Pass a configured `Jackal\ImageMerge\Loader\UrlLoader` to change these settings,
+  e.g. `new UrlLoader(timeout: 5, maxBytes: 5_000_000)`. The host is checked before the
+  request is made, so DNS rebinding is not prevented. If you load URLs supplied by users, also
+  restrict outbound traffic at the network level.
+- **Local files**: `fromPath()` refuses stream wrappers such as `phar://` or `php://`. Never
+  pass a path built from user input without validating it.
+- **Resource limits**: image dimensions and file size are checked from the header before
+  decoding, to stop "decompression bombs". Defaults are 50 megapixels, 50 MB and a blur level
+  of 100. You can change them globally:
+  ```php
+  use Jackal\ImageMerge\Limits;
+
+  Limits::setDefault(new Limits(maxPixels: 20_000_000, maxFileSize: 10 * 1024 * 1024, maxBlurLevel: 50));
+  ```
+- **Metadata**: EXIF, IPTC and XMP values come from the file itself and are attacker-controlled.
+  Escape them before displaying them, for example in HTML.
+
+## Development
+```
+composer install
+composer test   # PHPUnit
+composer cs     # code style check
+```
+The suite needs GD, EXIF and ImageMagick. If you don't have them locally, use the bundled Docker image:
+```
+docker build -t imagemerge-test docker/
+docker run --rm -v "$PWD":/app imagemerge-test sh -c "composer install && vendor/bin/phpunit"
+```
+
 ## Author
 * **Luca Giacalone** (AKA JackalOne)
 

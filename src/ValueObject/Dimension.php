@@ -4,24 +4,24 @@ namespace Jackal\ImageMerge\ValueObject;
 
 use InvalidArgumentException;
 
-class Dimention
+class Dimension
 {
     /**
      * @var int
      */
-    private $width;
+    private ?int $width;
 
     /**
      * @var int
      */
-    private $height;
+    private ?int $height;
 
     /**
-     * Dimention constructor.
+     * Dimension constructor.
      * @param $width
      * @param $height
      */
-    public function __construct($width, $height)
+    public function __construct(?int $width, ?int $height)
     {
         if (!$width) {
             $width = null;
@@ -42,7 +42,7 @@ class Dimention
     /**
      * @return int
      */
-    public function getWidth()
+    public function getWidth(): ?int
     {
         return $this->width;
     }
@@ -50,7 +50,7 @@ class Dimention
     /**
      * @return int
      */
-    public function getHeight()
+    public function getHeight(): ?int
     {
         return $this->height;
     }

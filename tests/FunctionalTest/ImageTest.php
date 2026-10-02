@@ -10,7 +10,7 @@ use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\Model\Font\Font;
 use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\Model\Text\Text;
-use Jackal\ImageMerge\ValueObject\Dimention;
+use Jackal\ImageMerge\ValueObject\Dimension;
 
 class ImageTest extends ImageTestCase
 {
@@ -32,7 +32,7 @@ class ImageTest extends ImageTestCase
             ->rotate(90)
             ->border(1);
 
-        $builder->addCommand(new EffectBlurCentered(new DimensionCommandOption(new Dimention(200, 200))));
+        $builder->addCommand(new EffectBlurCentered(new DimensionCommandOption(new Dimension(200, 200))));
 
         $this->assertPNGSameImage($builder->getImage(), __DIR__ . '/Resources/ImageTest/02.png');
     }

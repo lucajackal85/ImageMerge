@@ -21,10 +21,10 @@ class ResizeCommand extends AbstractCommand
      * @param Image $image
      * @return Image
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
-        $width = $this->options->getDimention()->getWidth();
-        $height = $this->options->getDimention()->getHeight();
+        $width = $this->options->getDimension()->getWidth();
+        $height = $this->options->getDimension()->getHeight();
 
         if (!$width) {
             $width = (int) round($image->getAspectRatio() * $height);

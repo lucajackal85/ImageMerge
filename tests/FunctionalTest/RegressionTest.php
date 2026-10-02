@@ -13,7 +13,7 @@ use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
-use Jackal\ImageMerge\ValueObject\Dimention;
+use Jackal\ImageMerge\ValueObject\Dimension;
 use PHPUnit\Framework\TestCase;
 
 class RegressionTest extends TestCase
@@ -37,7 +37,7 @@ class RegressionTest extends TestCase
     public function testEffectBlurCentered(): void
     {
         $builder = ImageMerge::fromPath(self::SOURCE);
-        $builder->addCommand(new EffectBlurCentered(new DimensionCommandOption(new Dimention(300, 300))));
+        $builder->addCommand(new EffectBlurCentered(new DimensionCommandOption(new Dimension(300, 300))));
 
         $this->assertSame([300, 300], [$builder->getImage()->getWidth(), $builder->getImage()->getHeight()]);
     }
@@ -102,13 +102,22 @@ class RegressionTest extends TestCase
 
     public function testResizeCommandCanBeReused(): void
     {
-        $command = new ResizeCommand(new DimensionCommandOption(new Dimention(50, null)));
+        $command = new ResizeCommand(new DimensionCommandOption(new Dimension(50, null)));
 
         $square = $command->execute(new Image(100, 100));
         $landscape = $command->execute(new Image(100, 50));
 
         $this->assertSame([50, 50], [$square->getWidth(), $square->getHeight()]);
         $this->assertSame([50, 25], [$landscape->getWidth(), $landscape->getHeight()]);
+    }
+
+    public function testCropPolygon(): void
+    {
+        $image = ImageMerge::fromPath(self::SOURCE)->cropPolygon(10, 10, 200, 20, 100, 200)->getImage();
+
+        $this->assertSame([190, 190], [$image->getWidth(), $image->getHeight()]);
+        // the bottom-right corner is outside the triangle, so it must be fully transparent
+        $this->assertSame(127, (imagecolorat($image->getResource(), 189, 189) >> 24) & 0x7F);
     }
 
     public function testEmptyFileContents(): void

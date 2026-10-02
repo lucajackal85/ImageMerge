@@ -25,7 +25,7 @@ class RotateCommand extends AbstractCommand
      * @param Image $image
      * @return Image
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         $degree = fmod((float) $this->options->getLevel(), 360);
         if ($degree == 0) {

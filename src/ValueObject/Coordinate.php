@@ -11,28 +11,28 @@ class Coordinate
     /**
      * @var int
      */
-    private $x;
+    private int $x;
 
     /**
      * @var int
      */
-    private $y;
+    private int $y;
 
     /**
      * Coordinate constructor.
      * @param $x
      * @param $y
      */
-    public function __construct($x, $y)
+    public function __construct(int|float $x, int|float $y)
     {
-        $this->x = round($x);
-        $this->y = round($y);
+        $this->x = (int) round($x);
+        $this->y = (int) round($y);
     }
 
     /**
      * @return integer
      */
-    public function getX()
+    public function getX(): int
     {
         return $this->x;
     }
@@ -40,12 +40,12 @@ class Coordinate
     /**
      * @return integer
      */
-    public function getY()
+    public function getY(): int
     {
         return $this->y;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             $this->getX(),
@@ -53,12 +53,12 @@ class Coordinate
         ];
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getX() . 'X' . $this->getY();
     }
 
-    public function match(Coordinate $coordinate)
+    public function match(Coordinate $coordinate): bool
     {
         return ($this->getX() == $coordinate->getX()) and ($this->getY() == $coordinate->getY());
     }

@@ -10,6 +10,7 @@ class FileTempObject extends FileObject
 
         $o = new self($path, 'w+');
         $o->fwrite($content);
+        $o->fflush();
         $o->seek(0);
 
         return $o;

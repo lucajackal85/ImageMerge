@@ -22,7 +22,7 @@ class GrayScaleCommand extends AbstractCommand
      * @param Image $image
      * @return Image
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         imagefilter($image->getResource(), IMG_FILTER_GRAYSCALE);
 

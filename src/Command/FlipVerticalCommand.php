@@ -14,7 +14,7 @@ class FlipVerticalCommand extends AbstractCommand
      * @param Image $image
      * @return Image
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         imageflip($image->getResource(), IMG_FLIP_VERTICAL);
 

@@ -22,10 +22,10 @@ class CropOuter extends AbstractCommand
      * @param Image $image
      * @return Image
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
-        $newWidth = $this->options->getDimention()->getWidth();
-        $newHeight = $this->options->getDimention()->getHeight();
+        $newWidth = $this->options->getDimension()->getWidth();
+        $newHeight = $this->options->getDimension()->getHeight();
 
         $thumbAspect = $newWidth / $newHeight;
         $builder = new ImageBuilder($image);

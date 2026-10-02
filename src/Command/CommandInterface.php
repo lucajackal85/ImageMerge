@@ -12,7 +12,7 @@ interface CommandInterface
 {
     /**
      * @param Image $image
-     * @return mixed
+     * @return Image
      */
-    public function execute(Image $image);
+    public function execute(Image $image): Image;
 }

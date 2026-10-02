@@ -16,10 +16,10 @@ class TextAssetCommand extends AbstractCommand
 {
     /**
      * @param Image $image
-     * @return mixed
+     * @return Image
      * @throws ModuleNotFoundException
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         /** @var TextCommandOption $options */
         $options = $this->options;

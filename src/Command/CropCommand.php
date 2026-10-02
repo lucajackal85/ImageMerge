@@ -26,14 +26,14 @@ class CropCommand extends AbstractCommand
      * @param Image $image
      * @return Image
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         /** @var CropCommandOption $options */
         $options = $this->options;
         $x = (int) $options->getCoordinate1()->getX();
         $y = (int) $options->getCoordinate1()->getY();
-        $width = (int) $options->getDimention()->getWidth();
-        $height = (int) $options->getDimention()->getHeight();
+        $width = (int) $options->getDimension()->getWidth();
+        $height = (int) $options->getDimension()->getHeight();
 
         if ($x < 0 || $y < 0 || $width < 1 || $height < 1 || $x + $width > $image->getWidth() || $y + $height > $image->getHeight()) {
             throw new InvalidArgumentException(sprintf(

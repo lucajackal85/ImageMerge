@@ -28,7 +28,7 @@ class BorderCommand extends AbstractCommand
      * @param Image $image
      * @return Image
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         /** @var BorderCommandOption $options */
         $options = $this->options;

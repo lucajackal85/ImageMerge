@@ -76,7 +76,7 @@ class MultiCoordinateCommandOptionTest extends TestCase
         ], $object->toArray());
     }
 
-    public function testGetDimention()
+    public function testGetDimension()
     {
 
         $object = new MultiCoordinateCommandOption([
@@ -86,7 +86,7 @@ class MultiCoordinateCommandOptionTest extends TestCase
             new Coordinate(100, 100),
         ]);
 
-        $this->assertEquals(90, $object->getCropDimention()->getWidth());
-        $this->assertEquals(80, $object->getCropDimention()->getHeight());
+        $this->assertEquals(90, $object->getCropDimension()->getWidth());
+        $this->assertEquals(80, $object->getCropDimension()->getHeight());
     }
 }

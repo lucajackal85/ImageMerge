@@ -3,7 +3,7 @@
 namespace Jackal\ImageMerge\Command\Options;
 
 use Jackal\ImageMerge\ValueObject\Coordinate;
-use Jackal\ImageMerge\ValueObject\Dimention;
+use Jackal\ImageMerge\ValueObject\Dimension;
 
 /**
  * Class MultiCoordinateCommandOption
@@ -18,7 +18,7 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
 
     /**
      * MultiCoordinateCommandOption constructor.
-     * @param SingleCoordinateCommandOption[] $coords
+     * @param Coordinate[] $coords
      */
     public function __construct(array $coords)
     {
@@ -125,11 +125,11 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
     }
 
     /**
-     * @return Dimention
+     * @return Dimension
      */
-    public function getCropDimention()
+    public function getCropDimension()
     {
-        return new Dimention($this->getMaxX() - $this->getMinX(), $this->getMaxY() - $this->getMinY());
+        return new Dimension($this->getMaxX() - $this->getMinX(), $this->getMaxY() - $this->getMinY());
     }
 
     public function isQuadrilateral()

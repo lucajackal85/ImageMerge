@@ -26,7 +26,7 @@ class ImageAssetCommand extends AbstractCommand
     }
 
     /**
-     * @return resource
+     * @return \GdImage
      * @throws Exception
      */
     protected function getResourceToApply()
@@ -57,7 +57,7 @@ class ImageAssetCommand extends AbstractCommand
      * @return Image
      * @throws Exception
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         /** @var SingleCoordinateFileObjectCommandOption $options */
         $options = $this->options;
