@@ -12,7 +12,6 @@ class SingleCoordinateCommandOption extends AbstractCommandOption
 {
     /**
      * SingleCoordinateCommandOption constructor.
-     * @param Coordinate $coordinate
      */
     public function __construct(Coordinate $coordinate)
     {

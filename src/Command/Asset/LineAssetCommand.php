@@ -13,20 +13,18 @@ use Jackal\ImageMerge\Utils\ColorUtils;
  */
 class LineAssetCommand extends AbstractCommand
 {
-    /**
-     * @param Image $image
-     * @return Image
-     */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         /** @var DoubleCoordinateColorCommandOption $options */
         $options = $this->options;
         $color = ColorUtils::colorIdentifier($image->getResource(), $options->getColor());
-        imageline($image->getResource(),
+        imageline(
+            $image->getResource(),
             $options->getCoordinate1()->getX(),
             $options->getCoordinate1()->getY(),
             $options->getCoordinate2()->getX(),
-            $options->getCoordinate2()->getY(), $color
+            $options->getCoordinate2()->getY(),
+            $color
         );
 
         return $image;

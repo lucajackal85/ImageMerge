@@ -4,6 +4,7 @@ namespace Jackal\ImageMerge\Command;
 
 use Jackal\ImageMerge\Command\Options\LevelCommandOption;
 use Jackal\ImageMerge\Model\Image;
+use RuntimeException;
 
 /**
  * Class RotateCommand
@@ -13,25 +14,28 @@ class RotateCommand extends AbstractCommand
 {
     /**
      * RotateCommand constructor.
-     * @param LevelCommandOption $options
      */
     public function __construct(LevelCommandOption $options)
     {
         parent::__construct($options);
     }
 
-    /**
-     * @param Image $image
-     * @return Image
-     */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
-        $degree = $this->options->getLevel();
-        $resource = $image->getResource();
-        if ($degree and ($degree % 360)) {
-            $resource = imagerotate($resource, $degree, 0);
+        $degree = fmod((float) $this->options->getLevel(), 360);
+        if ($degree == 0) {
+            return $image;
         }
 
-        return $image->assignResource($resource);
+        $resource = $image->getResource();
+        imagesavealpha($resource, true);
+        $transparent = imagecolorallocatealpha($resource, 0, 0, 0, 127);
+        $rotated = imagerotate($resource, $degree, $transparent);
+        if ($rotated === false) {
+            throw new RuntimeException('Unable to rotate image');
+        }
+        imagesavealpha($rotated, true);
+
+        return $image->assignResource($rotated);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
-use Jackal\ImageMerge\ValueObject\Dimention;
+use Jackal\ImageMerge\ValueObject\Dimension;
 
 /**
  * Class DimensionCommandOption
@@ -12,18 +12,17 @@ class DimensionCommandOption extends AbstractCommandOption
 {
     /**
      * DimensionCommandOption constructor.
-     * @param Dimention $dimention
      */
-    public function __construct(Dimention $dimention)
+    public function __construct(Dimension $dimension)
     {
-        $this->add('dimention', $dimention);
+        $this->add('dimension', $dimension);
     }
 
     /**
-     * @return Dimention
+     * @return Dimension
      */
-    public function getDimention()
+    public function getDimension()
     {
-        return $this->get('dimention');
+        return $this->get('dimension');
     }
 }

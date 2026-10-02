@@ -2,8 +2,8 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
-use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\Text\Text;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 
 /**
  * Class TextCommandOption
@@ -13,8 +13,6 @@ class TextCommandOption extends SingleCoordinateColorCommandOption
 {
     /**
      * TextCommandOption constructor.
-     * @param Text $text
-     * @param Coordinate $coordinate
      */
     public function __construct(Text $text, Coordinate $coordinate)
     {

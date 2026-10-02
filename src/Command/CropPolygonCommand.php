@@ -19,17 +19,15 @@ class CropPolygonCommand extends AbstractCommand
      * CropPolygonCommand constructor.
      * @param MultiCoordinateCommandOption|null $options
      */
-    public function __construct(MultiCoordinateCommandOption $options = null)
+    public function __construct(MultiCoordinateCommandOption $options)
     {
         parent::__construct($options);
     }
 
     /**
-     * @param Image $image
-     * @return Image
      * @throws InvalidColorException
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         /** @var MultiCoordinateCommandOption $options */
         $options = $this->options;
@@ -47,7 +45,7 @@ class CropPolygonCommand extends AbstractCommand
         // Add the transparent polygon mask
         $transparency = imagecolortransparent($maskPolygon, ColorUtils::colorIdentifier($maskPolygon, new Color('ff01fe')));
         imagesavealpha($maskPolygon, true);
-        imagefilledpolygon($maskPolygon, $options->toArray(), $options->countPoints(), $transparency);
+        imagefilledpolygon($maskPolygon, $options->toArray(), $transparency);
 
         // Apply the mask
         imagesavealpha($mergeImage, true);
@@ -57,10 +55,16 @@ class CropPolygonCommand extends AbstractCommand
         $destImage = ImageCreateTrueColor($image->getWidth(), $image->getHeight());
         imagesavealpha($destImage, true);
         imagealphablending($destImage, true);
-        imagecopy($destImage, $mergeImage,
-            0, 0,
-            0, 0,
-            $image->getWidth(), $image->getHeight());
+        imagecopy(
+            $destImage,
+            $mergeImage,
+            0,
+            0,
+            0,
+            0,
+            $image->getWidth(),
+            $image->getHeight()
+        );
 
         // Make the the border transparent (we're assuming there's a 2px buffer on all sides)
 
@@ -71,7 +75,7 @@ class CropPolygonCommand extends AbstractCommand
 
         $image->assignResource($destImage);
 
-        $builder->crop($options->getMinX(), $options->getMinY(), $options->getCropDimention()->getWidth(), $options->getCropDimention()->getHeight());
+        $builder->crop($options->getMinX(), $options->getMinY(), $options->getCropDimension()->getWidth(), $options->getCropDimension()->getHeight());
 
         return $image;
     }

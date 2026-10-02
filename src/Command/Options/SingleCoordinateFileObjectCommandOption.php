@@ -2,8 +2,8 @@
 
 namespace Jackal\ImageMerge\Command\Options;
 
-use Jackal\ImageMerge\ValueObject\Coordinate;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
+use Jackal\ImageMerge\ValueObject\Coordinate;
 
 /**
  * Class SingleCoordinateFileObjectCommandOption
@@ -13,8 +13,6 @@ class SingleCoordinateFileObjectCommandOption extends SingleCoordinateCommandOpt
 {
     /**
      * SingleCoordinateFileObjectCommandOption constructor.
-     * @param FileObjectInterface $imageObject
-     * @param Coordinate $coordinate
      */
     public function __construct(FileObjectInterface $imageObject, Coordinate $coordinate)
     {

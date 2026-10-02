@@ -3,16 +3,16 @@
 namespace Jackal\ImageMerge\Test\Options;
 
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
-use Jackal\ImageMerge\ValueObject\Dimention;
+use Jackal\ImageMerge\ValueObject\Dimension;
 use PHPUnit\Framework\TestCase;
 
 class DimensionCommandOptionTest extends TestCase
 {
-    public function testDimensionCommandOption()
+    public function testDimensionCommandOption(): void
     {
-        $object = new DimensionCommandOption(new Dimention(10, 20));
+        $object = new DimensionCommandOption(new Dimension(10, 20));
 
-        $this->assertEquals(10, $object->getDimention()->getWidth());
-        $this->assertEquals(20, $object->getDimention()->getHeight());
+        $this->assertEquals(10, $object->getDimension()->getWidth());
+        $this->assertEquals(20, $object->getDimension()->getHeight());
     }
 }

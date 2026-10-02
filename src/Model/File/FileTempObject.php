@@ -4,12 +4,13 @@ namespace Jackal\ImageMerge\Model\File;
 
 class FileTempObject extends FileObject
 {
-    public static function fromString($content)
+    public static function fromString($content): self
     {
         $path = Filename::createTempFilename();
 
         $o = new self($path, 'w+');
         $o->fwrite($content);
+        $o->fflush();
         $o->seek(0);
 
         return $o;

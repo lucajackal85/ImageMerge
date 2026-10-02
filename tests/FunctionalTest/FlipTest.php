@@ -3,24 +3,21 @@
 namespace Jackal\ImageMerge\Test\FunctionalTest;
 
 use Jackal\ImageMerge\ImageMerge;
-use Jackal\ImageMerge\Model\File\FileObject;
 
-class FlipTest extends FunctionalTest
+class FlipTest extends ImageTestCase
 {
-    public function testFlipHorizontal()
+    public function testFlipHorizontal(): void
     {
-        $imageMerge = new ImageMerge();
-        $builder = $imageMerge->getBuilder(new FileObject(__DIR__ . '/Resources/FlipTest/01.png'));
+        $builder = ImageMerge::fromPath(__DIR__ . '/Resources/FlipTest/01.png');
 
         $builder->flipHorizontal();
 
         $this->assertPNGSameImage($builder->getImage(), __DIR__ . '/Resources/FlipTest/02.png');
     }
 
-    public function testFlipVertical()
+    public function testFlipVertical(): void
     {
-        $imageMerge = new ImageMerge();
-        $builder = $imageMerge->getBuilder(new FileObject(__DIR__ . '/Resources/FlipTest/01.png'));
+        $builder = ImageMerge::fromPath(__DIR__ . '/Resources/FlipTest/01.png');
 
         $builder->flipVertical();
 

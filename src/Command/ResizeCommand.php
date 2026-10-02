@@ -3,38 +3,35 @@
 namespace Jackal\ImageMerge\Command;
 
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
+use Jackal\ImageMerge\Limits;
 use Jackal\ImageMerge\Model\Image;
-use Jackal\ImageMerge\ValueObject\Dimention;
 
 class ResizeCommand extends AbstractCommand
 {
     /**
      * ResizeCommand constructor.
-     * @param DimensionCommandOption $options
      */
     public function __construct(DimensionCommandOption $options)
     {
         parent::__construct($options);
     }
 
-    /**
-     * @param Image $image
-     * @return Image
-     */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
-        if (!$this->options->getDimention()->getWidth()) {
-            $this->options->add('dimention', new Dimention(round($image->getAspectRatio() * $this->options->getDimention()->getHeight()), $this->options->getDimention()->getHeight()));
+        $width = $this->options->getDimension()->getWidth();
+        $height = $this->options->getDimension()->getHeight();
+
+        if (!$width) {
+            $width = (int) round($image->getAspectRatio() * $height);
         }
 
-        if (!$this->options->getDimention()->getHeight()) {
-            $this->options->add('dimention', new Dimention($this->options->getDimention()->getWidth(), round($this->options->getDimention()->getWidth() / $image->getAspectRatio())));
+        if (!$height) {
+            $height = (int) round($width / $image->getAspectRatio());
         }
 
-        $width = $this->options->getDimention()->getWidth();
-        $height = $this->options->getDimention()->getHeight();
+        Limits::default()->assertDimensions((int) $width, (int) $height);
 
-        if ($image->getWidth() != $width or $image->getHeight() != $height) {
+        if ($image->getWidth() != $width || $image->getHeight() != $height) {
             $resourceResized = imagecreatetruecolor($width, $height);
             imagealphablending($resourceResized, false);
             imagesavealpha($resourceResized, true);

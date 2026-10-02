@@ -14,9 +14,10 @@ use Jackal\ImageMerge\Model\Image;
  */
 class ImageAssetCommand extends AbstractCommand
 {
+    private ?\GdImage $resource = null;
+
     /**
      * ImageAssetCommand constructor.
-     * @param SingleCoordinateFileObjectCommandOption $options
      */
     public function __construct(SingleCoordinateFileObjectCommandOption $options)
     {
@@ -24,40 +25,34 @@ class ImageAssetCommand extends AbstractCommand
     }
 
     /**
-     * @return resource
+     * @return \GdImage
      * @throws Exception
      */
-    protected function getResourceToApply()
+    protected function getResourceToApply(): ?\GdImage
     {
-        $res = ImageReader::fromPathname($this->options->getFile());
-
-        return $res->getResource();
+        return $this->resource ??= ImageReader::fromPathname($this->options->getFile())->getResource();
     }
 
     /**
-     * @return int
      * @throws Exception
      */
-    protected function getWidth()
+    protected function getWidth(): int
     {
         return imagesx($this->getResourceToApply());
     }
 
     /**
-     * @return int
      * @throws Exception
      */
-    protected function getHeight()
+    protected function getHeight(): int
     {
         return imagesy($this->getResourceToApply());
     }
 
     /**
-     * @param Image $image
-     * @return Image
      * @throws Exception
      */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         /** @var SingleCoordinateFileObjectCommandOption $options */
         $options = $this->options;

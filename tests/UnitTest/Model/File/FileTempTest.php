@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class FileTempTest extends TestCase
 {
-    public function testRemoveFileOnDestruct()
+    public function testRemoveFileOnDestruct(): void
     {
         $tempFilepath = __DIR__ . '/temp.file';
 
@@ -17,13 +17,13 @@ class FileTempTest extends TestCase
 
         $this->assertTrue(file_exists($tempFilepath));
 
-        //destruct
-        $file = null;
+        // releasing the last reference runs the destructor
+        unset($file);
 
         $this->assertFalse(file_exists($tempFilepath));
     }
 
-    public function testCreateFromString()
+    public function testCreateFromString(): void
     {
         $tf = FileTempObject::fromString('this is the string');
 

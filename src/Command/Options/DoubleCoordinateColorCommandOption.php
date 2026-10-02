@@ -13,9 +13,6 @@ class DoubleCoordinateColorCommandOption extends DoubleCoordinateCommandOption
 {
     /**
      * DoubleCoordinateColorCommandOption constructor.
-     * @param Coordinate $coordinate1
-     * @param Coordinate $coordinate2
-     * @param Color $color
      */
     public function __construct(Coordinate $coordinate1, Coordinate $coordinate2, Color $color)
     {

@@ -14,7 +14,6 @@ class XMPParser extends AbstractParser
 {
     /**
      * XMPParser constructor.
-     * @param FileObjectInterface $file
      */
     public function __construct(FileObjectInterface $file)
     {
@@ -24,7 +23,7 @@ class XMPParser extends AbstractParser
         $xmp_data_end = strpos($content, '</x:xmpmeta>');
 
         $xmp_data = '';
-        if ($xmp_data_start !== false) {
+        if ($xmp_data_start !== false && $xmp_data_end !== false && $xmp_data_end > $xmp_data_start) {
             $xmp_length = $xmp_data_end - $xmp_data_start;
             $xmp_data = substr($content, $xmp_data_start, $xmp_length + 12);
         }
@@ -68,10 +67,7 @@ class XMPParser extends AbstractParser
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getPhotoMechanic()
+    public function getPhotoMechanic(): array
     {
         return [
             'prefs' => $this->getSingleValue('photomechanic_prefs'),
@@ -106,12 +102,13 @@ class XMPParser extends AbstractParser
     }
 
     /**
-     * @return DateTime
      * @throws Exception
      */
-    public function getCreationDateTime()
+    public function getCreationDateTime(): ?\DateTime
     {
-        return new DateTime($this->getSingleValue('created_at'));
+        $createdAt = $this->getSingleValue('created_at');
+
+        return $createdAt ? new DateTime($createdAt) : null;
     }
 
     /**
@@ -146,10 +143,9 @@ class XMPParser extends AbstractParser
     }
 
     /**
-     * @return array
      * @throws Exception
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'photomechanic' => $this->getPhotoMechanic(),

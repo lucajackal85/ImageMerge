@@ -10,9 +10,5 @@ use Jackal\ImageMerge\Model\Image;
  */
 interface CommandInterface
 {
-    /**
-     * @param Image $image
-     * @return mixed
-     */
-    public function execute(Image $image);
+    public function execute(Image $image): Image;
 }

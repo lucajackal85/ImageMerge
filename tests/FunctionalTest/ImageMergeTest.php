@@ -2,65 +2,79 @@
 
 namespace Jackal\ImageMerge\Test\FunctionalTest;
 
+use InvalidArgumentException;
 use Jackal\ImageMerge\Builder\ImageBuilder;
 use Jackal\ImageMerge\ImageMerge;
 use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\Model\Image;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use SplFileObject;
 
 class ImageMergeTest extends TestCase
 {
-    public function testItShouldCreaeFromFileObject(){
+    private const SOURCE = __DIR__ . '/../Fixtures/photo-with-metadata.jpg';
 
-        $source = __DIR__ . '/../FunctionalTest/Resources/ImageMergeTest/01.jpg';
+    public function testItShouldCreateFromPath(): void
+    {
+        $builder = ImageMerge::fromPath(self::SOURCE);
 
-        $imageMerge = new ImageMerge();
-        $file = new FileObject($source);
-        $imageBuilder = $imageMerge->getBuilder($file);
-
-        $this->assertInstanceOf(ImageBuilder::class, $imageBuilder);
+        $this->assertInstanceOf(ImageBuilder::class, $builder);
+        $this->assertNotNull($builder->getImage()->getMetadata());
     }
 
-    public function testItShouldCreateFromImage(){
-
-        $source = __DIR__ . '/../FunctionalTest/Resources/ImageMergeTest/01.jpg';
-
-        $imageMerge = new ImageMerge();
-        $image = Image::fromFile(new FileObject($source));
-        $imageBuilder = $imageMerge->getBuilder($image);
-
-        $this->assertInstanceOf(ImageBuilder::class, $imageBuilder);
+    public function testItShouldCreateFromSplFileObject(): void
+    {
+        $this->assertInstanceOf(ImageBuilder::class, ImageMerge::fromSplFileObject(new SplFileObject(self::SOURCE)));
     }
 
-    public function testItShouldCreateFromContentString(){
-        $source = __DIR__ . '/../FunctionalTest/Resources/ImageMergeTest/01.jpg';
+    public function testItShouldCreateFromImage(): void
+    {
+        $image = Image::fromFile(new FileObject(self::SOURCE));
 
-        $imageMerge = new ImageMerge();
-        $content = file_get_contents($source);
-        $imageBuilder = $imageMerge->getBuilder($content);
-
-        $this->assertInstanceOf(ImageBuilder::class, $imageBuilder);
+        $this->assertSame($image, ImageMerge::fromImage($image)->getImage());
     }
 
-    public function testItShouldCreateBuilderFromFilePathName(){
+    public function testItShouldCreateFromContent(): void
+    {
+        $builder = ImageMerge::fromContent(file_get_contents(self::SOURCE));
 
-        $source = __DIR__ . '/../FunctionalTest/Resources/ImageMergeTest/01.jpg';
-
-        $imageMerge = new ImageMerge();
-        $imageBuilder = $imageMerge->getBuilder($source);
-
-        $this->assertInstanceOf(ImageBuilder::class, $imageBuilder);
-
+        $this->assertInstanceOf(ImageBuilder::class, $builder);
+        $this->assertNotNull($builder->getImage()->getMetadata());
     }
 
-    public function testItShouldCreateBuilderFromURL(){
+    public function testItShouldCreateFromStream(): void
+    {
+        $stream = fopen(self::SOURCE, 'rb');
 
-        $source = 'https://www.gstatic.com/webp/gallery3/1.sm.png';
+        $this->assertInstanceOf(ImageBuilder::class, ImageMerge::fromStream($stream));
+    }
 
-        $imageMerge = new ImageMerge();
-        $imageBuilder = $imageMerge->getBuilder($source);
+    public function testFromPathRejectsStreamWrappers(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
 
-        $this->assertInstanceOf(ImageBuilder::class, $imageBuilder);
+        ImageMerge::fromPath('phar://' . self::SOURCE);
+    }
 
+    public function testFromPathRejectsMissingFile(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        ImageMerge::fromPath(__DIR__ . '/does-not-exist.png');
+    }
+
+    public function testFromContentDoesNotReadPaths(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('File is not a valid image type');
+
+        ImageMerge::fromContent(self::SOURCE);
+    }
+
+    #[Group('network')]
+    public function testItShouldCreateFromUrl(): void
+    {
+        $this->assertInstanceOf(ImageBuilder::class, ImageMerge::fromUrl('https://www.gstatic.com/webp/gallery3/1.sm.png'));
     }
 }

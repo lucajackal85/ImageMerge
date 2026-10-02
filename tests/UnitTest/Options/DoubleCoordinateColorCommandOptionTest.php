@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class DoubleCoordinateColorCommandOptionTest extends TestCase
 {
-    public function testDoubleCoordinateColorCommandOption()
+    public function testDoubleCoordinateColorCommandOption(): void
     {
         $object = new DoubleCoordinateColorCommandOption(new Coordinate(10, 20), new Coordinate(100, 100), new Color('ABCDEF'));
 

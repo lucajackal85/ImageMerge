@@ -27,11 +27,7 @@ abstract class AbstractParser implements ParserInterface
      */
     protected function getValue($key)
     {
-        if (isset($this->data[$key])) {
-            return $this->data[$key];
-        }
-
-        return null;
+        return $this->data[$key] ?? null;
     }
 
     /**
@@ -41,11 +37,17 @@ abstract class AbstractParser implements ParserInterface
     protected function getDivisionValue($key)
     {
         $value = $this->getValue($key);
-        if (strpos($value, '/1') !== false) {
-            return (int) str_replace('/1', '', $value);
+        if (!is_string($value) || !preg_match('#^(-?\d+)/(\d+)$#', $value, $matches)) {
+            return $value;
         }
 
-            return $value;
+        if ((int) $matches[2] === 0) {
+            return null;
+        }
+
+        $result = (int) $matches[1] / (int) $matches[2];
+
+        return floor($result) == $result ? (int) $result : $result;
 
     }
 
@@ -60,7 +62,7 @@ abstract class AbstractParser implements ParserInterface
             return $value;
         }
 
-        return $value == true and strtolower($value) != 'false';
+        return $value == true && strtolower($value) !== 'false';
     }
 
     /**
@@ -69,7 +71,7 @@ abstract class AbstractParser implements ParserInterface
      */
     protected function removeEmptyData($data)
     {
-        if (is_string($data) and $data == '') {
+        if (is_string($data) && $data === '') {
             return null;
         }
 
@@ -86,8 +88,10 @@ abstract class AbstractParser implements ParserInterface
         if (is_array($value)) {
             $value = array_shift($value);
         }
-        $value = preg_replace('/[\r\n]/', "\n", $value);
+        if (is_null($value)) {
+            return null;
+        }
 
-        return $value;
+        return preg_replace('/\r\n|\r/', "\n", (string) $value);
     }
 }

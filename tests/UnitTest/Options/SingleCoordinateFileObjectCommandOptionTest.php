@@ -3,14 +3,15 @@
 namespace Jackal\ImageMerge\Test\Options;
 
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
+use Jackal\ImageMerge\Model\File\FileObjectInterface;
 use Jackal\ImageMerge\ValueObject\Coordinate;
 use PHPUnit\Framework\TestCase;
 
 class SingleCoordinateFileObjectCommandOptionTest extends TestCase
 {
-    public function testSingleCoordinateFileObjectCommandOptionObject()
+    public function testSingleCoordinateFileObjectCommandOptionObject(): void
     {
-        $mock = $this->getMockBuilder('\Jackal\ImageMerge\Model\File\FileObjectInterface')->disableOriginalConstructor()->getMock();
+        $mock = $this->getMockBuilder(FileObjectInterface::class)->disableOriginalConstructor()->getMock();
 
         $object = new SingleCoordinateFileObjectCommandOption($mock, new Coordinate(10, 20));
 

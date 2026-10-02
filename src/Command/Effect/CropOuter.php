@@ -11,26 +11,21 @@ class CropOuter extends AbstractCommand
 {
     /**
      * CropOuter constructor.
-     * @param DimensionCommandOption $options
      */
     public function __construct(DimensionCommandOption $options)
     {
         parent::__construct($options);
     }
 
-    /**
-     * @param Image $image
-     * @return Image
-     */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
-        $newWidth = $this->options->getDimention()->getWidth();
-        $newHeight = $this->options->getDimention()->getHeight();
+        $newWidth = $this->options->getDimension()->getWidth();
+        $newHeight = $this->options->getDimension()->getHeight();
 
         $thumbAspect = $newWidth / $newHeight;
         $builder = new ImageBuilder($image);
         if ($image->getAspectRatio() >= $thumbAspect) {
-            $builder->resize($newWidth, null);
+            $builder->resize($newWidth);
         } else {
             $builder->resize(null, $newHeight);
         }

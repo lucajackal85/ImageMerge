@@ -2,51 +2,94 @@
 
 namespace Jackal\ImageMerge;
 
-use Exception;
+use InvalidArgumentException;
 use Jackal\ImageMerge\Builder\ImageBuilder;
+use Jackal\ImageMerge\Loader\UrlLoader;
+use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\File\FileObject;
+use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Image;
-use Jackal\ImageMerge\Strategy\ImageBuilderContentStrategy;
-use Jackal\ImageMerge\Strategy\ImageBuilderFileObjectStrategy;
-use Jackal\ImageMerge\Strategy\ImageBuilderFileStrategy;
-use Jackal\ImageMerge\Strategy\ImageBuilderImageStrategy;
-use Jackal\ImageMerge\Strategy\ImageBuilderResourceStrategy;
-use Jackal\ImageMerge\Strategy\ImageBuilderSplFileObjectStrategy;
-use Jackal\ImageMerge\Strategy\ImageBuilderStrategyInterface;
-use Jackal\ImageMerge\Strategy\ImageBuilderURLStrategy;
+use SplFileObject;
 
-class ImageMerge
+/**
+ * Entry point: create an ImageBuilder from an explicit source type.
+ */
+final class ImageMerge
 {
-    private $strategies = [
-        ImageBuilderContentStrategy::class,
-        ImageBuilderFileStrategy::class,
-        ImageBuilderFileObjectStrategy::class,
-        ImageBuilderImageStrategy::class,
-        ImageBuilderURLStrategy::class,
-        ImageBuilderResourceStrategy::class,
-        ImageBuilderSplFileObjectStrategy::class,
-    ];
-
-    /**
-     * @param Image|FileObject|string $source
-     * @return ImageBuilder
-     * @throws Exception
-     */
-    public function getBuilder($source)
+    private function __construct()
     {
-        foreach ($this->strategies as $strategyClass) {
-            /** @var ImageBuilderStrategyInterface $strategy */
-            $strategy = new $strategyClass;
-            if ($strategy->support($source)) {
-                return $strategy->getImageBuilder($source);
-            }
-        }
-
-        throw new Exception('No strategy found, cannot create ImageBuilder');
     }
 
-    public function registerImageBuilderStrategy(ImageBuilderStrategyInterface $strategy)
+    /**
+     * Load a local file. Stream wrappers (phar://, php://, http://...) are rejected.
+     */
+    public static function fromPath(string $path): ImageBuilder
     {
-        $this->strategies[] = get_class($strategy);
+        if (str_contains($path, '://')) {
+            throw new InvalidArgumentException(sprintf('"%s" is not a local path, use fromUrl() for remote files', $path));
+        }
+
+        if (!is_file($path)) {
+            throw new InvalidArgumentException(sprintf('File "%s" not found', $path));
+        }
+
+        return self::fromFileObject(new FileObject($path));
+    }
+
+    /**
+     * Load an image from its binary content.
+     */
+    public static function fromContent(string $content): ImageBuilder
+    {
+        Limits::default()->assertFileSize(strlen($content));
+
+        return self::fromFileObject(FileTempObject::fromString($content));
+    }
+
+    /**
+     * Download an image over http(s). Private and reserved addresses are refused
+     * unless a UrlLoader configured otherwise is passed.
+     */
+    public static function fromUrl(string $url, ?UrlLoader $loader = null): ImageBuilder
+    {
+        $loader ??= new UrlLoader();
+
+        return self::fromContent($loader->load($url));
+    }
+
+    public static function fromImage(Image $image): ImageBuilder
+    {
+        return new ImageBuilder($image);
+    }
+
+    public static function fromSplFileObject(SplFileObject $file): ImageBuilder
+    {
+        return self::fromPath($file->getPathname());
+    }
+
+    /**
+     * @param resource $stream
+     */
+    public static function fromStream($stream): ImageBuilder
+    {
+        if (!is_resource($stream) || get_resource_type($stream) !== 'stream') {
+            throw new InvalidArgumentException('A stream resource is required');
+        }
+
+        $maxFileSize = Limits::default()->getMaxFileSize();
+        $content = stream_get_contents($stream, $maxFileSize + 1);
+        if ($content === false) {
+            throw new InvalidArgumentException('Unable to read stream');
+        }
+
+        return self::fromContent($content);
+    }
+
+    private static function fromFileObject(FileObject $file): ImageBuilder
+    {
+        $image = Image::fromFile($file);
+        $image->addMetadata(new Metadata($file));
+
+        return new ImageBuilder($image);
     }
 }

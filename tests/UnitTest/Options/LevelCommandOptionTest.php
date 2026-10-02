@@ -7,21 +7,22 @@ use PHPUnit\Framework\TestCase;
 
 class LevelCommandOptionTest extends TestCase
 {
-    public function testLevelCommandOptionObject()
+    public function testLevelCommandOptionObject(): void
     {
         $object = new LevelCommandOption(20);
         $this->assertEquals(20, $object->getLevel());
     }
 
-    public function testRaiseExceptionOnInvalidGetter()
+    public function testRaiseExceptionOnInvalidGetter(): void
     {
-        $this->setExpectedException('\InvalidArgumentException', 'Key INVALID-KEY is not valid, available options are: level');
+        $this->expectException('\InvalidArgumentException');
+        $this->expectExceptionMessage('Key INVALID-KEY is not valid, available options are: level');
         $object = new LevelCommandOption(10);
 
         $object->get('INVALID-KEY');
     }
 
-    public function testNotRaiseExceptionOnNullGetter()
+    public function testNotRaiseExceptionOnNullGetter(): void
     {
         $object = new LevelCommandOption(null);
 

@@ -11,16 +11,9 @@ use Jackal\ImageMerge\Command\Options\CommandOptionInterface;
 abstract class AbstractCommand implements CommandInterface
 {
     /**
-     * @var CommandOptionInterface
-     */
-    protected $options;
-
-    /**
      * AbstractCommand constructor.
-     * @param CommandOptionInterface|null $options
      */
-    public function __construct(CommandOptionInterface $options = null)
+    public function __construct(protected ?CommandOptionInterface $options = null)
     {
-        $this->options = $options;
     }
 }

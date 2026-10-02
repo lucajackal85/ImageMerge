@@ -3,7 +3,7 @@
 namespace Jackal\ImageMerge\Command\Options;
 
 use Jackal\ImageMerge\ValueObject\Coordinate;
-use Jackal\ImageMerge\ValueObject\Dimention;
+use Jackal\ImageMerge\ValueObject\Dimension;
 
 /**
  * Class MultiCoordinateCommandOption
@@ -12,24 +12,21 @@ use Jackal\ImageMerge\ValueObject\Dimention;
 class MultiCoordinateCommandOption extends AbstractCommandOption
 {
     /**
-     * @var Coordinate[]
-     */
-    private $args;
-
-    /**
      * MultiCoordinateCommandOption constructor.
-     * @param SingleCoordinateCommandOption[] $coords
+     * @param Coordinate[] $args
      */
-    public function __construct(array $coords)
+    public function __construct(private readonly array $args)
     {
-        $this->args = $coords;
     }
 
-    private function getOddValues()
+    /**
+     * @return mixed[]
+     */
+    private function getOddValues(): array
     {
         $arr = [];
         foreach ($this->toArray() as $k => $point) {
-            if ($k % 2 == 1) {
+            if ($k % 2 === 1) {
                 $arr[] = $point;
             }
         }
@@ -37,11 +34,14 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
         return $arr;
     }
 
-    private function getEvenValues()
+    /**
+     * @return mixed[]
+     */
+    private function getEvenValues(): array
     {
         $arr = [];
         foreach ($this->toArray() as $k => $point) {
-            if ($k == 0 or ($k % 2 == 0)) {
+            if ($k == 0 || $k % 2 === 0) {
                 $arr[] = $point;
             }
         }
@@ -52,7 +52,7 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
     /**
      * @return Coordinate[]
      */
-    public function getCoordinates()
+    public function getCoordinates(): array
     {
         $coords = [];
         $points = $this->toArray();
@@ -60,7 +60,7 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
             if ($k == 0) {
                 $coords[] = new Coordinate($coordinateCommandOption, $points[$k + 1]);
             } else {
-                if (($k % 2) == 0) {
+                if ($k % 2 === 0) {
                     $coords[] = new Coordinate($coordinateCommandOption, $points[$k + 1]);
                 }
             }
@@ -69,10 +69,7 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
         return $coords;
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         $points = [];
         /** @var Coordinate $arg */
@@ -84,56 +81,38 @@ class MultiCoordinateCommandOption extends AbstractCommandOption
         return $points;
     }
 
-    /**
-     * @return int
-     */
-    public function countPoints()
+    public function countPoints(): int
     {
         return count($this->args);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMinX()
+    public function getMinX(): mixed
     {
         return min($this->getEvenValues());
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMinY()
+    public function getMinY(): mixed
     {
         return min($this->getOddValues());
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMaxX()
+    public function getMaxX(): mixed
     {
         return max($this->getEvenValues());
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMaxY()
+    public function getMaxY(): mixed
     {
         return max($this->getOddValues());
     }
 
-    /**
-     * @return Dimention
-     */
-    public function getCropDimention()
+    public function getCropDimension(): Dimension
     {
-        return new Dimention($this->getMaxX() - $this->getMinX(), $this->getMaxY() - $this->getMinY());
+        return new Dimension($this->getMaxX() - $this->getMinX(), $this->getMaxY() - $this->getMinY());
     }
 
-    public function isQuadrilateral()
+    public function isQuadrilateral(): bool
     {
-        return $this->countPoints() == 4;
+        return $this->countPoints() === 4;
     }
 }

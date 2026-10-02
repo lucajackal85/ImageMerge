@@ -12,7 +12,6 @@ interface ParserInterface
 {
     /**
      * ParserInterface constructor.
-     * @param FileObjectInterface $file
      */
     public function __construct(FileObjectInterface $file);
 

@@ -13,7 +13,6 @@ class ExifParser extends AbstractParser
 {
     /**
      * ExifParser constructor.
-     * @param FileObjectInterface $file
      * @throws ModuleNotFoundException
      */
     public function __construct(FileObjectInterface $file)
@@ -48,12 +47,15 @@ class ExifParser extends AbstractParser
         return $this->getSingleValue('ExposureTime');
     }
 
-    /**
-     * @return bool|null
-     */
-    public function getFlash()
+    public function getFlash(): ?bool
     {
-        return $this->getBooleanValue('Flash');
+        $value = $this->getSingleValue('Flash');
+        if (is_null($value)) {
+            return null;
+        }
+
+        // EXIF Flash is a bit field: bit 0 tells whether the flash fired
+        return ((int) $value & 1) === 1;
     }
 
     /**
@@ -168,16 +170,16 @@ class ExifParser extends AbstractParser
         return $this->getSingleValue('ExposureTime');
     }
 
-    public function getGPS()
+    public function getGPS(): array
     {
 
         /**
          * Taken from https://www.codexworld.com/get-geolocation-latitude-longitude-from-image-php/
          */
         $GPSLatitudeRef = $this->getValue('GPSLatitudeRef');
-        $GPSLatitude = $this->getValue('GPSLatitude') ? $this->getValue('GPSLatitude') : [];
+        $GPSLatitude = $this->getValue('GPSLatitude') ?: [];
         $GPSLongitudeRef = $this->getValue('GPSLongitudeRef');
-        $GPSLongitude = $this->getValue('GPSLongitude') ? $this->getValue('GPSLongitude') : [];
+        $GPSLongitude = $this->getValue('GPSLongitude') ?: [];
 
         $lat_degrees = count($GPSLatitude) > 0 ? $this->gps2Num($GPSLatitude[0]) : 0;
         $lat_minutes = count($GPSLatitude) > 1 ? $this->gps2Num($GPSLatitude[1]) : 0;
@@ -187,14 +189,14 @@ class ExifParser extends AbstractParser
         $lon_minutes = count($GPSLongitude) > 1 ? $this->gps2Num($GPSLongitude[1]) : 0;
         $lon_seconds = count($GPSLongitude) > 2 ? $this->gps2Num($GPSLongitude[2]) : 0;
 
-        $lat_direction = ($GPSLatitudeRef == 'W' or $GPSLatitudeRef == 'S') ? -1 : 1;
-        $lon_direction = ($GPSLongitudeRef == 'W' or $GPSLongitudeRef == 'S') ? -1 : 1;
+        $lat_direction = ($GPSLatitudeRef == 'W' || $GPSLatitudeRef == 'S') ? -1 : 1;
+        $lon_direction = ($GPSLongitudeRef == 'W' || $GPSLongitudeRef == 'S') ? -1 : 1;
 
         $latitude = $lat_direction * ($lat_degrees + ($lat_minutes / 60) + ($lat_seconds / (60 * 60)));
         $longitude = $lon_direction * ($lon_degrees + ($lon_minutes / 60) + ($lon_seconds / (60 * 60)));
 
-        $latitude_deg = sprintf('%s°%s\'%s" %s', $lat_degrees, $lat_minutes, $lat_seconds, $lat_direction == 1 ? 'N':'S');
-        $longitude_deg = sprintf('%s°%s\'%s" %s', $lon_degrees, $lon_minutes, $lon_seconds, $lon_direction == 1 ? 'E':'W');
+        $latitude_deg = sprintf('%s°%s\'%s" %s', $lat_degrees, $lat_minutes, $lat_seconds, $lat_direction === 1 ? 'N' : 'S');
+        $longitude_deg = sprintf('%s°%s\'%s" %s', $lon_degrees, $lon_minutes, $lon_seconds, $lon_direction === 1 ? 'E' : 'W');
 
         return [
             'lat' => $latitude,
@@ -204,23 +206,20 @@ class ExifParser extends AbstractParser
         ];
     }
 
-    private function gps2Num($coordPart)
+    private function gps2Num($coordPart): int|string|float
     {
         $parts = explode('/', $coordPart);
         if (count($parts) <= 0) {
             return 0;
         }
-        if (count($parts) == 1) {
+        if (count($parts) === 1) {
             return $parts[0];
         }
 
         return floatval($parts[0]) / floatval($parts[1]);
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'gps' => $this->getGPS(),

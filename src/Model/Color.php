@@ -10,28 +10,16 @@ use Jackal\ImageMerge\Exception\InvalidColorException;
  */
 class Color
 {
-    const BLACK = '000000';
-    const WHITE = 'FFFFFF';
+    public const BLACK = '000000';
+    public const WHITE = 'FFFFFF';
 
-    /**
-     * @var string
-     */
-    private $red;
+    private readonly int|float $red;
 
-    /**
-     * @var string
-     */
-    private $green;
+    private readonly int|float $green;
 
-    /**
-     * @var string
-     */
-    private $blue;
+    private readonly int|float $blue;
 
-    /**
-     * @var string
-     */
-    private $colorHex;
+    private readonly string $colorHex;
 
     /**
      * Color constructor.
@@ -40,19 +28,19 @@ class Color
      */
     public function __construct($colorHex)
     {
-        if (substr($colorHex, 0, 1) == '#') {
+        if (str_starts_with($colorHex, '#')) {
             $colorHex = substr($colorHex, 1);
         }
 
         preg_match('/[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}/', $colorHex, $matches);
 
-        if (!$matches or strlen($colorHex) != strlen($matches[0])) {
+        if (!$matches || strlen($colorHex) !== strlen($matches[0])) {
             throw new InvalidColorException(sprintf('Color "%s" is invalid', $colorHex));
         }
 
         $colorHex = $matches[0];
 
-        if (strlen($colorHex) == 3) {
+        if (strlen($colorHex) === 3) {
             $c1 = str_repeat(substr($colorHex, 0, 1), 2);
             $c2 = str_repeat(substr($colorHex, 1, 1), 2);
             $c3 = str_repeat(substr($colorHex, 2, 1), 2);
@@ -66,36 +54,27 @@ class Color
         $this->blue = hexdec(substr($colorHex, 4, 2));
     }
 
-    /**
-     * @return string
-     */
-    public function red()
+    public function red(): int|float
     {
         return $this->red;
     }
 
-    /**
-     * @return string
-     */
-    public function green()
+    public function green(): int|float
     {
         return $this->green;
     }
 
-    /**
-     * @return string
-     */
-    public function blue()
+    public function blue(): int|float
     {
         return $this->blue;
     }
 
-    public function rgb()
+    public function rgb(): string
     {
         return $this->red() . $this->green() . $this->blue();
     }
 
-    public function getHex()
+    public function getHex(): string
     {
         return $this->colorHex;
     }

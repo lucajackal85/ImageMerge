@@ -3,19 +3,18 @@
 namespace Jackal\ImageMerge\Model;
 
 use Exception;
+use GdImage;
 use Jackal\ImageMerge\Builder\ImageBuilder;
 
-use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
-use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
 use Jackal\ImageMerge\Exception\InvalidColorException;
 use Jackal\ImageMerge\Http\Response\ImageResponse;
+use Jackal\ImageMerge\Limits;
 use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
 use Jackal\ImageMerge\Model\File\FileTempObject;
 use Jackal\ImageMerge\Model\Format\ImageReader;
 use Jackal\ImageMerge\Model\Format\ImageWriter;
 use Jackal\ImageMerge\Utils\ColorUtils;
-use Jackal\ImageMerge\ValueObject\Coordinate;
 
 /**
  * Class Image
@@ -23,39 +22,21 @@ use Jackal\ImageMerge\ValueObject\Coordinate;
  */
 class Image
 {
-    /**
-     * @var integer
-     */
-    private $width;
+    private GdImage $resource;
 
-    /**
-     * @var integer
-     */
-    private $height;
-
-    /**
-     * @var resource
-     */
-    private $resource;
-
-    /**
-     * @var Metadata
-     */
-    private $metadata;
+    private ?Metadata $metadata = null;
 
     /**
      * Image constructor.
      * @param $width
      * @param $height
-     * @param bool $transparent
      * @throws InvalidColorException
      */
-    public function __construct($width, $height, $transparent = true)
+    public function __construct(int $width, int $height, bool $transparent = true)
     {
-        $this->width = $width;
-        $this->height = $height;
+        Limits::default()->assertDimensions($width, $height);
 
-        $resource = imagecreatetruecolor($this->width, $this->height);
+        $resource = imagecreatetruecolor($width, $height);
         imagecolortransparent($resource);
 
         if ($transparent) {
@@ -68,44 +49,37 @@ class Image
     }
 
     /**
-     * @param FileObjectInterface $filePathName
-     * @return Image
      * @throws Exception
      */
-    public static function fromFile(FileObjectInterface $filePathName)
+    public static function fromFile(FileObjectInterface $filePathName): self
     {
-        $resource = ImageReader::fromPathname($filePathName);
-        $imageResource = $resource->getResource();
-
-        $image = new self(imagesx($imageResource), imagesy($imageResource));
-        $command = new ImageAssetCommand(new SingleCoordinateFileObjectCommandOption($filePathName, new Coordinate(0, 0)));
-        $command->execute($image);
-
-        return $image;
+        return self::fromDecoded(ImageReader::fromPathname($filePathName)->getResource());
     }
 
     /**
      * @param $contentString
-     * @return Image
      * @throws Exception
      */
-    public static function fromString($contentString)
+    public static function fromString(string $contentString): self
     {
-        $file = FileTempObject::fromString($contentString);
-        $resource = ImageReader::fromPathname($file);
+        return self::fromFile(FileTempObject::fromString($contentString));
+    }
 
-        $image = new self(imagesx($resource->getResource()), imagesy($resource->getResource()));
-        $command = new ImageAssetCommand(new SingleCoordinateFileObjectCommandOption($file, new Coordinate(0, 0)));
-        $command->execute($image);
+    /**
+     * Copies a decoded image onto a new truecolor canvas with alpha support.
+     */
+    private static function fromDecoded(GdImage $decoded): self
+    {
+        $image = new self(imagesx($decoded), imagesy($decoded));
+        imagecopyresampled($image->getResource(), $decoded, 0, 0, 0, 0, imagesx($decoded), imagesy($decoded), imagesx($decoded), imagesy($decoded));
 
         return $image;
     }
 
     /**
      * @param $resource
-     * @return Image
      */
-    public function assignResource($resource)
+    public function assignResource(GdImage $resource): self
     {
         $this->resource = $resource;
 
@@ -113,19 +87,14 @@ class Image
     }
 
     /**
-     * @param null $fromX
-     * @param null $fromY
-     * @param null $width
-     * @param null $height
-     * @return bool
      * @throws Exception
      */
-    public function isDark($fromX = null, $fromY = null, $width = null, $height = null)
+    public function isDark(?int $fromX = null, ?int $fromY = null, ?int $width = null, ?int $height = null): bool
     {
         $samples = 10;
         $threshold = 60;
 
-        if (!is_null($fromY) and !is_null($fromY) and !is_null($width) and !is_null($height)) {
+        if (!is_null($fromX) && !is_null($fromY) && !is_null($width) && !is_null($height)) {
             $builder = new ImageBuilder(clone $this);
             $builder->crop($fromX, $fromY, $width, $height);
             $portion = $builder->getImage();
@@ -136,9 +105,9 @@ class Image
         $luminance = 0;
         for ($x = 1;$x <= $samples;$x++) {
             for ($y = 1;$y <= $samples;$y++) {
-                $coordX = round($portion->getWidth() / $samples * $x) - ($portion->getWidth() / $samples / 2);
-                $cooordY = round($portion->getHeight() / $samples * $y) - ($portion->getHeight() / $samples / 2);
-                $rgb = imagecolorat($portion->getResource(), $coordX, $cooordY);
+                $coordX = min($portion->getWidth() - 1, (int) round($portion->getWidth() / $samples * ($x - 0.5)));
+                $coordY = min($portion->getHeight() - 1, (int) round($portion->getHeight() / $samples * ($y - 0.5)));
+                $rgb = imagecolorat($portion->getResource(), $coordX, $coordY);
                 $r = ($rgb >> 16) & 0xFF;
                 $g = ($rgb >> 8) & 0xFF;
                 $b = $rgb & 0xFF;
@@ -152,112 +121,96 @@ class Image
         return $luminance / ($samples * $samples) <= $threshold;
     }
 
-    /**
-     * @return resource
-     */
-    public function getResource()
+    public function getResource(): GdImage
     {
         return $this->resource;
     }
 
-    public function getResourceClone()
+    /**
+     * @return GdImage a copy of the current image, alpha channel included
+     */
+    public function getResourceClone(): GdImage
     {
-        $original = $this->resource;
-        $copy = imagecreatetruecolor($this->width, $this->height);
-
-        imagecopy($copy, $original, 0, 0, 0, 0, $this->width, $this->height);
+        $copy = imagecreatetruecolor($this->getWidth(), $this->getHeight());
+        imagealphablending($copy, false);
+        imagesavealpha($copy, true);
+        imagecopy($copy, $this->resource, 0, 0, 0, 0, $this->getWidth(), $this->getHeight());
 
         return $copy;
     }
 
     /**
-     * @param null $filePathName
-     * @return bool|ImageResponse
+     * Clones must not share the underlying GD image, otherwise in-place
+     * commands (blur, filters, drawing) would alter both.
+     */
+    public function __clone()
+    {
+        $this->resource = $this->getResourceClone();
+    }
+
+    /**
      * @throws Exception
      */
-    public function toPNG($filePathName = null)
+    public function toPNG(?string $filePathName = null): bool|ImageResponse
     {
         return ImageWriter::toPNG($this->getResource(), $filePathName);
     }
 
     /**
-     * @param null $filePathName
-     * @return bool|ImageResponse
      * @throws Exception
      */
-    public function toJPG($filePathName = null)
+    public function toJPG(?string $filePathName = null): bool|ImageResponse
     {
         return ImageWriter::toJPG($this->getResource(), $filePathName);
     }
 
     /**
-     * @param null $filePathName
-     * @return bool|ImageResponse
      * @throws Exception
      */
-    public function toGIF($filePathName = null)
+    public function toGIF(?string $filePathName = null): bool|ImageResponse
     {
         return ImageWriter::toGIF($this->getResource(), $filePathName);
     }
 
     /**
-     * @param null $filePathName
-     * @return bool|ImageResponse
      * @throws Exception
      */
-    public function toWebP($filePathName = null){
+    public function toWebP(?string $filePathName = null): bool|ImageResponse
+    {
         return ImageWriter::toWebP($this->getResource(), $filePathName);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getWidth()
+    public function getWidth(): int
     {
         return imagesx($this->getResource());
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHeight()
+    public function getHeight(): int
     {
         return imagesy($this->getResource());
     }
 
-    /**
-     * @return float
-     */
-    public function getAspectRatio()
+    public function getAspectRatio(): float
     {
         return $this->getWidth() / $this->getHeight();
     }
 
-    /**
-     * @return bool
-     */
-    public function isVertical()
+    public function isVertical(): bool
     {
         return $this->getAspectRatio() < 1;
     }
 
-    /**
-     * @return bool
-     */
-    public function isHorizontal()
+    public function isHorizontal(): bool
     {
         return $this->getAspectRatio() > 1;
     }
 
-    /**
-     * @return bool
-     */
-    public function isSquare()
+    public function isSquare(): bool
     {
         return $this->getAspectRatio() == 1;
     }
 
-    public function addMetadata(Metadata $metadata)
+    public function addMetadata(Metadata $metadata): void
     {
         $this->metadata = $metadata;
     }
@@ -265,7 +218,7 @@ class Image
     /**
      * @return Metadata
      */
-    public function getMetadata()
+    public function getMetadata(): ?Metadata
     {
         return $this->metadata;
     }

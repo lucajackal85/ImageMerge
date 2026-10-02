@@ -2,14 +2,16 @@
 
 namespace Jackal\ImageMerge\Model\File;
 
-use \SplFileObject;
+use SplFileObject;
 
 class FileObject extends SplFileObject implements FileObjectInterface
 {
     public function getContents()
     {
-        $this->seek(0);
+        $this->rewind();
+        // fstat() reads the open handle; getSize() may return a stale cached size right after a write
+        $size = $this->fstat()['size'];
 
-        return $this->fread($this->getSize());
+        return $size > 0 ? $this->fread($size) : '';
     }
 }

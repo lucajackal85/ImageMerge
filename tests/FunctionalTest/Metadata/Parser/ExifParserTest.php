@@ -8,15 +8,15 @@ use PHPUnit\Framework\TestCase;
 
 class ExifParserTest extends TestCase
 {
-    public function testExifData()
+    public function testExifData(): void
     {
-        $exif = new ExifParser(new FileObject(__DIR__ . '/../../Resources/ExifParserTest/01.jpg'));
+        $exif = new ExifParser(new FileObject(__DIR__ . '/../../../Fixtures/photo-with-metadata.jpg'));
         $exifArray = $exif->toArray();
 
         $this->assertEquals('Canon', $exif->getMake());
         $this->assertEquals('Canon EOS-1D X', $exif->getModel());
         $this->assertEquals(null, $exif->getCameraOwnerName());
-        $this->assertEquals('048011000512', $exif->getCameraSerialNumber());
+        $this->assertEquals('000000000001', $exif->getCameraSerialNumber());
 
         $this->assertEquals([
             'make' => $exif->getMake(),
@@ -50,7 +50,7 @@ class ExifParserTest extends TestCase
         $this->assertEquals($exif->getSoftware(), $exifArray['software']);
 
         $this->assertEquals('EF70-200mm f/2.8L IS II USM', $exif->getLensModel());
-        $this->assertEquals('0000c1b93f', $exif->getLensSerialNumber());
+        $this->assertEquals('0000abcdef', $exif->getLensSerialNumber());
         $this->assertEquals(['70/1','200/1','0/0','0/0'], $exif->getLensSpecification());
         $this->assertEquals([
             'model' => $exif->getLensModel(),

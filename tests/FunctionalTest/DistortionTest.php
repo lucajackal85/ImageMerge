@@ -6,14 +6,12 @@ use Jackal\ImageMerge\Command\Effect\Distortion;
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
 use Jackal\ImageMerge\ImageMerge;
 use Jackal\ImageMerge\ValueObject\Coordinate;
-use Jackal\ImageMerge\Model\File\FileObject;
 
-class DistortionTest extends FunctionalTest
+class DistortionTest extends ImageTestCase
 {
-    public function testDistortion()
+    public function testDistortion(): void
     {
-        $imageMerge = new ImageMerge();
-        $builder = $imageMerge->getBuilder(new FileObject(__DIR__ . '/Resources/DistortionTest/01.jpg'));
+        $builder = ImageMerge::fromPath(__DIR__ . '/Resources/DistortionTest/01.jpg');
 
         $builder->addCommand(new Distortion(new MultiCoordinateCommandOption([
             new Coordinate(26, 0),

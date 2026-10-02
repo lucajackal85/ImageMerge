@@ -9,29 +9,19 @@ use Jackal\ImageMerge\Model\Image;
 
 class ScannedDocument extends AbstractCommand
 {
-    /**
-     * @var LevelCommandOption
-     */
-    private $contrast;
+    private readonly LevelCommandOption $contrast;
 
     /**
      * ScannedDocument constructor.
-     * @param LevelCommandOption|null $contrast
      */
-    public function __construct(LevelCommandOption $contrast = null)
+    public function __construct(?LevelCommandOption $contrast = null)
     {
-        if ($contrast == null) {
-            $this->contrast = new LevelCommandOption(-60);
-        }
+        $this->contrast = $contrast ?? new LevelCommandOption(-60);
 
         parent::__construct($this->contrast);
     }
 
-    /**
-     * @param Image $image
-     * @return Image
-     */
-    public function execute(Image $image)
+    public function execute(Image $image): Image
     {
         $builder = new ImageBuilder($image);
 

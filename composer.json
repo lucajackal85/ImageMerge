@@ -1,42 +1,72 @@
 {
     "name": "jackal/image-merge",
-    "description": "A simple PHP libraty to manipulate images",
+    "description": "A simple PHP library to manipulate images: resize, crop, rotate, filters, text and merging (JPEG, PNG, GIF, WebP)",
+    "type": "library",
+    "keywords": [
+        "image",
+        "gd",
+        "resize",
+        "crop",
+        "thumbnail",
+        "watermark",
+        "merge",
+        "webp",
+        "exif",
+        "iptc",
+        "xmp"
+    ],
+    "homepage": "https://github.com/lucajackal85/ImageMerge",
     "license": "MIT",
     "authors": [
         {
             "name": "Luca Giacalone",
-            "email": "luca.giacalone@edimotive.com"
+            "email": "luca.giacalone@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
-    "extra": {
-        "hooks": {
-            "pre-commit": [
-                "echo Committing as $(git config user.name) [$(git config user.email)]",
-                "vendor/bin/php-cs-fixer fix . --config=.php-cs"
-            ],
-            "pre-push": [
-                "vendor/bin/phpunit tests/"
-            ]
-        }
+    "support": {
+        "issues": "https://github.com/lucajackal85/ImageMerge/issues",
+        "source": "https://github.com/lucajackal85/ImageMerge"
     },
+    "minimum-stability": "stable",
     "require": {
-        "php": ">=5.6",
+        "php": "^8.2",
         "ext-gd": "*",
-        "ext-exif":  "*",
-        "symfony/http-foundation": ">=3.4",
-        "jackal/bin-locator": "^0.5"
+        "ext-exif": "*",
+        "symfony/http-foundation": "^6.4 || ^7.0",
+        "symfony/process": "^6.4 || ^7.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "phpunit/phpunit": "^11.5.50",
+        "rector/rector": "^2.0"
+    },
+    "suggest": {
+        "imagemagick": "The Distortion effect needs the ImageMagick binary (magick or convert) on the PATH"
     },
     "autoload": {
         "psr-4": {
-            "Jackal\\ImageMerge\\": "src/",
+            "Jackal\\ImageMerge\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Jackal\\ImageMerge\\Test\\": "tests/"
         }
     },
-    "require-dev": {
-        "phpunit/phpunit": "^4.8",
-        "vajiral/php-image-compare": "^1.0",
-        "brainmaestro/composer-git-hooks": "^2.8",
-        "friendsofphp/php-cs-fixer": "^2.16"
+    "scripts": {
+        "test": "phpunit",
+        "cs": "php-cs-fixer fix --dry-run --diff",
+        "cs-fix": "php-cs-fixer fix",
+        "rector": "rector process --dry-run",
+        "rector-fix": "rector process",
+        "check": [
+            "@composer validate --strict --no-check-lock",
+            "@rector",
+            "@cs",
+            "@test"
+        ]
+    },
+    "config": {
+        "sort-packages": true
     }
 }
