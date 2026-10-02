@@ -19,7 +19,7 @@ class ImageWriter
     {
         $directory = dirname($filePathName);
         if (!is_dir($directory)) {
-            if (!mkdir(dirname($filePathName), 0777, true)) {
+            if (!mkdir($directory, 0755, true)) {
                 throw new Exception(sprintf('Cannot create folder %s', $directory));
             }
         }
@@ -55,7 +55,7 @@ class ImageWriter
         imagejpeg($resource, null, 100);
         $content = ob_get_clean();
 
-        return self::writeFile($content, $filePathName, 'image/jpg');
+        return self::writeFile($content, $filePathName, 'image/jpeg');
     }
 
     /**

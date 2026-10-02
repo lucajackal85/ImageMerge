@@ -3,6 +3,7 @@
 namespace Jackal\ImageMerge\Command;
 
 use Jackal\ImageMerge\Command\Options\DimensionCommandOption;
+use Jackal\ImageMerge\Limits;
 use Jackal\ImageMerge\Model\Image;
 use Jackal\ImageMerge\ValueObject\Dimention;
 
@@ -33,6 +34,8 @@ class ResizeCommand extends AbstractCommand
 
         $width = $this->options->getDimention()->getWidth();
         $height = $this->options->getDimention()->getHeight();
+
+        Limits::default()->assertDimensions((int) $width, (int) $height);
 
         if ($image->getWidth() != $width or $image->getHeight() != $height) {
             $resourceResized = imagecreatetruecolor($width, $height);

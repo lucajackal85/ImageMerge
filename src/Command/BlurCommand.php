@@ -3,6 +3,7 @@
 namespace Jackal\ImageMerge\Command;
 
 use Jackal\ImageMerge\Command\Options\LevelCommandOption;
+use Jackal\ImageMerge\Limits;
 use Jackal\ImageMerge\Model\Image;
 
 /**
@@ -26,8 +27,11 @@ class BlurCommand extends AbstractCommand
      */
     public function execute(Image $image)
     {
-        if ($this->options->get('level')) {
-            for ($i = 0; $i < $this->options->get('level'); $i++) {
+        $level = (int) $this->options->getLevel();
+        Limits::default()->assertBlurLevel($level);
+
+        if ($level > 0) {
+            for ($i = 0; $i < $level; $i++) {
                 imagefilter($image->getResource(), IMG_FILTER_GAUSSIAN_BLUR);
             }
         }

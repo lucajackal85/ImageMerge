@@ -18,8 +18,7 @@ class ImageTest extends ImageTestCase
     {
         $this->markTestSkipped('imagettftext not installed on Travis');
 
-        $imageMerge = new ImageMerge();
-        $builder = $imageMerge->getBuilder(new FileObject(__DIR__ . '/Resources/ImageTest/01.jpg'));
+        $builder = ImageMerge::fromPath(__DIR__ . '/Resources/ImageTest/01.jpg');
         $builder
             ->addSquare(10, 10, 20, 20, 'ABCDEF')
             ->addText(new Text('this is the text', Font::arial(), 12, new Color('ABCDEF')), 10, 20)
@@ -42,9 +41,7 @@ class ImageTest extends ImageTestCase
 
     public function testTrasparencyImage()
     {
-        $imageMerge = new ImageMerge();
-
-        $builder = $imageMerge->getBuilder(new FileObject(__DIR__ . '/Resources/ImageTest/03.jpg'));
+        $builder = ImageMerge::fromPath(__DIR__ . '/Resources/ImageTest/03.jpg');
         $builder->merge(Image::fromFile(new FileObject(__DIR__ . '/Resources/ImageTest/04.png')));
         $builder->crop(0, 0, 200, 200);
 

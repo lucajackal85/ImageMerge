@@ -9,6 +9,7 @@ use Jackal\ImageMerge\Command\Asset\ImageAssetCommand;
 use Jackal\ImageMerge\Command\Options\SingleCoordinateFileObjectCommandOption;
 use Jackal\ImageMerge\Exception\InvalidColorException;
 use Jackal\ImageMerge\Http\Response\ImageResponse;
+use Jackal\ImageMerge\Limits;
 use Jackal\ImageMerge\Metadata\Metadata;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
 use Jackal\ImageMerge\Model\File\FileTempObject;
@@ -52,6 +53,8 @@ class Image
      */
     public function __construct($width, $height, $transparent = true)
     {
+        Limits::default()->assertDimensions((int) $width, (int) $height);
+
         $this->width = $width;
         $this->height = $height;
 

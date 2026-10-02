@@ -3,6 +3,7 @@
 namespace Jackal\ImageMerge\Model\Format;
 
 use Exception;
+use Jackal\ImageMerge\Limits;
 use Jackal\ImageMerge\Model\File\FileObjectInterface;
 
 /**
@@ -16,80 +17,54 @@ final class ImageReader
     public const FORMAT_GIF = 'gif';
     public const FORMAT_WEBP = 'webp';
 
+    private const FORMATS = [
+        IMAGETYPE_PNG => self::FORMAT_PNG,
+        IMAGETYPE_JPEG => self::FORMAT_JPG,
+        IMAGETYPE_GIF => self::FORMAT_GIF,
+        IMAGETYPE_WEBP => self::FORMAT_WEBP,
+    ];
+
     private $resource;
 
     private $format;
 
     private function __construct()
     {
-        //IMAGETYPE_WEBP is available only from php 7.1
-        if (!defined('IMAGETYPE_WEBP')) {
-            define('IMAGETYPE_WEBP', 18);
-        }
     }
 
     /**
-     * @param FileObjectInterface $filename
-     * @return ImageReader
+     * Validates type, file size and dimensions from the header *before* decoding,
+     * so oversized images are rejected without allocating their pixels.
+     *
      * @throws Exception
      */
-    public static function fromPathname(FileObjectInterface $filename)
+    public static function fromPathname(FileObjectInterface $filename, ?Limits $limits = null)
     {
-        $ir = new self();
-        $ir->resource = @imagecreatefromstring($filename->getContents());
+        $limits ??= Limits::default();
+        $pathname = $filename->getPathname();
 
-        switch ($ir->getExifType($filename)) {
-            case IMAGETYPE_PNG:{
-                $ir->format = self::FORMAT_PNG;
+        $limits->assertFileSize((int) @filesize($pathname));
 
-                break;
-            }
-            case IMAGETYPE_JPEG:{
-                $ir->format = self::FORMAT_JPG;
-
-                break;
-            }
-            case IMAGETYPE_GIF:{
-                $ir->format = self::FORMAT_GIF;
-
-                break;
-            }
-            case IMAGETYPE_WEBP:{
-                $ir->format = self::FORMAT_WEBP;
-
-                break;
-            }
-            default: {
-                throw new Exception(
-                    sprintf(
-                        'File is not a valid image type [extension: "%s"]',
-                        $ir->getExtension($filename)
-                    )
-                );
-
-            }
+        $info = @getimagesize($pathname);
+        if ($info === false || !isset(self::FORMATS[$info[2]])) {
+            throw new Exception(sprintf(
+                'File is not a valid image type [extension: "%s"]',
+                strtolower(pathinfo($pathname, PATHINFO_EXTENSION))
+            ));
         }
+
+        $limits->assertDimensions($info[0], $info[1]);
+
+        $resource = @imagecreatefromstring($filename->getContents());
+        if ($resource === false) {
+            throw new Exception(sprintf('Unable to decode image "%s"', $pathname));
+        }
+
+        $ir = new self();
+        $ir->resource = $resource;
+        $ir->format = self::FORMATS[$info[2]];
 
         return $ir;
-    }
-
-    private function getExtension(FileObjectInterface $filename)
-    {
-        return strtolower(pathinfo($filename->getPathname(), PATHINFO_EXTENSION));
-    }
-
-    private function getExifType(FileObjectInterface $filename)
-    {
-        $imageType = exif_imagetype($filename->getPathname());
-
-        if (!$imageType) {
-            //since IMAGETYPE_WEBP is available only from php 7.1, we guess the type base from the extension
-            if (version_compare(PHP_VERSION, '7.1.0', '<') and $this->getExtension($filename) == 'webp') {
-                return IMAGETYPE_WEBP;
-            }
-        }
-
-        return $imageType;
     }
 
     /**
@@ -101,7 +76,7 @@ final class ImageReader
     }
 
     /**
-     * @return resource
+     * @return \GdImage
      */
     public function getResource()
     {

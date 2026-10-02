@@ -2,6 +2,7 @@
 
 namespace Jackal\ImageMerge\Command;
 
+use InvalidArgumentException;
 use Jackal\ImageMerge\Command\Options\LevelCommandOption;
 use Jackal\ImageMerge\Model\Image;
 
@@ -26,7 +27,11 @@ class PixelCommand extends AbstractCommand
      */
     public function execute(Image $image)
     {
-        $level = $this->options->getLevel();
+        $level = (int) $this->options->getLevel();
+        if ($level < 0) {
+            throw new InvalidArgumentException('Pixelate level must be a positive number');
+        }
+
         if (!$level) {
             return $image;
         }

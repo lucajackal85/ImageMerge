@@ -40,6 +40,15 @@ class ImageReaderTest extends TestCase
         $this->assertEquals(ImageReader::FORMAT_WEBP, $ir->getFormat());
     }
 
+    public function testRaiseExceptionOnUndecodableImage()
+    {
+        // animated WebP: valid header, but GD cannot decode it
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unable to decode image');
+
+        ImageReader::fromPathname(new FileObject(__DIR__ . '/../Resources/ImageReaderTest/05-animated.webp'));
+    }
+
     public function testRaiseExceptionOnInvalidFile()
     {
 

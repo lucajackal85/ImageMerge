@@ -33,7 +33,10 @@ class BorderCommand extends AbstractCommand
         /** @var BorderCommandOption $options */
         $options = $this->options;
 
-        for ($i = 0;$i < $options->getStroke();$i++) {
+        // a stroke wider than half the image just repaints the same pixels
+        $stroke = min((int) $options->getStroke(), (int) ceil(min($image->getWidth(), $image->getHeight()) / 2));
+
+        for ($i = 0; $i < $stroke; $i++) {
             $builder = new ImageBuilder($image);
 
             $builder->addCommand(

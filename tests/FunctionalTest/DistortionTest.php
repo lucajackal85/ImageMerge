@@ -5,15 +5,13 @@ namespace Jackal\ImageMerge\Test\FunctionalTest;
 use Jackal\ImageMerge\Command\Effect\Distortion;
 use Jackal\ImageMerge\Command\Options\MultiCoordinateCommandOption;
 use Jackal\ImageMerge\ImageMerge;
-use Jackal\ImageMerge\Model\File\FileObject;
 use Jackal\ImageMerge\ValueObject\Coordinate;
 
 class DistortionTest extends ImageTestCase
 {
     public function testDistortion()
     {
-        $imageMerge = new ImageMerge();
-        $builder = $imageMerge->getBuilder(new FileObject(__DIR__ . '/Resources/DistortionTest/01.jpg'));
+        $builder = ImageMerge::fromPath(__DIR__ . '/Resources/DistortionTest/01.jpg');
 
         $builder->addCommand(new Distortion(new MultiCoordinateCommandOption([
             new Coordinate(26, 0),
