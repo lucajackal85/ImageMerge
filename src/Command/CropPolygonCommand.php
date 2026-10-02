@@ -25,8 +25,6 @@ class CropPolygonCommand extends AbstractCommand
     }
 
     /**
-     * @param Image $image
-     * @return Image
      * @throws InvalidColorException
      */
     public function execute(Image $image): Image

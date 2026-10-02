@@ -13,17 +13,12 @@ class BrightnessCommand extends AbstractCommand
 {
     /**
      * BrightnessCommand constructor.
-     * @param LevelCommandOption $options
      */
     public function __construct(LevelCommandOption $options)
     {
         parent::__construct($options);
     }
 
-    /**
-     * @param Image $image
-     * @return Image
-     */
     public function execute(Image $image): Image
     {
         imagefilter($image->getResource(), IMG_FILTER_BRIGHTNESS, $this->options->getLevel());

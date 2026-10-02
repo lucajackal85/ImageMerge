@@ -14,7 +14,6 @@ class XMPParser extends AbstractParser
 {
     /**
      * XMPParser constructor.
-     * @param FileObjectInterface $file
      */
     public function __construct(FileObjectInterface $file)
     {
@@ -68,10 +67,7 @@ class XMPParser extends AbstractParser
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getPhotoMechanic()
+    public function getPhotoMechanic(): array
     {
         return [
             'prefs' => $this->getSingleValue('photomechanic_prefs'),
@@ -106,10 +102,9 @@ class XMPParser extends AbstractParser
     }
 
     /**
-     * @return DateTime|null
      * @throws Exception
      */
-    public function getCreationDateTime()
+    public function getCreationDateTime(): ?\DateTime
     {
         $createdAt = $this->getSingleValue('created_at');
 
@@ -148,10 +143,9 @@ class XMPParser extends AbstractParser
     }
 
     /**
-     * @return array
      * @throws Exception
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'photomechanic' => $this->getPhotoMechanic(),

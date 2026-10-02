@@ -14,17 +14,12 @@ class PixelCommand extends AbstractCommand
 {
     /**
      * PixelCommand constructor.
-     * @param LevelCommandOption $options
      */
     public function __construct(LevelCommandOption $options)
     {
         parent::__construct($options);
     }
 
-    /**
-     * @param Image $image
-     * @return Image
-     */
     public function execute(Image $image): Image
     {
         $level = (int) $this->options->getLevel();

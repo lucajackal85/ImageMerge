@@ -12,11 +12,10 @@ class ColorUtils
 {
     /**
      * @param $resource
-     * @param Color $color
      * @param bool $alpha
      * @return int
      */
-    public static function colorIdentifier($resource, Color $color, $alpha = false)
+    public static function colorIdentifier($resource, Color $color, $alpha = false): int|false
     {
         if (!$alpha) {
             return imagecolorallocate($resource, $color->red(), $color->green(), $color->blue());

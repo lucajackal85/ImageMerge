@@ -13,8 +13,6 @@ class TextCommandOption extends SingleCoordinateColorCommandOption
 {
     /**
      * TextCommandOption constructor.
-     * @param Text $text
-     * @param Coordinate $coordinate
      */
     public function __construct(Text $text, Coordinate $coordinate)
     {

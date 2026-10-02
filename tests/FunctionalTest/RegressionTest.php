@@ -22,7 +22,7 @@ class RegressionTest extends TestCase
 
     public function testThumbnailWithOnlyWidth(): void
     {
-        $image = ImageMerge::fromPath(self::SOURCE)->thumbnail(200, null)->getImage();
+        $image = ImageMerge::fromPath(self::SOURCE)->thumbnail(200)->getImage();
 
         $this->assertSame([200, 113], [$image->getWidth(), $image->getHeight()]);
     }

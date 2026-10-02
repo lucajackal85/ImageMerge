@@ -38,14 +38,8 @@ use Jackal\ImageMerge\ValueObject\Dimension;
 
 class ImageBuilder
 {
-    /**
-     * @var Image
-     */
-    protected $image;
-
-    public function __construct(Image $image)
+    public function __construct(protected Image $image)
     {
-        $this->image = $image;
     }
 
     public function addCommand(CommandInterface $command): self
@@ -90,8 +84,6 @@ class ImageBuilder
      * @param $y1
      * @param $x2
      * @param $y2
-     * @param string $colorHex
-     * @return ImageBuilder
      * @throws InvalidColorException
      */
     public function addSquare(int $x1, int $y1, int $x2, int $y2, string $colorHex = Color::BLACK): self
@@ -106,10 +98,6 @@ class ImageBuilder
     }
 
     /**
-     * @param Image $image
-     * @param int $x
-     * @param int $y
-     * @return ImageBuilder
      * @throws Exception
      */
     public function merge(Image $image, int $x = 0, int $y = 0): self
@@ -130,8 +118,6 @@ class ImageBuilder
 
     /**
      * @param $stroke
-     * @param string $colorHex
-     * @return ImageBuilder
      * @throws InvalidColorException
      */
     public function border(int $stroke, string $colorHex = Color::WHITE): self

@@ -30,7 +30,7 @@ class ImageUtils
      * @param $filePathName
      * @return array
      */
-    private static function getImageDimensions($filePathName)
+    private static function getImageDimensions($filePathName): array|false
     {
         return getimagesize($filePathName);
     }

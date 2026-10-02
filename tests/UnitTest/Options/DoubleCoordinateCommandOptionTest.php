@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class DoubleCoordinateCommandOptionTest extends TestCase
 {
-    public function testDoubleCoordinateCommandOptionObject()
+    public function testDoubleCoordinateCommandOptionObject(): void
     {
         $object = new DoubleCoordinateCommandOption(new Coordinate(10, 20), new Coordinate(100, 100));
 

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class ExifParserTest extends TestCase
 {
-    public function testExifData()
+    public function testExifData(): void
     {
         $exif = new ExifParser(new FileObject(__DIR__ . '/../../Resources/ExifParserTest/01.jpg'));
         $exifArray = $exif->toArray();

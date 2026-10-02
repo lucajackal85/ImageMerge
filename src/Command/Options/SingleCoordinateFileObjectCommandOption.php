@@ -13,8 +13,6 @@ class SingleCoordinateFileObjectCommandOption extends SingleCoordinateCommandOpt
 {
     /**
      * SingleCoordinateFileObjectCommandOption constructor.
-     * @param FileObjectInterface $imageObject
-     * @param Coordinate $coordinate
      */
     public function __construct(FileObjectInterface $imageObject, Coordinate $coordinate)
     {

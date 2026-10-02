@@ -22,8 +22,6 @@ class DoubleCoordinateCommandOption extends SingleCoordinateCommandOption
 
     /**
      * DoubleCoordinateCommandOption constructor.
-     * @param Coordinate $coord1
-     * @param Coordinate $coord2
      */
     public function __construct(Coordinate $coord1, Coordinate $coord2)
     {

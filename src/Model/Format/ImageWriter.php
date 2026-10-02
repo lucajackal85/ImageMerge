@@ -15,7 +15,7 @@ class ImageWriter
      * @param $filePathName
      * @throws Exception
      */
-    private static function checkPermissions($filePathName)
+    private static function checkPermissions($filePathName): void
     {
         $directory = dirname($filePathName);
         if (!is_dir($directory)) {
@@ -30,11 +30,9 @@ class ImageWriter
 
     /**
      * @param $resource
-     * @param null $filePathName
-     * @return bool|ImageResponse
      * @throws Exception
      */
-    public static function toPNG($resource, $filePathName = null)
+    public static function toPNG($resource, $filePathName = null): bool|ImageResponse
     {
         ob_start();
         imagepng($resource, null, 9);
@@ -45,11 +43,9 @@ class ImageWriter
 
     /**
      * @param $resource
-     * @param null $filePathName
-     * @return bool|ImageResponse
      * @throws Exception
      */
-    public static function toJPG($resource, $filePathName = null)
+    public static function toJPG($resource, $filePathName = null): bool|ImageResponse
     {
         ob_start();
         imagejpeg($resource, null, 100);
@@ -60,11 +56,9 @@ class ImageWriter
 
     /**
      * @param $resource
-     * @param null $filePathName
-     * @return bool|ImageResponse
      * @throws Exception
      */
-    public static function toGIF($resource, $filePathName = null)
+    public static function toGIF($resource, $filePathName = null): bool|ImageResponse
     {
         ob_start();
         imagegif($resource);
@@ -75,11 +69,9 @@ class ImageWriter
 
     /**
      * @param $resource
-     * @param null $filePathName
-     * @return bool|ImageResponse
      * @throws Exception
      */
-    public static function toWebP($resource, $filePathName = null)
+    public static function toWebP($resource, $filePathName = null): bool|ImageResponse
     {
         ob_start();
         imagewebp($resource);
@@ -92,10 +84,9 @@ class ImageWriter
      * @param $content
      * @param $filePathName
      * @param $contentType
-     * @return bool|ImageResponse
      * @throws Exception
      */
-    private static function writeFile($content, $filePathName, $contentType)
+    private static function writeFile(string|bool $content, $filePathName, string $contentType): bool|ImageResponse
     {
         if ($filePathName) {
             ImageWriter::checkPermissions($filePathName);

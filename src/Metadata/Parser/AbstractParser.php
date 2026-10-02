@@ -27,11 +27,7 @@ abstract class AbstractParser implements ParserInterface
      */
     protected function getValue($key)
     {
-        if (isset($this->data[$key])) {
-            return $this->data[$key];
-        }
-
-        return null;
+        return $this->data[$key] ?? null;
     }
 
     /**
@@ -66,7 +62,7 @@ abstract class AbstractParser implements ParserInterface
             return $value;
         }
 
-        return $value == true and strtolower($value) != 'false';
+        return $value == true && strtolower($value) !== 'false';
     }
 
     /**
@@ -75,7 +71,7 @@ abstract class AbstractParser implements ParserInterface
      */
     protected function removeEmptyData($data)
     {
-        if (is_string($data) and $data == '') {
+        if (is_string($data) && $data === '') {
             return null;
         }
 

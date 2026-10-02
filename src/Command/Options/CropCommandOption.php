@@ -13,8 +13,6 @@ class CropCommandOption extends DimensionCommandOption
 {
     /**
      * CropCommandOption constructor.
-     * @param Coordinate $coordinate
-     * @param Dimension $dimension
      */
     public function __construct(Coordinate $coordinate, Dimension $dimension)
     {

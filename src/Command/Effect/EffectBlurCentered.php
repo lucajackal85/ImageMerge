@@ -19,7 +19,6 @@ class EffectBlurCentered extends AbstractCommand
 {
     /**
      * EffectBlurCentered constructor.
-     * @param DimensionCommandOption $options
      */
     public function __construct(DimensionCommandOption $options)
     {
@@ -27,8 +26,6 @@ class EffectBlurCentered extends AbstractCommand
     }
 
     /**
-     * @param Image $image
-     * @return Image
      * @throws InvalidColorException
      */
     public function execute(Image $image): Image
@@ -48,7 +45,7 @@ class EffectBlurCentered extends AbstractCommand
         }
 
         if ($originalWidth > $options->getDimension()->getWidth()) {
-            $builder->thumbnail($options->getDimension()->getWidth() - 4, null);
+            $builder->thumbnail($options->getDimension()->getWidth() - 4);
             $originalWidth = $image->getWidth();
             $originalHeight = $image->getHeight();
         }
@@ -72,11 +69,9 @@ class EffectBlurCentered extends AbstractCommand
     }
 
     /**
-     * @param Image $image
-     * @return FileTempObject
      * @throws Exception
      */
-    private function saveImage(Image $image)
+    private function saveImage(Image $image): FileTempObject
     {
         return FileTempObject::fromString($image->toPNG()->getContent());
     }

@@ -13,10 +13,6 @@ use Jackal\ImageMerge\Utils\ColorUtils;
  */
 class SquareAssetCommand extends AbstractCommand
 {
-    /**
-     * @param Image $image
-     * @return Image
-     */
     public function execute(Image $image): Image
     {
         /** @var DoubleCoordinateColorCommandOption $options */

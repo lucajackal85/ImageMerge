@@ -14,24 +14,14 @@ use Jackal\ImageMerge\Model\File\FileObjectInterface;
  */
 class Metadata
 {
-    /**
-     * @var ExifParser
-     */
-    private $exif;
+    private readonly ExifParser $exif;
 
-    /**
-     * @var XMPParser
-     */
-    private $xmp;
+    private readonly XMPParser $xmp;
 
-    /**
-     * @var IPTCParser
-     */
-    private $iptc;
+    private readonly IPTCParser $iptc;
 
     /**
      * Metadata constructor.
-     * @param FileObjectInterface $file
      * @throws ModuleNotFoundException
      */
     public function __construct(FileObjectInterface $file)
@@ -41,26 +31,17 @@ class Metadata
         $this->iptc = new IPTCParser($file);
     }
 
-    /**
-     * @return ExifParser
-     */
-    public function getExif()
+    public function getExif(): ExifParser
     {
         return $this->exif;
     }
 
-    /**
-     * @return XMPParser
-     */
-    public function getXMP()
+    public function getXMP(): XMPParser
     {
         return $this->xmp;
     }
 
-    /**
-     * @return IPTCParser
-     */
-    public function getIPTC()
+    public function getIPTC(): IPTCParser
     {
         return $this->iptc;
     }

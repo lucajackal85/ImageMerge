@@ -15,7 +15,7 @@ use RuntimeException;
  * If you load URLs supplied by untrusted users, also restrict outbound traffic
  * at the network level.
  */
-final class UrlLoader
+final readonly class UrlLoader
 {
     private const ALLOWED_SCHEMES = ['http', 'https'];
 
@@ -25,9 +25,9 @@ final class UrlLoader
      * @param bool $allowPrivateNetworks disable the public-address check (trusted URLs only)
      */
     public function __construct(
-        private readonly int $timeout = 10,
-        private readonly int $maxBytes = 20 * 1024 * 1024,
-        private readonly bool $allowPrivateNetworks = false,
+        private int $timeout = 10,
+        private int $maxBytes = 20 * 1024 * 1024,
+        private bool $allowPrivateNetworks = false,
     ) {
     }
 
@@ -89,7 +89,7 @@ final class UrlLoader
         $host = trim($host, '[]');
         $ips = filter_var($host, FILTER_VALIDATE_IP) ? [$host] : $this->resolve($host);
 
-        if (!$ips) {
+        if ($ips === []) {
             throw new InvalidUrlException(sprintf('Host "%s" cannot be resolved', $host));
         }
 

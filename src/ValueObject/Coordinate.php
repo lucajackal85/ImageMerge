@@ -6,17 +6,11 @@ namespace Jackal\ImageMerge\ValueObject;
  * Class Coordinate
  * @package Jackal\ImageMerge\Model
  */
-class Coordinate
+class Coordinate implements \Stringable
 {
-    /**
-     * @var int
-     */
-    private int $x;
+    private readonly int $x;
 
-    /**
-     * @var int
-     */
-    private int $y;
+    private readonly int $y;
 
     /**
      * Coordinate constructor.
@@ -29,17 +23,11 @@ class Coordinate
         $this->y = (int) round($y);
     }
 
-    /**
-     * @return integer
-     */
     public function getX(): int
     {
         return $this->x;
     }
 
-    /**
-     * @return integer
-     */
     public function getY(): int
     {
         return $this->y;
@@ -60,6 +48,6 @@ class Coordinate
 
     public function match(Coordinate $coordinate): bool
     {
-        return ($this->getX() == $coordinate->getX()) and ($this->getY() == $coordinate->getY());
+        return $this->getX() === $coordinate->getX() && $this->getY() === $coordinate->getY();
     }
 }

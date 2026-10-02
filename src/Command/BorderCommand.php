@@ -17,17 +17,12 @@ class BorderCommand extends AbstractCommand
 {
     /**
      * BorderCommand constructor.
-     * @param BorderCommandOption $options
      */
     public function __construct(BorderCommandOption $options)
     {
         parent::__construct($options);
     }
 
-    /**
-     * @param Image $image
-     * @return Image
-     */
     public function execute(Image $image): Image
     {
         /** @var BorderCommandOption $options */

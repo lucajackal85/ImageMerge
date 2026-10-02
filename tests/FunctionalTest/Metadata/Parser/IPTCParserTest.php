@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class IPTCParserTest extends TestCase
 {
-    public function testParseMetadata()
+    public function testParseMetadata(): void
     {
         $iptc = new IPTCParser(new FileObject(__DIR__ . '/../../Resources/IPTCParserTest/01.jpg'));
         $iptcArray = $iptc->toArray();

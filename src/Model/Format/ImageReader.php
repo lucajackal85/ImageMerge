@@ -24,9 +24,9 @@ final class ImageReader
         IMAGETYPE_WEBP => self::FORMAT_WEBP,
     ];
 
-    private $resource;
+    private ?\GdImage $resource = null;
 
-    private $format;
+    private ?string $format = null;
 
     private function __construct()
     {
@@ -38,7 +38,7 @@ final class ImageReader
      *
      * @throws Exception
      */
-    public static function fromPathname(FileObjectInterface $filename, ?Limits $limits = null)
+    public static function fromPathname(FileObjectInterface $filename, ?Limits $limits = null): self
     {
         $limits ??= Limits::default();
         $pathname = $filename->getPathname();
@@ -70,7 +70,7 @@ final class ImageReader
     /**
      * @return string
      */
-    public function getFormat()
+    public function getFormat(): ?string
     {
         return $this->format;
     }
@@ -78,7 +78,7 @@ final class ImageReader
     /**
      * @return \GdImage
      */
-    public function getResource()
+    public function getResource(): ?\GdImage
     {
         return $this->resource;
     }

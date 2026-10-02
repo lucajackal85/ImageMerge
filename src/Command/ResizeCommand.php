@@ -10,17 +10,12 @@ class ResizeCommand extends AbstractCommand
 {
     /**
      * ResizeCommand constructor.
-     * @param DimensionCommandOption $options
      */
     public function __construct(DimensionCommandOption $options)
     {
         parent::__construct($options);
     }
 
-    /**
-     * @param Image $image
-     * @return Image
-     */
     public function execute(Image $image): Image
     {
         $width = $this->options->getDimension()->getWidth();
@@ -36,7 +31,7 @@ class ResizeCommand extends AbstractCommand
 
         Limits::default()->assertDimensions((int) $width, (int) $height);
 
-        if ($image->getWidth() != $width or $image->getHeight() != $height) {
+        if ($image->getWidth() != $width || $image->getHeight() != $height) {
             $resourceResized = imagecreatetruecolor($width, $height);
             imagealphablending($resourceResized, false);
             imagesavealpha($resourceResized, true);

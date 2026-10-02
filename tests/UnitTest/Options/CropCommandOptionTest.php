@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CropCommandOptionTest extends TestCase
 {
-    public function testCropCommandOption()
+    public function testCropCommandOption(): void
     {
         $object = new CropCommandOption(new Coordinate(10, 20), new Dimension(100, 120));
 

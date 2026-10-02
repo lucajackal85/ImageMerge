@@ -10,10 +10,6 @@ use Jackal\ImageMerge\Model\Image;
  */
 class FlipHorizontalCommand extends AbstractCommand
 {
-    /**
-     * @param Image $image
-     * @return Image
-     */
     public function execute(Image $image): Image
     {
         imageflip($image->getResource(), IMG_FLIP_HORIZONTAL);

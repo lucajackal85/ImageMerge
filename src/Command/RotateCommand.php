@@ -14,17 +14,12 @@ class RotateCommand extends AbstractCommand
 {
     /**
      * RotateCommand constructor.
-     * @param LevelCommandOption $options
      */
     public function __construct(LevelCommandOption $options)
     {
         parent::__construct($options);
     }
 
-    /**
-     * @param Image $image
-     * @return Image
-     */
     public function execute(Image $image): Image
     {
         $degree = fmod((float) $this->options->getLevel(), 360);

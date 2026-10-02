@@ -12,7 +12,7 @@ class GeometryUtils
     public const BOTTOM_RIGHT = 2;
     public const BOTTOM_LEFT = 3;
 
-    public static function getClockwiseOrder(MultiCoordinateCommandOption $multiCoordinateCommandOption)
+    public static function getClockwiseOrder(MultiCoordinateCommandOption $multiCoordinateCommandOption): MultiCoordinateCommandOption
     {
         $coords = $multiCoordinateCommandOption->getCoordinates();
 
@@ -37,11 +37,11 @@ class GeometryUtils
      * @param int $limit
      * @return Coordinate[]
      */
-    public static function getLeftCoord($coords, $limit = 1)
+    public static function getLeftCoord($coords, $limit = 1): array
     {
         $c = $coords;
-        usort($c, function (Coordinate $coordA, Coordinate $coordB) {
-            if ($coordA->getX() == $coordB->getX()) {
+        usort($c, function (Coordinate $coordA, Coordinate $coordB): int {
+            if ($coordA->getX() === $coordB->getX()) {
                 return 0;
             }
 
@@ -56,10 +56,10 @@ class GeometryUtils
      * @param int $limit
      * @return Coordinate[]
      */
-    public static function getTopCoord($coords, $limit = 1)
+    public static function getTopCoord($coords, $limit = 1): array
     {
         $c = $coords;
-        usort($c, function (Coordinate $coordA, Coordinate $coordB) {
+        usort($c, function (Coordinate $coordA, Coordinate $coordB): int {
             if ($coordA->getY() === $coordB->getY()) {
                 return 0;
             }
@@ -75,10 +75,10 @@ class GeometryUtils
      * @param int $limit
      * @return Coordinate[]
      */
-    public static function getRightCoord($coords, $limit = 1)
+    public static function getRightCoord($coords, $limit = 1): array
     {
         $c = $coords;
-        usort($c, function (Coordinate $coordA, Coordinate $coordB) {
+        usort($c, function (Coordinate $coordA, Coordinate $coordB): int {
             if ($coordA->getX() === $coordB->getX()) {
                 return 0;
             }
@@ -94,10 +94,10 @@ class GeometryUtils
      * @param int $limit
      * @return Coordinate[]
      */
-    public static function getBottomCoord($coords, $limit = 1)
+    public static function getBottomCoord($coords, $limit = 1): array
     {
         $c = $coords;
-        usort($c, function (Coordinate $coordA, Coordinate $coordB) {
+        usort($c, function (Coordinate $coordA, Coordinate $coordB): int {
             if ($coordA->getY() === $coordB->getY()) {
                 return 0;
             }
@@ -108,7 +108,7 @@ class GeometryUtils
         return array_slice($c, 0, $limit);
     }
 
-    public static function calculateCenterCoord($coords)
+    public static function calculateCenterCoord($coords): Coordinate
     {
         $sumX = 0;
         $sumY = 0;

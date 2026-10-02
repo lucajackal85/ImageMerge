@@ -12,7 +12,6 @@ class DimensionCommandOption extends AbstractCommandOption
 {
     /**
      * DimensionCommandOption constructor.
-     * @param Dimension $dimension
      */
     public function __construct(Dimension $dimension)
     {

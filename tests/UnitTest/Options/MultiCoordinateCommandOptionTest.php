@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class MultiCoordinateCommandOptionTest extends TestCase
 {
-    public function testMultiCoordinateCommandOptionObject()
+    public function testMultiCoordinateCommandOptionObject(): void
     {
         $object = new MultiCoordinateCommandOption([
             new Coordinate(10, 20),
@@ -36,7 +36,7 @@ class MultiCoordinateCommandOptionTest extends TestCase
         $this->assertEquals(100, $object->getMaxY());
     }
 
-    public function testIsQuadrilateral()
+    public function testIsQuadrilateral(): void
     {
 
         $object = new MultiCoordinateCommandOption([
@@ -49,7 +49,7 @@ class MultiCoordinateCommandOptionTest extends TestCase
         $this->assertTrue($object->isQuadrilateral());
     }
 
-    public function testIsNotQuadrilateral()
+    public function testIsNotQuadrilateral(): void
     {
 
         $object = new MultiCoordinateCommandOption([
@@ -61,7 +61,7 @@ class MultiCoordinateCommandOptionTest extends TestCase
         $this->assertFalse($object->isQuadrilateral());
     }
 
-    public function testToArray()
+    public function testToArray(): void
     {
 
         $object = new MultiCoordinateCommandOption([
@@ -76,7 +76,7 @@ class MultiCoordinateCommandOptionTest extends TestCase
         ], $object->toArray());
     }
 
-    public function testGetDimension()
+    public function testGetDimension(): void
     {
 
         $object = new MultiCoordinateCommandOption([

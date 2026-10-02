@@ -18,7 +18,6 @@ class ImageAssetCommand extends AbstractCommand
 
     /**
      * ImageAssetCommand constructor.
-     * @param SingleCoordinateFileObjectCommandOption $options
      */
     public function __construct(SingleCoordinateFileObjectCommandOption $options)
     {
@@ -29,32 +28,28 @@ class ImageAssetCommand extends AbstractCommand
      * @return \GdImage
      * @throws Exception
      */
-    protected function getResourceToApply()
+    protected function getResourceToApply(): ?\GdImage
     {
         return $this->resource ??= ImageReader::fromPathname($this->options->getFile())->getResource();
     }
 
     /**
-     * @return int
      * @throws Exception
      */
-    protected function getWidth()
+    protected function getWidth(): int
     {
         return imagesx($this->getResourceToApply());
     }
 
     /**
-     * @return int
      * @throws Exception
      */
-    protected function getHeight()
+    protected function getHeight(): int
     {
         return imagesy($this->getResourceToApply());
     }
 
     /**
-     * @param Image $image
-     * @return Image
      * @throws Exception
      */
     public function execute(Image $image): Image

@@ -10,18 +10,6 @@ use Jackal\ImageMerge\Model\Image;
  */
 class GrayScaleCommand extends AbstractCommand
 {
-    /**
-     * GrayScaleCommand constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct(null);
-    }
-
-    /**
-     * @param Image $image
-     * @return Image
-     */
     public function execute(Image $image): Image
     {
         imagefilter($image->getResource(), IMG_FILTER_GRAYSCALE);

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class DimensionCommandOptionTest extends TestCase
 {
-    public function testDimensionCommandOption()
+    public function testDimensionCommandOption(): void
     {
         $object = new DimensionCommandOption(new Dimension(10, 20));
 

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class CoordinateTest extends TestCase
 {
-    public function testCoordinateObject()
+    public function testCoordinateObject(): void
     {
         $coord = new Coordinate(10, 20);
 
@@ -15,7 +15,7 @@ class CoordinateTest extends TestCase
         $this->assertEquals($coord->getY(), 20);
     }
 
-    public function testCoordinateToArray()
+    public function testCoordinateToArray(): void
     {
 
         $coord = new Coordinate(10, 20);

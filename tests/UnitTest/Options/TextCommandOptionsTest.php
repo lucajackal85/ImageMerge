@@ -11,9 +11,9 @@ use PHPUnit\Framework\TestCase;
 
 class TextCommandOptionsTest extends TestCase
 {
-    public function testTextCommandOptionsObject()
+    public function testTextCommandOptionsObject(): void
     {
-        $text = new Text('this is a text', Font::arial(), 12, new Color('ABCDEF'));
+        $text = new Text('this is a text', Font::liberationSans(), 12, new Color('ABCDEF'));
 
         $object = new TextCommandOption($text, new Coordinate(10, 20));
 

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class BorderCommandOptionTest extends TestCase
 {
-    public function testBorderCommandOption()
+    public function testBorderCommandOption(): void
     {
         $object = new BorderCommandOption(1, new Color('ABCDEF'));
 

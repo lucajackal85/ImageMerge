@@ -6,15 +6,9 @@ use InvalidArgumentException;
 
 class Dimension
 {
-    /**
-     * @var int
-     */
-    private ?int $width;
+    private readonly ?int $width;
 
-    /**
-     * @var int
-     */
-    private ?int $height;
+    private readonly ?int $height;
 
     /**
      * Dimension constructor.
@@ -31,7 +25,7 @@ class Dimension
             $height = null;
         }
 
-        if (is_null($width) and is_null($height)) {
+        if (is_null($width) && is_null($height)) {
             throw new InvalidArgumentException('Both width and height are empty values');
         }
 

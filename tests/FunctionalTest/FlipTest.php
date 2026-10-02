@@ -6,7 +6,7 @@ use Jackal\ImageMerge\ImageMerge;
 
 class FlipTest extends ImageTestCase
 {
-    public function testFlipHorizontal()
+    public function testFlipHorizontal(): void
     {
         $builder = ImageMerge::fromPath(__DIR__ . '/Resources/FlipTest/01.png');
 
@@ -15,7 +15,7 @@ class FlipTest extends ImageTestCase
         $this->assertPNGSameImage($builder->getImage(), __DIR__ . '/Resources/FlipTest/02.png');
     }
 
-    public function testFlipVertical()
+    public function testFlipVertical(): void
     {
         $builder = ImageMerge::fromPath(__DIR__ . '/Resources/FlipTest/01.png');
 

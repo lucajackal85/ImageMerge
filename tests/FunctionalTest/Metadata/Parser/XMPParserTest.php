@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class XMPParserTest extends TestCase
 {
-    public function testXMPData()
+    public function testXMPData(): void
     {
         $xmp = new XMPParser(new FileObject(__DIR__ . '/../../Resources/XMPParserTest/01.jpg'));
         $xmpArray = $xmp->toArray();

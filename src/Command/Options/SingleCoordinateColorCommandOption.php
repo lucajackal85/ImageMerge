@@ -13,8 +13,6 @@ class SingleCoordinateColorCommandOption extends SingleCoordinateCommandOption
 {
     /**
      * SingleCoordinateColorCommandOption constructor.
-     * @param Coordinate $coordinate
-     * @param Color $color
      */
     public function __construct(Coordinate $coordinate, Color $color)
     {

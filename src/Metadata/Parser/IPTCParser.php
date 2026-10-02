@@ -41,7 +41,6 @@ class IPTCParser extends AbstractParser
 
     /**
      * IPTCParser constructor.
-     * @param FileObjectInterface $file
      */
     public function __construct(FileObjectInterface $file)
     {
@@ -62,10 +61,9 @@ class IPTCParser extends AbstractParser
     }
 
     /**
-     * @return DateTime|null
      * @throws Exception
      */
-    public function getCreationDateTime()
+    public function getCreationDateTime(): ?\DateTime
     {
         if ($this->getSingleValue(self::CREATION_DATE)) {
             $dt = trim($this->getSingleValue(self::CREATION_DATE) . ' ' . $this->getSingleValue(self::CREATION_TIME));
@@ -84,10 +82,7 @@ class IPTCParser extends AbstractParser
         return $this->getValue(self::KEYWORDS);
     }
 
-    /**
-     * @return bool
-     */
-    public function isUTF8()
+    public function isUTF8(): bool
     {
         return $this->getSingleValue(self::CHARSET) == "\x1B%G";
     }
@@ -114,10 +109,9 @@ class IPTCParser extends AbstractParser
     }
 
     /**
-     * @return array
      * @throws Exception
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'category' => $this->getCategory(),

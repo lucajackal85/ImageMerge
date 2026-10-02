@@ -11,7 +11,7 @@ class ColorTest extends TestCase
     /**
      * @throws InvalidColorException
      */
-    public function testColorProperties()
+    public function testColorProperties(): void
     {
         $color = new Color('ABCDEF');
 
@@ -20,7 +20,7 @@ class ColorTest extends TestCase
         $this->assertEquals(171, $color->red());
     }
 
-    public function testColor3Digits()
+    public function testColor3Digits(): void
     {
         $color = new Color('ABC');
 
@@ -29,7 +29,7 @@ class ColorTest extends TestCase
         $this->assertEquals(170, $color->red());
     }
 
-    public function testRaiseExceptionOnInvalidColorFormat()
+    public function testRaiseExceptionOnInvalidColorFormat(): void
     {
         $this->expectException(InvalidColorException::class);
         $this->expectExceptionMessage('Color "invalid" is invalid');
@@ -37,7 +37,7 @@ class ColorTest extends TestCase
         new Color('invalid');
     }
 
-    public function testRaiseExceptionOnPartialInvalidColorFormat()
+    public function testRaiseExceptionOnPartialInvalidColorFormat(): void
     {
         $this->expectException(InvalidColorException::class);
         $this->expectExceptionMessage('Color "AABBCX" is invalid');

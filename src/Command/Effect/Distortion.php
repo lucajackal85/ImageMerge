@@ -19,7 +19,6 @@ class Distortion extends AbstractImageMagickCommand
 {
     /**
      * Distortion constructor.
-     * @param MultiCoordinateCommandOption $options
      */
     public function __construct(MultiCoordinateCommandOption $options)
     {
@@ -27,8 +26,6 @@ class Distortion extends AbstractImageMagickCommand
     }
 
     /**
-     * @param Image $image
-     * @return Image
      * @throws Exception
      */
     public function execute(Image $image): Image
@@ -54,7 +51,7 @@ class Distortion extends AbstractImageMagickCommand
         $width = $originImage->getWidth();
         $height = $originImage->getHeight();
 
-        $process = new Process(array_merge(self::getImageMagickCommand(), [
+        $process = new Process(array_merge($this->getImageMagickCommand(), [
             $inputFile->getPathname(),
             '-alpha', 'set',
             '-virtual-pixel', 'black',
@@ -94,7 +91,7 @@ class Distortion extends AbstractImageMagickCommand
      *
      * @return string[]
      */
-    private static function getImageMagickCommand(): array
+    private function getImageMagickCommand(): array
     {
         $finder = new ExecutableFinder();
 

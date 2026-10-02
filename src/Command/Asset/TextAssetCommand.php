@@ -15,8 +15,6 @@ use Jackal\ImageMerge\Utils\ColorUtils;
 class TextAssetCommand extends AbstractCommand
 {
     /**
-     * @param Image $image
-     * @return Image
      * @throws ModuleNotFoundException
      */
     public function execute(Image $image): Image

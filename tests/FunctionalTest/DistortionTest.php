@@ -9,7 +9,7 @@ use Jackal\ImageMerge\ValueObject\Coordinate;
 
 class DistortionTest extends ImageTestCase
 {
-    public function testDistortion()
+    public function testDistortion(): void
     {
         $builder = ImageMerge::fromPath(__DIR__ . '/Resources/DistortionTest/01.jpg');
 

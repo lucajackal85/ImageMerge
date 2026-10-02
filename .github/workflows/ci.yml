@@ -43,13 +43,26 @@ jobs:
 
       - run: vendor/bin/phpunit
 
-  code-style:
+  code-quality:
+    name: Code quality (Composer, Rector, php-cs-fixer)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
+          extensions: gd, exif
           coverage: none
-      - run: composer install --no-interaction --no-progress
-      - run: vendor/bin/php-cs-fixer fix --dry-run --diff
+      - name: Validate composer.json
+        run: composer validate --strict --no-check-lock
+
+      - run: composer update --no-interaction --no-progress
+
+      - name: Security audit of dependencies
+        run: composer audit
+
+      - name: Rector
+        run: vendor/bin/rector process --dry-run --no-progress-bar
+
+      - name: php-cs-fixer
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff

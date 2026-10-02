@@ -7,16 +7,16 @@ use PHPUnit\Framework\TestCase;
 
 class DimensionTest extends TestCase
 {
-    public function testThrowExceptionIfNoParams()
+    public function testThrowExceptionIfNoParams(): void
     {
 
         $this->expectException('\InvalidArgumentException');
         $this->expectExceptionMessage('Both width and height are empty values');
-        $dimension = new Dimension(null, null);
+        new Dimension(null, null);
 
     }
 
-    public function testSetOnlyWidth()
+    public function testSetOnlyWidth(): void
     {
 
         $dimension = new Dimension(10, null);
@@ -24,7 +24,7 @@ class DimensionTest extends TestCase
         $this->assertEquals(null, $dimension->getHeight());
     }
 
-    public function testSetOnlyHeight()
+    public function testSetOnlyHeight(): void
     {
 
         $dimension = new Dimension(null, 20);
@@ -32,7 +32,7 @@ class DimensionTest extends TestCase
         $this->assertEquals(20, $dimension->getHeight());
     }
 
-    public function testNullonZeroValue()
+    public function testNullonZeroValue(): void
     {
         $dimension = new Dimension(0, 20);
         $this->assertEquals(null, $dimension->getWidth());

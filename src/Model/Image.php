@@ -22,26 +22,19 @@ use Jackal\ImageMerge\Utils\ColorUtils;
  */
 class Image
 {
-    /**
-     * @var GdImage
-     */
     private GdImage $resource;
 
-    /**
-     * @var Metadata
-     */
     private ?Metadata $metadata = null;
 
     /**
      * Image constructor.
      * @param $width
      * @param $height
-     * @param bool $transparent
      * @throws InvalidColorException
      */
     public function __construct(int $width, int $height, bool $transparent = true)
     {
-        Limits::default()->assertDimensions((int) $width, (int) $height);
+        Limits::default()->assertDimensions($width, $height);
 
         $resource = imagecreatetruecolor($width, $height);
         imagecolortransparent($resource);
@@ -56,8 +49,6 @@ class Image
     }
 
     /**
-     * @param FileObjectInterface $filePathName
-     * @return Image
      * @throws Exception
      */
     public static function fromFile(FileObjectInterface $filePathName): self
@@ -67,7 +58,6 @@ class Image
 
     /**
      * @param $contentString
-     * @return Image
      * @throws Exception
      */
     public static function fromString(string $contentString): self
@@ -88,7 +78,6 @@ class Image
 
     /**
      * @param $resource
-     * @return Image
      */
     public function assignResource(GdImage $resource): self
     {
@@ -98,11 +87,6 @@ class Image
     }
 
     /**
-     * @param null $fromX
-     * @param null $fromY
-     * @param null $width
-     * @param null $height
-     * @return bool
      * @throws Exception
      */
     public function isDark(?int $fromX = null, ?int $fromY = null, ?int $width = null, ?int $height = null): bool
@@ -110,7 +94,7 @@ class Image
         $samples = 10;
         $threshold = 60;
 
-        if (!is_null($fromX) and !is_null($fromY) and !is_null($width) and !is_null($height)) {
+        if (!is_null($fromX) && !is_null($fromY) && !is_null($width) && !is_null($height)) {
             $builder = new ImageBuilder(clone $this);
             $builder->crop($fromX, $fromY, $width, $height);
             $portion = $builder->getImage();
@@ -137,9 +121,6 @@ class Image
         return $luminance / ($samples * $samples) <= $threshold;
     }
 
-    /**
-     * @return GdImage
-     */
     public function getResource(): GdImage
     {
         return $this->resource;
@@ -168,8 +149,6 @@ class Image
     }
 
     /**
-     * @param null $filePathName
-     * @return bool|ImageResponse
      * @throws Exception
      */
     public function toPNG(?string $filePathName = null): bool|ImageResponse
@@ -178,8 +157,6 @@ class Image
     }
 
     /**
-     * @param null $filePathName
-     * @return bool|ImageResponse
      * @throws Exception
      */
     public function toJPG(?string $filePathName = null): bool|ImageResponse
@@ -188,8 +165,6 @@ class Image
     }
 
     /**
-     * @param null $filePathName
-     * @return bool|ImageResponse
      * @throws Exception
      */
     public function toGIF(?string $filePathName = null): bool|ImageResponse
@@ -198,8 +173,6 @@ class Image
     }
 
     /**
-     * @param null $filePathName
-     * @return bool|ImageResponse
      * @throws Exception
      */
     public function toWebP(?string $filePathName = null): bool|ImageResponse
@@ -207,49 +180,31 @@ class Image
         return ImageWriter::toWebP($this->getResource(), $filePathName);
     }
 
-    /**
-     * @return mixed
-     */
     public function getWidth(): int
     {
         return imagesx($this->getResource());
     }
 
-    /**
-     * @return mixed
-     */
     public function getHeight(): int
     {
         return imagesy($this->getResource());
     }
 
-    /**
-     * @return float
-     */
     public function getAspectRatio(): float
     {
         return $this->getWidth() / $this->getHeight();
     }
 
-    /**
-     * @return bool
-     */
     public function isVertical(): bool
     {
         return $this->getAspectRatio() < 1;
     }
 
-    /**
-     * @return bool
-     */
     public function isHorizontal(): bool
     {
         return $this->getAspectRatio() > 1;
     }
 
-    /**
-     * @return bool
-     */
     public function isSquare(): bool
     {
         return $this->getAspectRatio() == 1;
