@@ -139,7 +139,7 @@ use Jackal\ImageMerge\Model\Color;
 use Jackal\ImageMerge\Model\Font\Font;
 use Jackal\ImageMerge\Model\Text\Text;
 
-$text = new Text('this is the text', Font::arial(), 12, new Color('ABCDEF'));
+$text = new Text('this is the text', Font::liberationSans(), 12, new Color('ABCDEF'));
 $builder->addText($text, 10, 20);
 ```
 #### `addSquare`
@@ -173,17 +173,34 @@ The library is designed to be safe with untrusted input, within these limits:
 ## Development
 ```
 composer install
-composer test   # PHPUnit
-composer cs     # code style check
+composer check        # everything CI checks: Rector, php-cs-fixer and PHPUnit
 ```
-The suite needs GD, EXIF and ImageMagick. If you don't have them locally, use the bundled Docker image:
+Or one tool at a time:
+
+| Command | What it does |
+|---|---|
+| `composer test` | Run the PHPUnit suite |
+| `composer cs` / `composer cs-fix` | Check / fix code style ([php-cs-fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer), config in `.php-cs-fixer.dist.php`) |
+| `composer rector` / `composer rector-fix` | Check / apply automated refactorings ([Rector](https://getrector.com), config in `rector.php`) |
+
+When you run the fixers, run Rector first and php-cs-fixer second, because Rector's output is then reformatted.
+
+Tests that download a real image are in the `network` group. Skip them offline with `vendor/bin/phpunit --exclude-group network`.
+
+The suite needs GD, EXIF and ImageMagick. If you don't have them locally, use the bundled Docker image (the `PHP_VERSION` build argument chooses the PHP version):
 ```
-docker build -t imagemerge-test docker/
-docker run --rm -v "$PWD":/app imagemerge-test sh -c "composer install && vendor/bin/phpunit"
+docker build --build-arg PHP_VERSION=8.3 -t imagemerge-test docker/
+docker run --rm -v "$PWD":/app imagemerge-test composer install
+docker run --rm -v "$PWD":/app imagemerge-test composer check
 ```
+
+CI (GitHub Actions) runs the tests on PHP 8.2, 8.3, 8.4 and 8.5, plus PHP 8.2 with the lowest allowed dependencies. It also runs `composer validate --strict`, `composer audit`, and the Rector and php-cs-fixer checks.
 
 ## Author
 * **Luca Giacalone** (AKA JackalOne)
 
 ## License
-This project is licensed under the MIT License
+This project is licensed under the MIT License, see [LICENSE](LICENSE).
+
+The bundled font [Liberation Sans](https://github.com/liberationfonts) (`src/Resources/Fonts/LiberationSans-Regular.ttf`)
+is licensed under the SIL Open Font License 1.1, see [src/Resources/Fonts/LICENSE-LiberationSans.txt](src/Resources/Fonts/LICENSE-LiberationSans.txt).

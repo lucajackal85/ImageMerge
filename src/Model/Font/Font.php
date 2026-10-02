@@ -8,24 +8,27 @@ use Jackal\ImageMerge\Exception\InvalidFontException;
  * Class Font
  * @package Jackal\ImageMerge\Model\Font
  */
-class Font
+class Font implements \Stringable
 {
-    public const FONT_ARIAL = 'arial';
+    public const FONT_LIBERATION_SANS = 'liberation_sans';
+
+    /**
+     * @deprecated since 1.0, use FONT_LIBERATION_SANS
+     */
+    public const FONT_ARIAL = self::FONT_LIBERATION_SANS;
 
     /**
      * @var string
      */
     private $fontPathname;
 
-    /**
-     * @return array
-     */
-    private static function getFonts()
+    private static function getFonts(): array
     {
-        $directory = dirname(__FILE__) . '/../../Resources/Fonts/';
+        $directory = __DIR__ . '/../../Resources/Fonts/';
 
         return [
-            self::FONT_ARIAL => $directory . 'arial.ttf',
+            // SIL Open Font License 1.1, see Resources/Fonts/LICENSE-LiberationSans.txt
+            self::FONT_LIBERATION_SANS => $directory . 'LiberationSans-Regular.ttf',
         ];
     }
 
@@ -43,20 +46,28 @@ class Font
     }
 
     /**
-     * @return Font
+     * Liberation Sans: a free font with the same metrics as Arial.
+     *
      * @throws InvalidFontException
      */
-    public static function arial()
+    public static function liberationSans(): self
     {
-        $fonts = Font::getFonts();
-
-        return new Font($fonts[Font::FONT_ARIAL]);
+        return new self(self::getFonts()[self::FONT_LIBERATION_SANS]);
     }
 
     /**
-     * @return string
+     * Arial itself cannot be redistributed; this returns Liberation Sans,
+     * which has the same metrics, so existing layouts keep working.
+     *
+     * @deprecated since 1.0, use liberationSans()
+     * @throws InvalidFontException
      */
-    public function __toString()
+    public static function arial(): self
+    {
+        return self::liberationSans();
+    }
+
+    public function __toString(): string
     {
         return $this->fontPathname;
     }

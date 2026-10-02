@@ -14,13 +14,13 @@ use Jackal\ImageMerge\ValueObject\Dimension;
 
 class ImageTest extends ImageTestCase
 {
-    public function testAddEffects()
+    public function testAddEffects(): void
     {
 
         $builder = ImageMerge::fromPath(__DIR__ . '/Resources/ImageTest/01.jpg');
         $builder
             ->addSquare(10, 10, 20, 20, 'ABCDEF')
-            ->addText(new Text('this is the text', Font::arial(), 12, new Color('ABCDEF')), 10, 20)
+            ->addText(new Text('this is the text', Font::liberationSans(), 12, new Color('ABCDEF')), 10, 20)
             ->thumbnail(100, 100)
             ->grayScale()
             ->brightness(10)
@@ -37,7 +37,7 @@ class ImageTest extends ImageTestCase
         $this->assertPNGSameImage($builder->getImage(), __DIR__ . '/Resources/ImageTest/02.png');
     }
 
-    public function testTrasparencyImage()
+    public function testTrasparencyImage(): void
     {
         $builder = ImageMerge::fromPath(__DIR__ . '/Resources/ImageTest/03.jpg');
         $builder->merge(Image::fromFile(new FileObject(__DIR__ . '/Resources/ImageTest/04.png')));

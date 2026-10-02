@@ -51,6 +51,12 @@ Jackal\ImageMerge\Limits::setDefault(new Jackal\ImageMerge\Limits(maxPixels: 100
 - `DimensionCommandOption::getDimention()` / `CropCommandOption::getDimention()` → `getDimension()`
 - The option key `'dimention'` → `'dimension'`
 
+## Font: Arial is replaced by Liberation Sans
+The bundled `arial.ttf` was Microsoft/Monotype's Arial, which may not be redistributed, so it
+has been removed. Use `Font::liberationSans()` instead. Liberation Sans is free (SIL Open Font
+License 1.1) and has the same metrics as Arial, so text keeps its size and position.
+`Font::arial()` and `Font::FONT_ARIAL` still work but are deprecated: they return Liberation Sans.
+
 ## Stricter types
 - Public methods now declare parameter and return types. For example,
   `ImageBuilder::crop(int, int, int, int): ImageBuilder` and `Image::getResource(): GdImage`.
